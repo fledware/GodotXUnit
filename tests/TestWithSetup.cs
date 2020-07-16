@@ -16,5 +16,11 @@ namespace GodotCSUnitTest.Tests
         {
             Assert.Equal(234, sayWhat);
         }
+
+        [Fact(Skip = "we need to skip i guess")]
+        public void SkipOrSomething()
+        {
+            Assert.False(true);
+        }
     }
 }

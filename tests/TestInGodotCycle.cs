@@ -1,4 +1,5 @@
 using Godot;
+using GodotXUnitApi;
 using Xunit;
 
 namespace GodotCSUnitTest.Tests
@@ -30,6 +31,22 @@ namespace GodotCSUnitTest.Tests
         public void IsInPhysicsProcess()
         {
             Assert.True(Engine.IsInPhysicsFrame());
+        }
+
+        /// <summary>
+        /// this will run in the xunit thread, then wait to be
+        /// in the physics frame, then run on the process frame.
+        /// </summary>
+        [Fact]
+        public async void AllThreadContextInOne()
+        {
+            Assert.False(Engine.IsInPhysicsFrame());
+            
+            await GodotXUnitEvents.OnPhysicsProcessAwaiter;
+            Assert.True(Engine.IsInPhysicsFrame());
+            
+            await GodotXUnitEvents.OnProcessAwaiter;
+            Assert.False(Engine.IsInPhysicsFrame());
         }
     }
 }

@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GodotCSUnitTest")]
+[assembly: AssemblyTitle("SomeOtherTestProject")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("GodotCSUnitTest")]
+[assembly: AssemblyProduct("SomeOtherTestProject")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("8BF19265-5371-4844-B792-FA867FC972E7")]
+[assembly: Guid("06EA34CE-4574-4DA2-A375-878B7B205BB3")]
 
 // Version information for an assembly consists of the following four values:
 //

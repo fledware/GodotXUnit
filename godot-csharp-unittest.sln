@@ -2,7 +2,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "godot-csharp-unittest", "godot-csharp-unittest.csproj", "{B6A000AB-04AE-4D1E-A0D5-93911E363F6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GodotCSUnitTest", "addons\GodotCSUnitTest\GodotCSUnitTest.csproj", "{8BF19265-5371-4844-B792-FA867FC972E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GodotXUnitApi", "addons\GodotXUnit\GodotXUnitApi\GodotXUnitApi.csproj", "{27E029D5-B4F0-4A26-8B9E-3E70A629992F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SomeOtherTestProject", "SomeOtherTestProject\SomeOtherTestProject.csproj", "{06EA34CE-4574-4DA2-A375-878B7B205BB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,11 +19,17 @@ Global
 		{B6A000AB-04AE-4D1E-A0D5-93911E363F6D}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
 		{B6A000AB-04AE-4D1E-A0D5-93911E363F6D}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
 		{B6A000AB-04AE-4D1E-A0D5-93911E363F6D}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
-		{8BF19265-5371-4844-B792-FA867FC972E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8BF19265-5371-4844-B792-FA867FC972E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8BF19265-5371-4844-B792-FA867FC972E7}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8BF19265-5371-4844-B792-FA867FC972E7}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
-		{8BF19265-5371-4844-B792-FA867FC972E7}.ExportRelease|Any CPU.ActiveCfg = Debug|Any CPU
-		{8BF19265-5371-4844-B792-FA867FC972E7}.ExportRelease|Any CPU.Build.0 = Debug|Any CPU
+		{27E029D5-B4F0-4A26-8B9E-3E70A629992F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27E029D5-B4F0-4A26-8B9E-3E70A629992F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27E029D5-B4F0-4A26-8B9E-3E70A629992F}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27E029D5-B4F0-4A26-8B9E-3E70A629992F}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{27E029D5-B4F0-4A26-8B9E-3E70A629992F}.ExportRelease|Any CPU.ActiveCfg = Debug|Any CPU
+		{27E029D5-B4F0-4A26-8B9E-3E70A629992F}.ExportRelease|Any CPU.Build.0 = Debug|Any CPU
+		{06EA34CE-4574-4DA2-A375-878B7B205BB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06EA34CE-4574-4DA2-A375-878B7B205BB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06EA34CE-4574-4DA2-A375-878B7B205BB3}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06EA34CE-4574-4DA2-A375-878B7B205BB3}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{06EA34CE-4574-4DA2-A375-878B7B205BB3}.ExportRelease|Any CPU.ActiveCfg = Debug|Any CPU
+		{06EA34CE-4574-4DA2-A375-878B7B205BB3}.ExportRelease|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 EndGlobal

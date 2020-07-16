@@ -1,25 +1,30 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Godot;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
-namespace GodotCSUnitTest
+namespace GodotXUnitApi
 {
-    public class FactOnPhysicsProcessTestCase : XunitTestCase
+    public class TestCaseAfterSignal : XunitTestCase
     {
 #pragma warning disable 618
-        public FactOnPhysicsProcessTestCase() {}
+        public TestCaseAfterSignal() {}
 #pragma warning restore 618
+
+        private Func<SignalAwaiter> CreateSignalAwaiter;
         
-        public FactOnPhysicsProcessTestCase(
+        public TestCaseAfterSignal(
+            Func<SignalAwaiter> CreateSignalAwaiter,
             IMessageSink diagnosticMessageSink,
-            TestMethodDisplay defaultMethodDisplay,
-            TestMethodDisplayOptions defaultMethodDisplayOptions,
+            ITestFrameworkDiscoveryOptions discoveryOptions,
             ITestMethod testMethod,
             object[] testMethodArguments = null)
-            : base(diagnosticMessageSink, defaultMethodDisplay,
-                defaultMethodDisplayOptions, testMethod, testMethodArguments)
+            : base(diagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(),
+                discoveryOptions.MethodDisplayOptionsOrDefault(), testMethod, testMethodArguments)
         {
+            this.CreateSignalAwaiter = CreateSignalAwaiter;
         }
 
         public override async Task<RunSummary> RunAsync(
@@ -29,7 +34,7 @@ namespace GodotCSUnitTest
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
         {
-            await GodotEvents.Instance.OnPhysicsProcessSignal;
+            await CreateSignalAwaiter();
             return await base.RunAsync(
                 diagnosticMessageSink,
                 messageBus,

@@ -16,8 +16,12 @@ _global_script_class_icons={
 [application]
 
 config/name="godot-csharp-unittest"
-run/main_scene="res://runner/GodotTestRunnerScene.tscn"
+run/main_scene="res://addons/GodotXUnit/GodotTestRunnerScene.tscn"
 config/icon="res://icon.png"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "GodotXUnit" )
 
 [rendering]
 

@@ -49,9 +49,6 @@
     <PackageReference Include="xunit">
       <Version>2.4.1</Version>
     </PackageReference>
-    <PackageReference Include="xunit.runner.utility">
-      <Version>2.4.1</Version>
-    </PackageReference>
     <Reference Include="GodotSharp">
       <HintPath>$(ProjectDir)/.mono/assemblies/$(ApiConfiguration)/GodotSharp.dll</HintPath>
       <Private>False</Private>
@@ -63,23 +60,28 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="runner\GodotTestRunner.cs" />
+    <Compile Include="addons\GodotXUnit\GodotTestRunner.cs" />
+    <Compile Include="addons\GodotXUnit\GodotTestRunnerHook.cs" />
     <Compile Include="tests\SomeBasicTests.cs" />
+    <Compile Include="tests\SomeTestSceneTest.cs" />
     <Compile Include="tests\TestInGodotCycle.cs" />
     <Compile Include="tests\TestInGodotTree.cs" />
     <Compile Include="tests\TestWithSetup.cs" />
+    <Compile Include="test_scenes\SomeTestSceneRoot.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="runner\GodotTestDriverScene.tscn" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="addons" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="addons\GodotCSUnitTest\GodotCSUnitTest.csproj">
-      <Project>{8bf19265-5371-4844-b792-fa867fc972e7}</Project>
-      <Name>GodotCSUnitTest</Name>
+    <ProjectReference Include="addons\GodotXUnit\GodotXUnitApi\GodotXUnitApi.csproj">
+      <Project>{27e029d5-b4f0-4a26-8b9e-3e70a629992f}</Project>
+      <Name>GodotXUnitApi</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="addons\GodotXUnit\GodotTestRunnerScene.tscn" />
+    <Content Include="addons\GodotXUnit\plugin.cfg" />
+    <Content Include="addons\GodotXUnit\README" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="addons\GodotXUnit\editor" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
