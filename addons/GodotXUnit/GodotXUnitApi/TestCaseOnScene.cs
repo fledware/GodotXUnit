@@ -34,7 +34,6 @@ namespace GodotXUnitApi
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
         {
-            GD.Print("loading scene");
             if (GodotXUnitEvents.Instance.GetTree().ChangeSceneTo(GD.Load<PackedScene>(sceneName)) != Error.Ok)
             {
                 GD.PrintErr($"could not load scene: {sceneName}");
@@ -45,19 +44,18 @@ namespace GodotXUnitApi
                 };
             }
             await GodotXUnitEvents.OnIdleFrameAwaiter;
+            await GodotXUnitEvents.OnIdleFrameAwaiter;
             await GodotXUnitEvents.OnProcessAwaiter;
-            GD.Print("finished loading scene, about to start");
             var result = await base.RunAsync(
                 diagnosticMessageSink,
                 messageBus,
                 constructorArguments,
                 aggregator,
                 cancellationTokenSource);
-            GD.Print("finished test");
-            GodotXUnitEvents.Instance.GetTree().CurrentScene = new Node();
+            GodotXUnitEvents.Instance.GetTree().ChangeScene("res://addons/GodotXUnit/EmptyScene.tscn");
+            await GodotXUnitEvents.OnIdleFrameAwaiter;
             await GodotXUnitEvents.OnIdleFrameAwaiter;
             await GodotXUnitEvents.OnProcessAwaiter;
-            GD.Print("loading empty scene");
             return result;
         }
     }

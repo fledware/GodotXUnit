@@ -1,0 +1,150 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/GodotXUnit/editor/xunit_dock.gd" type="Script" id=1]
+[ext_resource path="res://addons/GodotXUnit/editor/summary_label.gd" type="Script" id=2]
+
+[node name="Control" type="MarginContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 0
+custom_constants/margin_top = 0
+custom_constants/margin_left = 0
+custom_constants/margin_bottom = 0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Rows" type="VBoxContainer" parent="."]
+margin_right = 1024.0
+margin_bottom = 600.0
+
+[node name="Buttons" type="MarginContainer" parent="Rows"]
+margin_right = 1024.0
+margin_bottom = 40.0
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+
+[node name="Panel" type="Panel" parent="Rows/Buttons"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 1019.0
+margin_bottom = 35.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Margin" type="MarginContainer" parent="Rows/Buttons"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 1019.0
+margin_bottom = 35.0
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+
+[node name="Buttons" type="HBoxContainer" parent="Rows/Buttons/Margin"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 1009.0
+margin_bottom = 25.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RunAllTests" type="Button" parent="Rows/Buttons/Margin/Buttons"]
+margin_right = 95.0
+margin_bottom = 20.0
+text = "Run All Tests"
+
+[node name="Summary" type="MarginContainer" parent="Rows"]
+margin_top = 44.0
+margin_right = 1024.0
+margin_bottom = 78.0
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+
+[node name="Panel" type="Panel" parent="Rows/Summary"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 1019.0
+margin_bottom = 29.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Margin" type="MarginContainer" parent="Rows/Summary"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 1019.0
+margin_bottom = 29.0
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+
+[node name="Results" type="HBoxContainer" parent="Rows/Summary/Margin"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 1009.0
+margin_bottom = 19.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TotalRan" type="Label" parent="Rows/Summary/Margin/Results"]
+margin_right = 248.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "TestsRan: %s"
+valign = 1
+script = ExtResource( 2 )
+
+[node name="Passed" type="Label" parent="Rows/Summary/Margin/Results"]
+margin_left = 252.0
+margin_right = 500.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Passed: %s"
+valign = 1
+script = ExtResource( 2 )
+
+[node name="Failed" type="Label" parent="Rows/Summary/Margin/Results"]
+margin_left = 504.0
+margin_right = 752.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Failed: %s"
+valign = 1
+script = ExtResource( 2 )
+
+[node name="Time" type="Label" parent="Rows/Summary/Margin/Results"]
+margin_left = 756.0
+margin_right = 1004.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Time: %s"
+valign = 1
+script = ExtResource( 2 )
+
+[node name="Details" type="MarginContainer" parent="Rows"]
+margin_top = 82.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+
+[node name="Tree" type="Tree" parent="Rows/Details"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 1019.0
+margin_bottom = 513.0

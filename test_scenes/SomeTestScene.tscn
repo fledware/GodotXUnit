@@ -2,5 +2,5 @@
 
 [ext_resource path="res://test_scenes/SomeTestSceneRoot.cs" type="Script" id=1]
 
-[node name="SomeTestScene" type="Node2D"]
+[node name="SomeTestScenesdfs" type="Node2D"]
 script = ExtResource( 1 )

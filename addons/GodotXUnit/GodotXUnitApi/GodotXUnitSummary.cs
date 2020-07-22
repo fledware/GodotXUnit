@@ -15,32 +15,36 @@ namespace GodotXUnitApi
         public List<GodotXUnitTestResult> failed = new List<GodotXUnitTestResult>();
 
         public int completed => passed.Count + failed.Count;
-        
-        public void AddSkipped(TestSkippedInfo message)
+
+        public GodotXUnitTestResult AddSkipped(TestSkippedInfo message)
         {
-            skipped.Add(new GodotXUnitTestResult
+            var result = new GodotXUnitTestResult
             {
                 testCaseClass = message.TypeName,
                 testCaseName = message.MethodName,
                 result = "skipped"
-            }); 
+            };
+            skipped.Add(result);
+            return result;
         }
 
-        public void AddPassed(TestPassedInfo message)
+        public GodotXUnitTestResult AddPassed(TestPassedInfo message)
         {
-            passed.Add(new GodotXUnitTestResult
+            var result = new GodotXUnitTestResult
             {
                 testCaseClass = message.TypeName,
                 testCaseName = message.MethodName,
                 output = message.Output,
                 time = (float) message.ExecutionTime,
                 result = "passed"
-            });
+            };
+            passed.Add(result);
+            return result;
         }
 
-        public void AddFailed(TestFailedInfo message)
+        public GodotXUnitTestResult AddFailed(TestFailedInfo message)
         {
-            failed.Add(new GodotXUnitTestResult
+            var result = new GodotXUnitTestResult
             {
                 testCaseClass = message.TypeName,
                 testCaseName = message.MethodName,
@@ -50,7 +54,9 @@ namespace GodotXUnitApi
                 exceptionType = message.ExceptionType,
                 exceptionMessage = message.ExceptionMessage,
                 exceptionStackTrace = message.ExceptionStackTrace,
-            });
+            };
+            failed.Add(result);
+            return result;
         }
     }
 

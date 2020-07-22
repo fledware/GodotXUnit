@@ -60,8 +60,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="addons\GodotXUnit\GodotTestRunner.cs" />
-    <Compile Include="addons\GodotXUnit\GodotTestRunnerHook.cs" />
     <Compile Include="tests\SomeBasicTests.cs" />
     <Compile Include="tests\SomeTestSceneTest.cs" />
     <Compile Include="tests\TestInGodotCycle.cs" />
@@ -76,6 +74,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="addons\GodotXUnit\.gitignore" />
     <Content Include="addons\GodotXUnit\GodotTestRunnerScene.tscn" />
     <Content Include="addons\GodotXUnit\plugin.cfg" />
     <Content Include="addons\GodotXUnit\README" />

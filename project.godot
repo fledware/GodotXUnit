@@ -8,15 +8,20 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Label",
+"class": "SummaryLabel",
+"language": "GDScript",
+"path": "res://addons/GodotXUnit/editor/summary_label.gd"
+} ]
 _global_script_class_icons={
-
+"SummaryLabel": ""
 }
 
 [application]
 
 config/name="godot-csharp-unittest"
-run/main_scene="res://addons/GodotXUnit/GodotTestRunnerScene.tscn"
+run/main_scene="res://test_scenes/SomeTestScene.tscn"
 config/icon="res://icon.png"
 
 [editor_plugins]
