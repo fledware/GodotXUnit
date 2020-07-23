@@ -1,0 +1,10 @@
+{
+  "testCaseClass": "GodotCSUnitTest.Tests.SomeBasicTests",
+  "testCaseName": "SanityCheckThatWeGotHere",
+  "output": "",
+  "time": 0.0010528,
+  "result": "passed",
+  "exceptionType": null,
+  "exceptionMessage": null,
+  "exceptionStackTrace": null
+}

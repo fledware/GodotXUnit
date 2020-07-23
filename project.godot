@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "Label",
 "class": "SummaryLabel",
 "language": "GDScript",
-"path": "res://addons/GodotXUnit/editor/summary_label.gd"
+"path": "res://addons.old/GodotXUnit/editor/summary_label.gd"
 } ]
 _global_script_class_icons={
 "SummaryLabel": ""
@@ -20,13 +20,17 @@ _global_script_class_icons={
 
 [application]
 
-config/name="godot-csharp-unittest"
+config/name="GodotXUnit"
 run/main_scene="res://test_scenes/SomeTestScene.tscn"
 config/icon="res://icon.png"
 
 [editor_plugins]
 
 enabled=PoolStringArray( "GodotXUnit" )
+
+[mono]
+
+export/aot/enabled=true
 
 [rendering]
 

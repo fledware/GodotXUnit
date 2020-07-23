@@ -52,7 +52,7 @@ namespace GodotXUnitApi
                 constructorArguments,
                 aggregator,
                 cancellationTokenSource);
-            GodotXUnitEvents.Instance.GetTree().ChangeScene("res://addons/GodotXUnit/EmptyScene.tscn");
+            GodotXUnitEvents.Instance.GetTree().ChangeScene(Consts.EMPTY_SCENE_PATH);
             await GodotXUnitEvents.OnIdleFrameAwaiter;
             await GodotXUnitEvents.OnIdleFrameAwaiter;
             await GodotXUnitEvents.OnProcessAwaiter;

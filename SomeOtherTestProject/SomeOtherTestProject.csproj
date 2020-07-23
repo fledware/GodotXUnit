@@ -46,13 +46,9 @@
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\addons\GodotXUnit\GodotXUnitApi\GodotXUnitApi.csproj">
-        <Project>{27e029d5-b4f0-4a26-8b9e-3e70a629992f}</Project>
-        <Name>GodotXUnitApi</Name>
-      </ProjectReference>
-      <ProjectReference Include="..\godot-csharp-unittest.csproj">
+      <ProjectReference Include="..\GodotXUnit.csproj">
         <Project>{b6a000ab-04ae-4d1e-a0d5-93911e363f6d}</Project>
-        <Name>godot-csharp-unittest</Name>
+        <Name>GodotXUnit</Name>
       </ProjectReference>
     </ItemGroup>
     <ItemGroup>

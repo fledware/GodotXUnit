@@ -4,7 +4,7 @@
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{27E029D5-B4F0-4A26-8B9E-3E70A629992F}</ProjectGuid>
+        <ProjectGuid>{06417CA9-47A6-44C4-B5D9-D623F0FF10A4}</ProjectGuid>
         <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <RootNamespace>GodotXUnitApi</RootNamespace>
@@ -41,15 +41,17 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Consts.cs" />
-        <Compile Include="FactOnScene.cs" />
-        <Compile Include="GodotXUnitSummary.cs" />
-        <Compile Include="TestCaseAfterSignal.cs" />
         <Compile Include="FactOnPhysicsProcess.cs" />
         <Compile Include="FactOnProcess.cs" />
+        <Compile Include="FactOnScene.cs" />
         <Compile Include="GodotXUnitEvents.cs" />
+        <Compile Include="internal\Extensions.cs" />
+        <Compile Include="internal\MessagePassing.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="TestCaseOnScene.cs" />
+        <Compile Include="internal\Consts.cs" />
+        <Compile Include="internal\GodotXUnitSummary.cs" />
+        <Compile Include="internal\TestCaseAfterSignal.cs" />
+        <Compile Include="internal\TestCaseOnScene.cs" />
     </ItemGroup>
     <ItemGroup>
       <PackageReference Include="Newtonsoft.Json">

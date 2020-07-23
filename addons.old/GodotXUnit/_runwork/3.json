@@ -1,0 +1,10 @@
+{
+  "testCaseClass": "GodotCSUnitTest.Tests.SomeTestSceneTest",
+  "testCaseName": "IsNotInSomeTestScene",
+  "output": "",
+  "time": 0.0065127,
+  "result": "passed",
+  "exceptionType": null,
+  "exceptionMessage": null,
+  "exceptionStackTrace": null
+}

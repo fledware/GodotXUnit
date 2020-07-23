@@ -1,0 +1,10 @@
+{
+  "testCaseClass": "GodotCSUnitTest.Tests.TestInGodotCycle",
+  "testCaseName": "IsNotInPhysicsProcess2",
+  "output": "",
+  "time": 0.0004042,
+  "result": "passed",
+  "exceptionType": null,
+  "exceptionMessage": null,
+  "exceptionStackTrace": null
+}

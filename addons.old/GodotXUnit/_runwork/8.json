@@ -1,0 +1,10 @@
+{
+  "testCaseClass": "GodotCSUnitTest.Tests.TestInGodotCycle",
+  "testCaseName": "AllThreadContextInOne",
+  "output": "",
+  "time": 0.0241168,
+  "result": "passed",
+  "exceptionType": null,
+  "exceptionMessage": null,
+  "exceptionStackTrace": null
+}

@@ -6,8 +6,8 @@
     <ProjectGuid>{B6A000AB-04AE-4D1E-A0D5-93911E363F6D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <OutputPath>.mono/temp/bin/$(Configuration)</OutputPath>
-    <RootNamespace>godotcsharpunittest</RootNamespace>
-    <AssemblyName>godot-csharp-unittest</AssemblyName>
+    <RootNamespace>GodotXUnit</RootNamespace>
+    <AssemblyName>GodotXUnit</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <GodotProjectGeneratorVersion>1.0.0.0</GodotProjectGeneratorVersion>
     <BaseIntermediateOutputPath>.mono/temp/obj</BaseIntermediateOutputPath>
@@ -60,6 +60,12 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="addons\GodotXUnit\editor\SummaryFloatLabel.cs" />
+    <Compile Include="addons\GodotXUnit\editor\SummaryIntLabel.cs" />
+    <Compile Include="addons\GodotXUnit\editor\XUnitDock.cs" />
+    <Compile Include="addons\GodotXUnit\Plugin.cs" />
+    <Compile Include="addons\GodotXUnit\runner\GodotTestEntry.cs" />
+    <Compile Include="addons\GodotXUnit\runner\GodotTestRunner.cs" />
     <Compile Include="tests\SomeBasicTests.cs" />
     <Compile Include="tests\SomeTestSceneTest.cs" />
     <Compile Include="tests\TestInGodotCycle.cs" />
@@ -68,19 +74,22 @@
     <Compile Include="test_scenes\SomeTestSceneRoot.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="addons\GodotXUnit\GodotXUnitApi\GodotXUnitApi.csproj">
-      <Project>{27e029d5-b4f0-4a26-8b9e-3e70a629992f}</Project>
-      <Name>GodotXUnitApi</Name>
-    </ProjectReference>
+    <Folder Include="addons" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="addons\GodotXUnit\.gitignore" />
-    <Content Include="addons\GodotXUnit\GodotTestRunnerScene.tscn" />
+    <Content Include="addons\GodotXUnit\editor\XUnitDock.tscn" />
     <Content Include="addons\GodotXUnit\plugin.cfg" />
     <Content Include="addons\GodotXUnit\README" />
+    <Content Include="addons\GodotXUnit\runner\EmptyScene.tscn" />
+    <Content Include="addons\GodotXUnit\runner\GodotTestRunnerScene.tscn" />
+    <Content Include="addons\GodotXUnit\_msg\.keep" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="addons\GodotXUnit\editor" />
+    <ProjectReference Include="addons\GodotXUnit\GodotXUnitApi\GodotXUnitApi.csproj">
+      <Project>{06417ca9-47a6-44c4-b5d9-d623f0ff10a4}</Project>
+      <Name>GodotXUnitApi</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,6 +1,4 @@
 GodotXUnitApi/bin/
 GodotXUnitApi/obj/
-GodotXUnitEditor/bin/
-GodotXUnitEditor/obj/
-_runwork
-!_runwork/.keep
+_msg
+!_msg/.keep
