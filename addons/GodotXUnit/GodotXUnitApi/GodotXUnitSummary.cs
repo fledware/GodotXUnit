@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Godot;
 using Xunit.Runners;
 
 namespace GodotXUnitApi
@@ -71,5 +70,12 @@ namespace GodotXUnitApi
         public string exceptionType;
         public string exceptionMessage;
         public string exceptionStackTrace;
+    }
+
+    [Serializable]
+    public class GodotXUnitTestStart
+    {
+        public string testCaseClass;
+        public string testCaseName;
     }
 }

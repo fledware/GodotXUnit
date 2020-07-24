@@ -35,7 +35,7 @@ namespace GodotXUnitApi
         private AssemblyRunner runner;
 
         private GodotXUnitSummary summary;
-        
+
         private MessageSender messages;
 
         public override void _Ready()
@@ -47,10 +47,7 @@ namespace GodotXUnitApi
             messages.EnsureMessageDirectory();
             summary = new GodotXUnitSummary();
             runner = AssemblyRunner.WithoutAppDomain(GetAssemblyToTest().Location);
-            runner.OnDiagnosticMessage = message =>
-            {
-                GD.PrintErr($"OnDiagnosticMessage: {message.Message}");
-            };
+            runner.OnDiagnosticMessage = message => { GD.PrintErr($"OnDiagnosticMessage: {message.Message}"); };
             runner.OnDiscoveryComplete = message =>
             {
                 summary.testsDiscovered = message.TestCasesDiscovered;
@@ -66,18 +63,17 @@ namespace GodotXUnitApi
             };
             runner.OnTestStarting = message =>
             {
-                messages.SendMessage(new GodotXUnitTestResult
+                messages.SendMessage(new GodotXUnitTestStart()
                 {
                     testCaseClass = message.TypeName,
-                    testCaseName = message.MethodName,
-                    result = "starting"
+                    testCaseName = message.MethodName
                 });
                 // GD.Print($"OnTestStarting: {message.TestDisplayName}");
             };
             runner.OnTestFailed = message =>
             {
                 messages.SendMessage(summary.AddFailed(message));
-                // GD.Print($"  > OnTestFailed: {message.TestDisplayName} in {message.ExecutionTime}");
+                GD.Print($"  > OnTestFailed: {message.TestDisplayName} in {message.ExecutionTime}");
                 // GD.PrintErr(message.ExceptionType);
                 // GD.PrintErr(message.ExceptionMessage);
                 // GD.PrintErr(message.ExceptionStackTrace);
@@ -85,17 +81,17 @@ namespace GodotXUnitApi
             runner.OnTestPassed = message =>
             {
                 messages.SendMessage(summary.AddPassed(message));
-                // GD.Print($"  > OnTestPassed: {message.TestDisplayName} in {message.ExecutionTime}");
+                GD.Print($"  > OnTestPassed: {message.TestDisplayName} in {message.ExecutionTime}");
             };
             runner.OnTestSkipped = message =>
             {
                 messages.SendMessage(summary.AddSkipped(message));
-                // GD.Print($"  > OnTestSkipped: {message.TestDisplayName}");
+                GD.Print($"  > OnTestSkipped: {message.TestDisplayName}");
             };
             runner.OnExecutionComplete = message =>
             {
                 messages.SendMessage(summary);
-                // GD.Print($"tests completed ({message.ExecutionTime}): {summary.completed}");
+                GD.Print($"tests completed ({message.ExecutionTime}): {summary.completed}");
                 // GD.Print($"   skipped: {summary.skipped.Count}");
                 // GD.Print($"   passed: {summary.passed.Count}");
                 // GD.Print($"   failed: {summary.failed.Count}");

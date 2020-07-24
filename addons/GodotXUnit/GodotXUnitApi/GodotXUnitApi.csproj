@@ -45,11 +45,11 @@
         <Compile Include="FactOnProcess.cs" />
         <Compile Include="FactOnScene.cs" />
         <Compile Include="GodotXUnitEvents.cs" />
+        <Compile Include="GodotXUnitSummary.cs" />
         <Compile Include="internal\Extensions.cs" />
         <Compile Include="internal\MessagePassing.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="internal\Consts.cs" />
-        <Compile Include="internal\GodotXUnitSummary.cs" />
         <Compile Include="internal\TestCaseAfterSignal.cs" />
         <Compile Include="internal\TestCaseOnScene.cs" />
     </ItemGroup>

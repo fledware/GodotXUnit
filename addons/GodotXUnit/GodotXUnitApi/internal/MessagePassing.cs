@@ -14,20 +14,31 @@ namespace GodotXUnitApi
         };
         
         public static readonly string sep =
-            System.IO.Path.PathSeparator.ToString();
-        
-        public static string PassDir =>
-            $"{System.IO.Directory.GetCurrentDirectory()}{sep}addons{sep}GodotXUnit{sep}_msg";
+            System.IO.Path.DirectorySeparatorChar.ToString();
 
-        public static string PassFile(int id)
+        public static string PassFile(string passDir, int id)
         {
-            return $"{PassDir}{sep}{id}.json";
+            return $"{passDir}{sep}{id}.json";
+        }
+
+        public static string FigurePassDir()
+        {
+            var current = System.IO.Directory.GetCurrentDirectory();
+            while (!string.IsNullOrEmpty(current))
+            {
+                if (System.IO.File.Exists($"{current}{sep}project.godot"))
+                    return $"{current}{sep}addons{sep}GodotXUnit{sep}_msg";
+                current = System.IO.Directory.GetParent(current).FullName;
+            }
+            GD.PrintErr("unable to find root of godot project");
+            throw new Exception("unable to find root dir");
         }
     }
 
     public class MessageSender
     {
         public int idAt { get; private set; }
+        public readonly string passDir = MessagePassing.FigurePassDir();
 
         public int NextId()
         {
@@ -37,15 +48,15 @@ namespace GodotXUnitApi
         public void SendMessage(object message)
         {
             var id = NextId();
-            var sending = JsonConvert.SerializeObject(message, MessagePassing.jsonSettings);
-            System.IO.File.WriteAllText(MessagePassing.PassFile(id), sending);
+            var sending = JsonConvert.SerializeObject(message, Formatting.Indented,MessagePassing.jsonSettings);
+            System.IO.File.WriteAllText(MessagePassing.PassFile(passDir, id), sending);
         }
 
         public void EnsureMessageDirectory()
         {
             var directory = new Godot.Directory();
-            directory.MakeDirRecursive(MessagePassing.PassDir).ThrowIfNotOk();
-            directory.Open(MessagePassing.PassDir).ThrowIfNotOk();
+            directory.MakeDirRecursive(passDir).ThrowIfNotOk();
+            directory.Open(passDir).ThrowIfNotOk();
             directory.ListDirBegin().ThrowIfNotOk();
             while (true)
             {
@@ -67,6 +78,8 @@ namespace GodotXUnitApi
         
         private ConcurrentQueue<object> queue = new ConcurrentQueue<object>();
         
+        public readonly string passDir = MessagePassing.FigurePassDir();
+        
         public object Poll()
         {
             if (queue.TryDequeue(out var result)) return result;
@@ -77,7 +90,7 @@ namespace GodotXUnitApi
         {
             if (_watcher == null)
             {
-                _watcher = new FileSystemWatcher(MessagePassing.PassDir);
+                _watcher = new FileSystemWatcher(passDir);
                 _watcher.Filter = "*.json";
                 _watcher.Created += OnCreated;
                 _watcher.Error += OnError;
@@ -89,6 +102,7 @@ namespace GodotXUnitApi
         {
             if (_watcher == null) return;
             _watcher.EnableRaisingEvents = false;
+            while (Poll() != null) { }
         }
 
         private void OnCreated(object sender, FileSystemEventArgs eventArgs)
