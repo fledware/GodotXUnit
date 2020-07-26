@@ -1,6 +1,8 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Godot;
+using Xunit;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
@@ -33,9 +35,11 @@ namespace GodotXUnitApi.Internal
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
         {
-            if (GDU.Instance.GetTree().ChangeSceneTo(GD.Load<PackedScene>(sceneName)) != Error.Ok)
+            if (GDU.Instance.GetTree().ChangeScene(sceneName) != Error.Ok)
             {
-                GD.PrintErr($"could not load scene: {sceneName}");
+                var message = $"could not load scene: {sceneName}";
+                var test = new XunitTest(this, DisplayName);
+                messageBus.QueueMessage(new Xunit.Sdk.TestFailed(test, 0, message, new Exception(message)));
                 return new RunSummary
                 {
                     Total = 1,
