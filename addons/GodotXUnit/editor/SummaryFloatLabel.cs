@@ -15,7 +15,7 @@ namespace GodotXUnit.editor
             set
             {
                 _value = value;
-                Text = string.Format(StringFormat, _value);
+                Text = string.Format(StringFormat, (int) (_value * 1000));
             }
         }
 

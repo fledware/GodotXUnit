@@ -22,5 +22,15 @@ namespace GodotXUnitApi
         public const string RUNNER_SCENE_PATH = "res://addons/GodotXUnit/runner/GodotTestRunnerScene.tscn";
         public const string EMPTY_SCENE_PATH = "res://addons/GodotXUnit/runner/EmptyScene.tscn";
         public const string DOCK_SCENE_PATH = "res://addons/GodotXUnit/editor/XUnitDock.tscn";
+
+        public const string ICON_RUNNING = "res://addons/GodotXUnit/assets/running.png";
+        public const string ICON_WARN = "res://addons/GodotXUnit/assets/warn.png";
+        public const string ICON_CHECK = "res://addons/GodotXUnit/assets/check.png";
+        public const string ICON_ERROR = "res://addons/GodotXUnit/assets/error.png";
+        
+        public static Texture IconRunning => GD.Load<Texture>(ICON_RUNNING);
+        public static Texture IconWarn => GD.Load<Texture>(ICON_WARN);
+        public static Texture IconCheck => GD.Load<Texture>(ICON_CHECK);
+        public static Texture IconError => GD.Load<Texture>(ICON_ERROR);
     }
 }

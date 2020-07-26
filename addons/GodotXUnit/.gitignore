@@ -1,4 +1,4 @@
 GodotXUnitApi/bin/
 GodotXUnitApi/obj/
-_msg
-!_msg/.keep
+_work
+!_work/.gdignore

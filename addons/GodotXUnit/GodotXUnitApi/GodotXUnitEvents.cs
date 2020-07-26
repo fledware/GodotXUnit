@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using Godot;
+using Newtonsoft.Json;
 using Xunit.Runners;
 
 namespace GodotXUnitApi
@@ -43,8 +44,8 @@ namespace GodotXUnitApi
             Instance = this;
             GD.Print($"running tests in tree at: {GetPath()}");
 
+            WorkFiles.CleanWorkDir();
             messages = new MessageSender();
-            messages.EnsureMessageDirectory();
             summary = new GodotXUnitSummary();
             runner = AssemblyRunner.WithoutAppDomain(GetAssemblyToTest().Location);
             runner.OnDiagnosticMessage = message => { GD.PrintErr($"OnDiagnosticMessage: {message.Message}"); };
@@ -91,13 +92,17 @@ namespace GodotXUnitApi
             runner.OnExecutionComplete = message =>
             {
                 messages.SendMessage(summary);
+                WriteSummary(summary);
                 GD.Print($"tests completed ({message.ExecutionTime}): {summary.completed}");
                 // GD.Print($"   skipped: {summary.skipped.Count}");
                 // GD.Print($"   passed: {summary.passed.Count}");
                 // GD.Print($"   failed: {summary.failed.Count}");
                 GetTree().Quit();
             };
-            runner.Start(null, null, null, null, null, false, null, null);
+            
+            var runArgs = RunArgsHelper.Read();
+            var classToRun = string.IsNullOrEmpty(runArgs.classToRun) ? null : runArgs.classToRun;
+            runner.Start(classToRun, null, null, null, null, false, null, null);
         }
 
         public override void _ExitTree()
@@ -105,6 +110,17 @@ namespace GodotXUnitApi
             Instance = null;
             runner?.Dispose();
             runner = null;
+        }
+
+        private void WriteSummary(GodotXUnitSummary testSummary)
+        {
+            var location = ProjectSettings.HasSetting(Consts.SETTING_RESULTS_SUMMARY)
+                ? ProjectSettings.GetSetting(Consts.SETTING_RESULTS_SUMMARY).ToString()
+                : Consts.SETTING_RESULTS_SUMMARY_DEF;
+            var file = new File();
+            file.Open(location, File.ModeFlags.Write);
+            file.StoreString(JsonConvert.SerializeObject(testSummary, Formatting.Indented, WorkFiles.jsonSettings));
+            file.Close();
         }
     }
 }

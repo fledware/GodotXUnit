@@ -1,111 +1,177 @@
 {
-  "testsDiscovered": 10,
-  "testsExpectedToRun": 10,
-  "skipped": [
-    {
-      "testCaseClass": "GodotCSUnitTest.Tests.TestWithSetup",
-      "testCaseName": "SkipOrSomething",
-      "output": null,
-      "time": 0.0,
-      "result": "skipped",
-      "exceptionType": null,
-      "exceptionMessage": null,
-      "exceptionStackTrace": null
-    }
-  ],
-  "passed": [
-    {
-      "testCaseClass": "GodotCSUnitTest.Tests.TestWithSetup",
-      "testCaseName": "TestSayWhat",
-      "output": "",
-      "time": 0.0043623,
-      "result": "passed",
-      "exceptionType": null,
-      "exceptionMessage": null,
-      "exceptionStackTrace": null
-    },
-    {
-      "testCaseClass": "GodotCSUnitTest.Tests.SomeTestSceneTest",
-      "testCaseName": "IsNotInSomeTestScene",
-      "output": "",
-      "time": 0.0065127,
-      "result": "passed",
-      "exceptionType": null,
-      "exceptionMessage": null,
-      "exceptionStackTrace": null
-    },
-    {
-      "testCaseClass": "GodotCSUnitTest.Tests.SomeTestSceneTest",
-      "testCaseName": "IsOnCorrectScene",
-      "output": "",
-      "time": 0.0004815,
-      "result": "passed",
-      "exceptionType": null,
-      "exceptionMessage": null,
-      "exceptionStackTrace": null
-    },
-    {
-      "testCaseClass": "GodotCSUnitTest.Tests.SomeBasicTests",
-      "testCaseName": "SanityCheckThatWeGotHere",
-      "output": "",
-      "time": 0.0010528,
-      "result": "passed",
-      "exceptionType": null,
-      "exceptionMessage": null,
-      "exceptionStackTrace": null
-    },
-    {
-      "testCaseClass": "GodotCSUnitTest.Tests.TestInGodotCycle",
-      "testCaseName": "IsNotInPhysicsProcess1",
-      "output": "",
-      "time": 0.0027646,
-      "result": "passed",
-      "exceptionType": null,
-      "exceptionMessage": null,
-      "exceptionStackTrace": null
-    },
-    {
-      "testCaseClass": "GodotCSUnitTest.Tests.TestInGodotCycle",
-      "testCaseName": "IsNotInPhysicsProcess2",
-      "output": "",
-      "time": 0.0004042,
-      "result": "passed",
-      "exceptionType": null,
-      "exceptionMessage": null,
-      "exceptionStackTrace": null
-    },
-    {
-      "testCaseClass": "GodotCSUnitTest.Tests.TestInGodotCycle",
-      "testCaseName": "AllThreadContextInOne",
-      "output": "",
-      "time": 0.0241168,
-      "result": "passed",
-      "exceptionType": null,
-      "exceptionMessage": null,
-      "exceptionStackTrace": null
-    },
-    {
-      "testCaseClass": "GodotCSUnitTest.Tests.TestInGodotCycle",
-      "testCaseName": "IsInPhysicsProcess",
-      "output": "",
-      "time": 0.0001967,
-      "result": "passed",
-      "exceptionType": null,
-      "exceptionMessage": null,
-      "exceptionStackTrace": null
-    }
-  ],
-  "failed": [
-    {
-      "testCaseClass": "GodotCSUnitTest.Tests.TestInGodotTree",
-      "testCaseName": "IsInTree",
-      "output": "",
-      "time": 0.0209757,
-      "result": "failed",
-      "exceptionType": "Xunit.Sdk.NotNullException",
-      "exceptionMessage": "Assert.NotNull() Failure",
-      "exceptionStackTrace": "  at Xunit.Assert.NotNull (System.Object object) [0x00008] in <8517f607c12a4b508364c3f896f0fe6f>:0 \n  at GodotCSUnitTest.Tests.TestInGodotTree.IsInTree () [0x00001] in /home/rex/projects/fledware/GodotXUnit/tests/TestInGodotTree.cs:15 \n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\n  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <46e2faba55964e57bc4a72159b9574b8>:0 "
-    }
-  ],
-  "completed": 9
+  "$type": "GodotXUnitApi.GodotXUnitSummary, GodotXUnitApi",
+  "testsDiscovered": 13,
+  "testsExpectedToRun": 13,
+  "skipped": {
+    "$type": "System.Collections.Generic.List`1[[GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi]], mscorlib",
+    "$values": [
+      {
+        "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
+        "testCaseClass": "GodotCSUnitTest.Tests.TestWithSetup",
+        "testCaseName": "SkipOrSomething",
+        "output": null,
+        "time": 0.0,
+        "result": "skipped",
+        "exceptionType": null,
+        "exceptionMessage": null,
+        "exceptionStackTrace": null,
+        "FullName": "GodotCSUnitTest.Tests.TestWithSetup.SkipOrSomething"
+      }
+    ]
+  },
+  "passed": {
+    "$type": "System.Collections.Generic.List`1[[GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi]], mscorlib",
+    "$values": [
+      {
+        "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
+        "testCaseClass": "GodotCSUnitTest.Tests.SomePrintStatementsTest",
+        "testCaseName": "SomeStuffPrinted",
+        "output": "hello hello helllloooooo!!!\n",
+        "time": 0.0035431,
+        "result": "passed",
+        "exceptionType": null,
+        "exceptionMessage": null,
+        "exceptionStackTrace": null,
+        "FullName": "GodotCSUnitTest.Tests.SomePrintStatementsTest.SomeStuffPrinted"
+      },
+      {
+        "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
+        "testCaseClass": "GodotCSUnitTest.Tests.SomePrintStatementsTest",
+        "testCaseName": "SomeReallyLongTest",
+        "output": "stuffs 0\nstuffs 1\nstuffs 2\nstuffs 3\nstuffs 4\nstuffs 5\nstuffs 6\nstuffs 7\nstuffs 8\nstuffs 9\nstuffs 10\nstuffs 11\nstuffs 12\nstuffs 13\nstuffs 14\nstuffs 15\nstuffs 16\nstuffs 17\nstuffs 18\nstuffs 19\nstuffs 20\nstuffs 21\nstuffs 22\nstuffs 23\nstuffs 24\nstuffs 25\nstuffs 26\nstuffs 27\nstuffs 28\nstuffs 29\nstuffs 30\nstuffs 31\nstuffs 32\nstuffs 33\nstuffs 34\nstuffs 35\nstuffs 36\nstuffs 37\nstuffs 38\nstuffs 39\nstuffs 40\nstuffs 41\nstuffs 42\nstuffs 43\nstuffs 44\nstuffs 45\nstuffs 46\nstuffs 47\nstuffs 48\nstuffs 49\nstuffs 50\nstuffs 51\nstuffs 52\nstuffs 53\nstuffs 54\nstuffs 55\nstuffs 56\nstuffs 57\nstuffs 58\nstuffs 59\nstuffs 60\nstuffs 61\nstuffs 62\nstuffs 63\nstuffs 64\nstuffs 65\nstuffs 66\nstuffs 67\nstuffs 68\nstuffs 69\nstuffs 70\nstuffs 71\nstuffs 72\nstuffs 73\nstuffs 74\nstuffs 75\nstuffs 76\nstuffs 77\nstuffs 78\nstuffs 79\nstuffs 80\nstuffs 81\nstuffs 82\nstuffs 83\nstuffs 84\nstuffs 85\nstuffs 86\nstuffs 87\nstuffs 88\nstuffs 89\nstuffs 90\nstuffs 91\nstuffs 92\nstuffs 93\nstuffs 94\nstuffs 95\nstuffs 96\nstuffs 97\nstuffs 98\nstuffs 99\n",
+        "time": 1.6730752,
+        "result": "passed",
+        "exceptionType": null,
+        "exceptionMessage": null,
+        "exceptionStackTrace": null,
+        "FullName": "GodotCSUnitTest.Tests.SomePrintStatementsTest.SomeReallyLongTest"
+      },
+      {
+        "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
+        "testCaseClass": "GodotCSUnitTest.Tests.SomePrintStatementsTest",
+        "testCaseName": "NaughtyConsolePrint",
+        "output": "Xunit.Sdk.TestOutputHelper\n",
+        "time": 0.023039,
+        "result": "passed",
+        "exceptionType": null,
+        "exceptionMessage": null,
+        "exceptionStackTrace": null,
+        "FullName": "GodotCSUnitTest.Tests.SomePrintStatementsTest.NaughtyConsolePrint"
+      },
+      {
+        "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
+        "testCaseClass": "GodotCSUnitTest.Tests.TestWithSetup",
+        "testCaseName": "TestSayWhat",
+        "output": "",
+        "time": 0.002347,
+        "result": "passed",
+        "exceptionType": null,
+        "exceptionMessage": null,
+        "exceptionStackTrace": null,
+        "FullName": "GodotCSUnitTest.Tests.TestWithSetup.TestSayWhat"
+      },
+      {
+        "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
+        "testCaseClass": "GodotCSUnitTest.Tests.TestInGodotCycle",
+        "testCaseName": "IsNotInPhysicsProcess2",
+        "output": "",
+        "time": 0.0010205,
+        "result": "passed",
+        "exceptionType": null,
+        "exceptionMessage": null,
+        "exceptionStackTrace": null,
+        "FullName": "GodotCSUnitTest.Tests.TestInGodotCycle.IsNotInPhysicsProcess2"
+      },
+      {
+        "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
+        "testCaseClass": "GodotCSUnitTest.Tests.TestInGodotCycle",
+        "testCaseName": "IsInPhysicsProcess",
+        "output": "",
+        "time": 0.0003608,
+        "result": "passed",
+        "exceptionType": null,
+        "exceptionMessage": null,
+        "exceptionStackTrace": null,
+        "FullName": "GodotCSUnitTest.Tests.TestInGodotCycle.IsInPhysicsProcess"
+      },
+      {
+        "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
+        "testCaseClass": "GodotCSUnitTest.Tests.TestInGodotCycle",
+        "testCaseName": "IsNotInPhysicsProcess1",
+        "output": "",
+        "time": 0.0001824,
+        "result": "passed",
+        "exceptionType": null,
+        "exceptionMessage": null,
+        "exceptionStackTrace": null,
+        "FullName": "GodotCSUnitTest.Tests.TestInGodotCycle.IsNotInPhysicsProcess1"
+      },
+      {
+        "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
+        "testCaseClass": "GodotCSUnitTest.Tests.TestInGodotCycle",
+        "testCaseName": "AllThreadContextInOne",
+        "output": "",
+        "time": 0.0144812,
+        "result": "passed",
+        "exceptionType": null,
+        "exceptionMessage": null,
+        "exceptionStackTrace": null,
+        "FullName": "GodotCSUnitTest.Tests.TestInGodotCycle.AllThreadContextInOne"
+      },
+      {
+        "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
+        "testCaseClass": "GodotCSUnitTest.Tests.SomeBasicTests",
+        "testCaseName": "SanityCheckThatWeGotHere",
+        "output": "",
+        "time": 0.0002351,
+        "result": "passed",
+        "exceptionType": null,
+        "exceptionMessage": null,
+        "exceptionStackTrace": null,
+        "FullName": "GodotCSUnitTest.Tests.SomeBasicTests.SanityCheckThatWeGotHere"
+      },
+      {
+        "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
+        "testCaseClass": "GodotCSUnitTest.Tests.SomeTestSceneTest",
+        "testCaseName": "IsNotInSomeTestScene",
+        "output": "",
+        "time": 0.0072136,
+        "result": "passed",
+        "exceptionType": null,
+        "exceptionMessage": null,
+        "exceptionStackTrace": null,
+        "FullName": "GodotCSUnitTest.Tests.SomeTestSceneTest.IsNotInSomeTestScene"
+      },
+      {
+        "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
+        "testCaseClass": "GodotCSUnitTest.Tests.SomeTestSceneTest",
+        "testCaseName": "IsOnCorrectScene",
+        "output": "",
+        "time": 0.0011315,
+        "result": "passed",
+        "exceptionType": null,
+        "exceptionMessage": null,
+        "exceptionStackTrace": null,
+        "FullName": "GodotCSUnitTest.Tests.SomeTestSceneTest.IsOnCorrectScene"
+      }
+    ]
+  },
+  "failed": {
+    "$type": "System.Collections.Generic.List`1[[GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi]], mscorlib",
+    "$values": [
+      {
+        "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
+        "testCaseClass": "GodotCSUnitTest.Tests.TestInGodotTree",
+        "testCaseName": "IsInTree",
+        "output": "",
+        "time": 0.0072129,
+        "result": "failed",
+        "exceptionType": "Xunit.Sdk.NotNullException",
+        "exceptionMessage": "Assert.NotNull() Failure",
+        "exceptionStackTrace": "  at Xunit.Assert.NotNull (System.Object object) [0x00008] in <8517f607c12a4b508364c3f896f0fe6f>:0 \n  at GodotCSUnitTest.Tests.TestInGodotTree.IsInTree () [0x00001] in /home/rex/projects/fledware/GodotXUnit/tests/TestInGodotTree.cs:15 \n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\n  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <46e2faba55964e57bc4a72159b9574b8>:0 ",
+        "FullName": "GodotCSUnitTest.Tests.TestInGodotTree.IsInTree"
+      }
+    ]
+  },
+  "completed": 12
 }

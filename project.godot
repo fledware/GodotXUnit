@@ -8,14 +8,9 @@
 
 config_version=4
 
-_global_script_classes=[ {
-"base": "Label",
-"class": "SummaryLabel",
-"language": "GDScript",
-"path": "res://addons.old/GodotXUnit/editor/summary_label.gd"
-} ]
+_global_script_classes=[  ]
 _global_script_class_icons={
-"SummaryLabel": ""
+
 }
 
 [application]

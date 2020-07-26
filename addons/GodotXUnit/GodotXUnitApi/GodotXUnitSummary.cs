@@ -70,6 +70,8 @@ namespace GodotXUnitApi
         public string exceptionType;
         public string exceptionMessage;
         public string exceptionStackTrace;
+
+        public string FullName => $"{testCaseClass}.{testCaseName}";
     }
 
     [Serializable]

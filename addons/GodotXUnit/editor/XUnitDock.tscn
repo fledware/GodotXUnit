@@ -22,7 +22,7 @@ margin_bottom = 600.0
 
 [node name="Buttons" type="MarginContainer" parent="Rows"]
 margin_right = 1024.0
-margin_bottom = 40.0
+margin_bottom = 44.0
 custom_constants/margin_right = 5
 custom_constants/margin_top = 5
 custom_constants/margin_left = 5
@@ -32,7 +32,7 @@ custom_constants/margin_bottom = 5
 margin_left = 5.0
 margin_top = 5.0
 margin_right = 1019.0
-margin_bottom = 35.0
+margin_bottom = 39.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -41,7 +41,7 @@ __meta__ = {
 margin_left = 5.0
 margin_top = 5.0
 margin_right = 1019.0
-margin_bottom = 35.0
+margin_bottom = 39.0
 custom_constants/margin_right = 5
 custom_constants/margin_top = 5
 custom_constants/margin_left = 5
@@ -51,20 +51,46 @@ custom_constants/margin_bottom = 5
 margin_left = 5.0
 margin_top = 5.0
 margin_right = 1009.0
-margin_bottom = 25.0
+margin_bottom = 29.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="StopButton" type="Button" parent="Rows/Buttons/Margin/Buttons"]
+margin_right = 40.0
+margin_bottom = 24.0
+text = "Stop"
+
 [node name="RunAllTestsButton" type="Button" parent="Rows/Buttons/Margin/Buttons"]
-margin_right = 95.0
-margin_bottom = 20.0
+margin_left = 44.0
+margin_right = 139.0
+margin_bottom = 24.0
 text = "Run All Tests"
 
+[node name="ReRunButton" type="Button" parent="Rows/Buttons/Margin/Buttons"]
+margin_left = 143.0
+margin_right = 195.0
+margin_bottom = 24.0
+text = "ReRun"
+
+[node name="TargetClassLabel" type="LineEdit" parent="Rows/Buttons/Margin/Buttons"]
+margin_left = 199.0
+margin_right = 599.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+placeholder_text = "Target Class"
+
+[node name="TargetMethodLabel" type="LineEdit" parent="Rows/Buttons/Margin/Buttons"]
+margin_left = 603.0
+margin_right = 1004.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+placeholder_text = "Target Method"
+
 [node name="Summary" type="MarginContainer" parent="Rows"]
-margin_top = 44.0
+margin_top = 48.0
 margin_right = 1024.0
-margin_bottom = 78.0
+margin_bottom = 82.0
 custom_constants/margin_right = 5
 custom_constants/margin_top = 5
 custom_constants/margin_left = 5
@@ -120,6 +146,7 @@ margin_left = 504.0
 margin_right = 752.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
+size_flags_vertical = 1
 text = "Failed: {0}"
 valign = 1
 script = ExtResource( 2 )
@@ -134,7 +161,7 @@ valign = 1
 script = ExtResource( 3 )
 
 [node name="Details" type="MarginContainer" parent="Rows"]
-margin_top = 82.0
+margin_top = 86.0
 margin_right = 1024.0
 margin_bottom = 600.0
 size_flags_horizontal = 3
@@ -144,8 +171,41 @@ custom_constants/margin_top = 5
 custom_constants/margin_left = 5
 custom_constants/margin_bottom = 5
 
-[node name="ResultsTree" type="Tree" parent="Rows/Details"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Rows/Details"]
 margin_left = 5.0
 margin_top = 5.0
 margin_right = 1019.0
-margin_bottom = 513.0
+margin_bottom = 509.0
+
+[node name="ResultsTree" type="Tree" parent="Rows/Details/HBoxContainer"]
+margin_right = 505.0
+margin_bottom = 504.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+hide_root = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Rows/Details/HBoxContainer"]
+margin_left = 509.0
+margin_right = 1014.0
+margin_bottom = 504.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Rows/Details/HBoxContainer/VBoxContainer"]
+margin_right = 505.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="RunSelectedButton" type="Button" parent="Rows/Details/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_right = 95.0
+margin_bottom = 20.0
+text = "Run Selected"
+
+[node name="ResultDetails" type="RichTextLabel" parent="Rows/Details/HBoxContainer/VBoxContainer"]
+margin_top = 24.0
+margin_right = 505.0
+margin_bottom = 504.0
+focus_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+selection_enabled = true
