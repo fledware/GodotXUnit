@@ -5,7 +5,7 @@ using Godot;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
-namespace GodotXUnitApi
+namespace GodotXUnitApi.Internal
 {
     public class TestCaseAfterSignal : XunitTestCase
     {

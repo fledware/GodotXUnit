@@ -1,12 +1,21 @@
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Xunit;
-using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace GodotXUnitApi
 {
-    [XunitTestCaseDiscoverer("GodotXUnitApi.FactOnSceneDiscoverer", "GodotXUnitApi")]
+    /// <summary>
+    /// use this on a test to have a scene get loaded before the test starts.
+    /// an empty scene will be loaded after the test finishes.
+    /// </summary>
+    /*
+        [FactOnScene("res://test_scenes/SomeTestScene.tscn")]
+        public void IsOnCorrectScene()
+        {
+            var scene = GDU.Tree.CurrentScene;
+            Assert.Equal(typeof(SomeTestSceneRoot), scene?.GetType());
+        }
+     */
+    [XunitTestCaseDiscoverer("GodotXUnitApi.Internal.FactOnSceneDiscoverer", "GodotXUnitApi")]
     public class FactOnSceneAttribute : FactAttribute
     {
         public string SceneRes { get; set; }
@@ -14,25 +23,6 @@ namespace GodotXUnitApi
         public FactOnSceneAttribute(string sceneRes)
         {
             this.SceneRes = sceneRes;
-        }
-    }
-    
-    public class FactOnSceneDiscoverer : IXunitTestCaseDiscoverer
-    {
-        private readonly IMessageSink diagnosticMessageSink;
-
-        public FactOnSceneDiscoverer(IMessageSink diagnosticMessageSink)
-        {
-            this.diagnosticMessageSink = diagnosticMessageSink;
-        }
-
-        public IEnumerable<IXunitTestCase> Discover(
-            ITestFrameworkDiscoveryOptions discoveryOptions,
-            ITestMethod testMethod,
-            IAttributeInfo factAttribute)
-        {
-            var sceneName = factAttribute.GetNamedArgument<string>(nameof(FactOnSceneAttribute.SceneRes));
-            yield return new TestCaseOnScene(sceneName, diagnosticMessageSink, discoveryOptions, testMethod);
         }
     }
 }

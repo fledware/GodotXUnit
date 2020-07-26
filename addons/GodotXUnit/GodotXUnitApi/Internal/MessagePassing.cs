@@ -2,7 +2,7 @@ using System.Collections.Concurrent;
 using System.IO;
 using Godot;
 
-namespace GodotXUnitApi
+namespace GodotXUnitApi.Internal
 {
     public class MessageSender
     {

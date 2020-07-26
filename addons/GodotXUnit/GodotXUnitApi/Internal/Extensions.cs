@@ -1,7 +1,7 @@
 using System;
 using Godot;
 
-namespace GodotXUnitApi
+namespace GodotXUnitApi.Internal
 {
     public static class Extensions
     {

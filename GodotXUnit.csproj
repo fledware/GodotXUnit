@@ -60,18 +60,17 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="addons\GodotXUnit\editor\SummaryFloatLabel.cs" />
-    <Compile Include="addons\GodotXUnit\editor\SummaryIntLabel.cs" />
-    <Compile Include="addons\GodotXUnit\editor\XUnitDock.cs" />
     <Compile Include="addons\GodotXUnit\Plugin.cs" />
-    <Compile Include="addons\GodotXUnit\runner\GodotTestEntry.cs" />
-    <Compile Include="addons\GodotXUnit\runner\GodotTestRunner.cs" />
+    <Compile Include="addons\GodotXUnit\GodotTestRunner.cs" />
+    <Compile Include="addons\GodotXUnit\XUnitDock.cs" />
+    <Compile Include="tests\PhysicsCollisionTest.cs" />
     <Compile Include="tests\SomeBasicTests.cs" />
     <Compile Include="tests\SomePrintStatementsTest.cs" />
     <Compile Include="tests\SomeTestSceneTest.cs" />
     <Compile Include="tests\TestInGodotCycle.cs" />
     <Compile Include="tests\TestInGodotTree.cs" />
     <Compile Include="tests\TestWithSetup.cs" />
+    <Compile Include="test_scenes\AVerySpecialBall.cs" />
     <Compile Include="test_scenes\SomeTestSceneRoot.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -79,11 +78,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="addons\GodotXUnit\.gitignore" />
-    <Content Include="addons\GodotXUnit\editor\XUnitDock.tscn" />
     <Content Include="addons\GodotXUnit\plugin.cfg" />
     <Content Include="addons\GodotXUnit\README" />
     <Content Include="addons\GodotXUnit\runner\EmptyScene.tscn" />
     <Content Include="addons\GodotXUnit\runner\GodotTestRunnerScene.tscn" />
+    <Content Include="addons\GodotXUnit\XUnitDock.tscn" />
     <Content Include="addons\GodotXUnit\_work\.gdignore" />
   </ItemGroup>
   <ItemGroup>

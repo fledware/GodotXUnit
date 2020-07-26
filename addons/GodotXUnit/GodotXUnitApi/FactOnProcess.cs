@@ -1,35 +1,22 @@
-using System.Collections.Generic;
 using Xunit;
-using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace GodotXUnitApi
 {
     /// <summary>
-    /// 
+    /// will have the test run in the process notification
     /// </summary>
-    [XunitTestCaseDiscoverer("GodotXUnitApi.FactOnProcessDiscoverer", "GodotXUnitApi")]
+    /*
+        [FactOnScene("res://test_scenes/SomeTestScene.tscn")]
+        public void IsOnCorrectScene()
+        {
+            var scene = GDU.Tree.CurrentScene;
+            Assert.Equal(typeof(SomeTestSceneRoot), scene?.GetType());
+        }
+     */
+    [XunitTestCaseDiscoverer("GodotXUnitApi.Internal.FactOnProcessDiscoverer", "GodotXUnitApi")]
     public class FactOnProcessAttribute : FactAttribute
     {
         
-    }
-    
-    public class FactOnProcessDiscoverer : IXunitTestCaseDiscoverer
-    {
-        private readonly IMessageSink diagnosticMessageSink;
-
-        public FactOnProcessDiscoverer(IMessageSink diagnosticMessageSink)
-        {
-            this.diagnosticMessageSink = diagnosticMessageSink;
-        }
-
-        public IEnumerable<IXunitTestCase> Discover(
-            ITestFrameworkDiscoveryOptions discoveryOptions,
-            ITestMethod testMethod,
-            IAttributeInfo factAttribute)
-        {
-            yield return new TestCaseAfterSignal(() => GodotXUnitEvents.OnProcessAwaiter,
-                diagnosticMessageSink, discoveryOptions, testMethod);
-        }
     }
 }

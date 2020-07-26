@@ -1,4 +1,3 @@
-using Godot;
 using GodotXUnitApi;
 using Xunit;
 
@@ -9,14 +8,14 @@ namespace GodotCSUnitTest.Tests
         [FactOnScene("res://test_scenes/SomeTestScene.tscn")]
         public void IsOnCorrectScene()
         {
-            var scene = GodotXUnitEvents.Instance.GetTree().CurrentScene;
+            var scene = GDU.CurrentScene;
             Assert.Equal(typeof(SomeTestSceneRoot), scene?.GetType());
         }
 
         [FactOnProcess]
         public void IsNotInSomeTestScene()
         {
-            var scene = GodotXUnitEvents.Instance.GetTree().CurrentScene;
+            var scene = GDU.CurrentScene;
             Assert.NotEqual(typeof(SomeTestSceneRoot), scene?.GetType());
         }
     }

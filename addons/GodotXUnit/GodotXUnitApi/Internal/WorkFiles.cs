@@ -2,7 +2,7 @@ using System;
 using Godot;
 using Newtonsoft.Json;
 
-namespace GodotXUnitApi
+namespace GodotXUnitApi.Internal
 {
     public static class WorkFiles
     {

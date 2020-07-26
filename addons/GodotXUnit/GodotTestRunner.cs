@@ -1,11 +1,11 @@
 using System;
 using System.Reflection;
 using Godot;
-using GodotXUnitApi;
+using GodotXUnitApi.Internal;
 
-namespace GodotXUnit.Runner
+namespace GodotXUnit
 {
-    public class GodotTestRunner : GodotXUnitEvents
+    public class GodotTestRunner : GodotXUnitRunner
     {
         protected override Assembly GetAssemblyToTest()
         {
@@ -34,16 +34,6 @@ namespace GodotXUnit.Runner
             // // 	AppDomain.CurrentDomain.Load(required);
             // // }
             // return loading;
-        }
-
-        public override void _Process(float delta)
-        {
-            EmitSignal(nameof(OnProcess));
-        }
-
-        public override void _PhysicsProcess(float delta)
-        {
-            EmitSignal(nameof(OnPhysicsProcess));
         }
     }
 }

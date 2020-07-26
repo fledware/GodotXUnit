@@ -1,6 +1,6 @@
 using System;
 
-namespace GodotXUnitApi
+namespace GodotXUnitApi.Internal
 {
     [Serializable]
     public class RunArgs

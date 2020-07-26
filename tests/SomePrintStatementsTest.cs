@@ -25,7 +25,7 @@ namespace GodotCSUnitTest.Tests
         {
             for (int i = 0; i < 100; i++)
             {
-                await GodotXUnitEvents.OnProcessAwaiter;
+                await GDU.OnProcessAwaiter;
                 output.WriteLine($"stuffs {i}");
             }
         }

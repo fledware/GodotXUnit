@@ -1,7 +1,7 @@
 {
   "$type": "GodotXUnitApi.GodotXUnitSummary, GodotXUnitApi",
-  "testsDiscovered": 13,
-  "testsExpectedToRun": 13,
+  "testsDiscovered": 16,
+  "testsExpectedToRun": 16,
   "skipped": {
     "$type": "System.Collections.Generic.List`1[[GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi]], mscorlib",
     "$values": [
@@ -24,10 +24,22 @@
     "$values": [
       {
         "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
+        "testCaseClass": "GodotCSUnitTest.Tests.SomeBasicTests",
+        "testCaseName": "SanityCheckThatWeGotHere",
+        "output": "",
+        "time": 0.0042316,
+        "result": "passed",
+        "exceptionType": null,
+        "exceptionMessage": null,
+        "exceptionStackTrace": null,
+        "FullName": "GodotCSUnitTest.Tests.SomeBasicTests.SanityCheckThatWeGotHere"
+      },
+      {
+        "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
         "testCaseClass": "GodotCSUnitTest.Tests.SomePrintStatementsTest",
         "testCaseName": "SomeStuffPrinted",
         "output": "hello hello helllloooooo!!!\n",
-        "time": 0.0035431,
+        "time": 0.0013755,
         "result": "passed",
         "exceptionType": null,
         "exceptionMessage": null,
@@ -39,7 +51,7 @@
         "testCaseClass": "GodotCSUnitTest.Tests.SomePrintStatementsTest",
         "testCaseName": "SomeReallyLongTest",
         "output": "stuffs 0\nstuffs 1\nstuffs 2\nstuffs 3\nstuffs 4\nstuffs 5\nstuffs 6\nstuffs 7\nstuffs 8\nstuffs 9\nstuffs 10\nstuffs 11\nstuffs 12\nstuffs 13\nstuffs 14\nstuffs 15\nstuffs 16\nstuffs 17\nstuffs 18\nstuffs 19\nstuffs 20\nstuffs 21\nstuffs 22\nstuffs 23\nstuffs 24\nstuffs 25\nstuffs 26\nstuffs 27\nstuffs 28\nstuffs 29\nstuffs 30\nstuffs 31\nstuffs 32\nstuffs 33\nstuffs 34\nstuffs 35\nstuffs 36\nstuffs 37\nstuffs 38\nstuffs 39\nstuffs 40\nstuffs 41\nstuffs 42\nstuffs 43\nstuffs 44\nstuffs 45\nstuffs 46\nstuffs 47\nstuffs 48\nstuffs 49\nstuffs 50\nstuffs 51\nstuffs 52\nstuffs 53\nstuffs 54\nstuffs 55\nstuffs 56\nstuffs 57\nstuffs 58\nstuffs 59\nstuffs 60\nstuffs 61\nstuffs 62\nstuffs 63\nstuffs 64\nstuffs 65\nstuffs 66\nstuffs 67\nstuffs 68\nstuffs 69\nstuffs 70\nstuffs 71\nstuffs 72\nstuffs 73\nstuffs 74\nstuffs 75\nstuffs 76\nstuffs 77\nstuffs 78\nstuffs 79\nstuffs 80\nstuffs 81\nstuffs 82\nstuffs 83\nstuffs 84\nstuffs 85\nstuffs 86\nstuffs 87\nstuffs 88\nstuffs 89\nstuffs 90\nstuffs 91\nstuffs 92\nstuffs 93\nstuffs 94\nstuffs 95\nstuffs 96\nstuffs 97\nstuffs 98\nstuffs 99\n",
-        "time": 1.6730752,
+        "time": 1.66764939,
         "result": "passed",
         "exceptionType": null,
         "exceptionMessage": null,
@@ -51,7 +63,7 @@
         "testCaseClass": "GodotCSUnitTest.Tests.SomePrintStatementsTest",
         "testCaseName": "NaughtyConsolePrint",
         "output": "Xunit.Sdk.TestOutputHelper\n",
-        "time": 0.023039,
+        "time": 0.0215155,
         "result": "passed",
         "exceptionType": null,
         "exceptionMessage": null,
@@ -63,7 +75,7 @@
         "testCaseClass": "GodotCSUnitTest.Tests.TestWithSetup",
         "testCaseName": "TestSayWhat",
         "output": "",
-        "time": 0.002347,
+        "time": 0.0044686,
         "result": "passed",
         "exceptionType": null,
         "exceptionMessage": null,
@@ -72,70 +84,22 @@
       },
       {
         "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
-        "testCaseClass": "GodotCSUnitTest.Tests.TestInGodotCycle",
-        "testCaseName": "IsNotInPhysicsProcess2",
+        "testCaseClass": "GodotCSUnitTest.Tests.PhysicsCollisionTest",
+        "testCaseName": "TestThatItWorksBecauseWeSetGravitySuperHigh",
         "output": "",
-        "time": 0.0010205,
+        "time": 0.7268809,
         "result": "passed",
         "exceptionType": null,
         "exceptionMessage": null,
         "exceptionStackTrace": null,
-        "FullName": "GodotCSUnitTest.Tests.TestInGodotCycle.IsNotInPhysicsProcess2"
-      },
-      {
-        "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
-        "testCaseClass": "GodotCSUnitTest.Tests.TestInGodotCycle",
-        "testCaseName": "IsInPhysicsProcess",
-        "output": "",
-        "time": 0.0003608,
-        "result": "passed",
-        "exceptionType": null,
-        "exceptionMessage": null,
-        "exceptionStackTrace": null,
-        "FullName": "GodotCSUnitTest.Tests.TestInGodotCycle.IsInPhysicsProcess"
-      },
-      {
-        "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
-        "testCaseClass": "GodotCSUnitTest.Tests.TestInGodotCycle",
-        "testCaseName": "IsNotInPhysicsProcess1",
-        "output": "",
-        "time": 0.0001824,
-        "result": "passed",
-        "exceptionType": null,
-        "exceptionMessage": null,
-        "exceptionStackTrace": null,
-        "FullName": "GodotCSUnitTest.Tests.TestInGodotCycle.IsNotInPhysicsProcess1"
-      },
-      {
-        "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
-        "testCaseClass": "GodotCSUnitTest.Tests.TestInGodotCycle",
-        "testCaseName": "AllThreadContextInOne",
-        "output": "",
-        "time": 0.0144812,
-        "result": "passed",
-        "exceptionType": null,
-        "exceptionMessage": null,
-        "exceptionStackTrace": null,
-        "FullName": "GodotCSUnitTest.Tests.TestInGodotCycle.AllThreadContextInOne"
-      },
-      {
-        "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
-        "testCaseClass": "GodotCSUnitTest.Tests.SomeBasicTests",
-        "testCaseName": "SanityCheckThatWeGotHere",
-        "output": "",
-        "time": 0.0002351,
-        "result": "passed",
-        "exceptionType": null,
-        "exceptionMessage": null,
-        "exceptionStackTrace": null,
-        "FullName": "GodotCSUnitTest.Tests.SomeBasicTests.SanityCheckThatWeGotHere"
+        "FullName": "GodotCSUnitTest.Tests.PhysicsCollisionTest.TestThatItWorksBecauseWeSetGravitySuperHigh"
       },
       {
         "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
         "testCaseClass": "GodotCSUnitTest.Tests.SomeTestSceneTest",
         "testCaseName": "IsNotInSomeTestScene",
         "output": "",
-        "time": 0.0072136,
+        "time": 0.004279,
         "result": "passed",
         "exceptionType": null,
         "exceptionMessage": null,
@@ -147,12 +111,60 @@
         "testCaseClass": "GodotCSUnitTest.Tests.SomeTestSceneTest",
         "testCaseName": "IsOnCorrectScene",
         "output": "",
-        "time": 0.0011315,
+        "time": 0.0004999,
         "result": "passed",
         "exceptionType": null,
         "exceptionMessage": null,
         "exceptionStackTrace": null,
         "FullName": "GodotCSUnitTest.Tests.SomeTestSceneTest.IsOnCorrectScene"
+      },
+      {
+        "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
+        "testCaseClass": "GodotCSUnitTest.Tests.TestInGodotCycle",
+        "testCaseName": "IsNotInPhysicsProcess2",
+        "output": "",
+        "time": 0.0029597,
+        "result": "passed",
+        "exceptionType": null,
+        "exceptionMessage": null,
+        "exceptionStackTrace": null,
+        "FullName": "GodotCSUnitTest.Tests.TestInGodotCycle.IsNotInPhysicsProcess2"
+      },
+      {
+        "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
+        "testCaseClass": "GodotCSUnitTest.Tests.TestInGodotCycle",
+        "testCaseName": "IsInPhysicsProcess",
+        "output": "",
+        "time": 0.0004162,
+        "result": "passed",
+        "exceptionType": null,
+        "exceptionMessage": null,
+        "exceptionStackTrace": null,
+        "FullName": "GodotCSUnitTest.Tests.TestInGodotCycle.IsInPhysicsProcess"
+      },
+      {
+        "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
+        "testCaseClass": "GodotCSUnitTest.Tests.TestInGodotCycle",
+        "testCaseName": "IsNotInPhysicsProcess1",
+        "output": "",
+        "time": 0.0003884,
+        "result": "passed",
+        "exceptionType": null,
+        "exceptionMessage": null,
+        "exceptionStackTrace": null,
+        "FullName": "GodotCSUnitTest.Tests.TestInGodotCycle.IsNotInPhysicsProcess1"
+      },
+      {
+        "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
+        "testCaseClass": "GodotCSUnitTest.Tests.TestInGodotCycle",
+        "testCaseName": "AllThreadContextInOne",
+        "output": "",
+        "time": 0.0101579,
+        "result": "passed",
+        "exceptionType": null,
+        "exceptionMessage": null,
+        "exceptionStackTrace": null,
+        "FullName": "GodotCSUnitTest.Tests.TestInGodotCycle.AllThreadContextInOne"
       }
     ]
   },
@@ -164,14 +176,38 @@
         "testCaseClass": "GodotCSUnitTest.Tests.TestInGodotTree",
         "testCaseName": "IsInTree",
         "output": "",
-        "time": 0.0072129,
+        "time": 0.0062408,
         "result": "failed",
         "exceptionType": "Xunit.Sdk.NotNullException",
         "exceptionMessage": "Assert.NotNull() Failure",
         "exceptionStackTrace": "  at Xunit.Assert.NotNull (System.Object object) [0x00008] in <8517f607c12a4b508364c3f896f0fe6f>:0 \n  at GodotCSUnitTest.Tests.TestInGodotTree.IsInTree () [0x00001] in /home/rex/projects/fledware/GodotXUnit/tests/TestInGodotTree.cs:15 \n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\n  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <46e2faba55964e57bc4a72159b9574b8>:0 ",
         "FullName": "GodotCSUnitTest.Tests.TestInGodotTree.IsInTree"
+      },
+      {
+        "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
+        "testCaseClass": "GodotCSUnitTest.Tests.PhysicsCollisionTest",
+        "testCaseName": "TestOhNoTooSlowOfFall",
+        "output": "",
+        "time": 1.035304,
+        "result": "failed",
+        "exceptionType": "System.TimeoutException",
+        "exceptionMessage": "signal WeCollidedd on GodotCSUnitTest.AVerySpecialBall timed out after 1000ms.",
+        "exceptionStackTrace": "  at GodotXUnitApi.GDU.ToSignalWithTimeout (Godot.Object source, System.String signal, System.Int32 timeoutMillis, System.Boolean throwOnTimeout) [0x001b5] in /home/rex/projects/fledware/GodotXUnit/addons/GodotXUnit/GodotXUnitApi/GDU.cs:68 \n  at GodotCSUnitTest.Tests.PhysicsCollisionTest.TestOhNoTooSlowOfFall () [0x00053] in /home/rex/projects/fledware/GodotXUnit/tests/PhysicsCollisionTest.cs:17 \n  at System.Runtime.CompilerServices.AsyncMethodBuilderCore+<>c.<ThrowAsync>b__7_0 (System.Object state) [0x00000] in <46e2faba55964e57bc4a72159b9574b8>:0 \n  at Xunit.Sdk.AsyncTestSyncContext+<>c__DisplayClass7_0.<Post>b__1 (System.Object _) [0x00000] in <0350163fda644960871a084e928b71dc>:0 ",
+        "FullName": "GodotCSUnitTest.Tests.PhysicsCollisionTest.TestOhNoTooSlowOfFall"
+      },
+      {
+        "$type": "GodotXUnitApi.GodotXUnitTestResult, GodotXUnitApi",
+        "testCaseClass": "GodotCSUnitTest.Tests.PhysicsCollisionTest",
+        "testCaseName": "TestOhNoTooSlowOfFallButNoException",
+        "output": "",
+        "time": 1.033317,
+        "result": "failed",
+        "exceptionType": "Xunit.Sdk.EqualException",
+        "exceptionMessage": "Assert.Equal() Failure\nExpected: (0, 0)\nActual:   (0, 10.16667)",
+        "exceptionStackTrace": "  at Xunit.Assert.Equal[T] (T expected, T actual, System.Collections.Generic.IEqualityComparer`1[T] comparer) [0x00026] in <8517f607c12a4b508364c3f896f0fe6f>:0 \n  at Xunit.Assert.Equal[T] (T expected, T actual) [0x00008] in <8517f607c12a4b508364c3f896f0fe6f>:0 \n  at GodotCSUnitTest.Tests.PhysicsCollisionTest.TestOhNoTooSlowOfFallButNoException () [0x000a4] in /home/rex/projects/fledware/GodotXUnit/tests/PhysicsCollisionTest.cs:32 \n  at System.Runtime.CompilerServices.AsyncMethodBuilderCore+<>c.<ThrowAsync>b__7_0 (System.Object state) [0x00000] in <46e2faba55964e57bc4a72159b9574b8>:0 \n  at Xunit.Sdk.AsyncTestSyncContext+<>c__DisplayClass7_0.<Post>b__1 (System.Object _) [0x00000] in <0350163fda644960871a084e928b71dc>:0 ",
+        "FullName": "GodotCSUnitTest.Tests.PhysicsCollisionTest.TestOhNoTooSlowOfFallButNoException"
       }
     ]
   },
-  "completed": 12
+  "completed": 15
 }

@@ -11,7 +11,7 @@ you can look at all the examples in the ./tests directory.
     [FactOnScene("res://test_scenes/SomeTestScene.tscn")]
     public void IsOnCorrectScene()
     {
-        var scene = GodotXUnitEvents.Instance.GetTree().CurrentScene;
+        var scene = GDU.CurrentScene;
         Assert.Equal(typeof(SomeTestSceneRoot), scene?.GetType());
     }
  
@@ -22,12 +22,34 @@ you can look at all the examples in the ./tests directory.
     {
         Assert.False(Engine.IsInPhysicsFrame());
 
-        await GodotXUnitEvents.OnPhysicsProcessAwaiter;
+        await GDU.OnPhysicsProcessAwaiter;
         Assert.True(Engine.IsInPhysicsFrame());
 
-        await GodotXUnitEvents.OnProcessAwaiter;
+        await GDU.OnProcessAwaiter;
         Assert.False(Engine.IsInPhysicsFrame());
     }
+    
+#### Signal Waiting Or Timeout
+
+I've added a signal waiter method with a timeout:
+
+    GDU.ToSignalWithTimeout(source, signal, timeoutMillis, throwOnTimeout)
+    
+This method helps simplify tests by allowing you to wait for signals
+but also ensuring the tests actually finish or different parts have
+timeouts. full example at ./tests/PhysicsCollisionTest.cs
+
+        [FactOnScene("res://test_scenes/PhysicsCollisionTest.tscn")]
+        public async void TestOhNoTooSlowOfFall()
+        {
+            var ball = (AVerySpecialBall) GDU.CurrentScene.FindNode("AVerySpecialBall");
+            Assert.NotNull(ball);
+
+            // it will throw a TimeoutException here because the gravity value is too low
+            await GDU.ToSignalWithTimeout(ball, nameof(AVerySpecialBall.WeCollidedd), 2000);
+            // it will never get here
+            Assert.Equal(new Vector2(), ball.velocity);
+        }
 
 ## Installation
 
@@ -41,9 +63,7 @@ GodotXUnitApi needs to be its own assembly for how xunit's
 XunitTestCaseDiscoverer (please correct me if I'm wrong).
 
 Next, make sure to include the cs files that are not in the GodotXUnitApi project:
-* addons/GodotXUnit/Plugin.cs
-* addons/GodotXUnit/runner/*.cs
-* addons/GodotXUnit/editor/*.cs
+* addons/GodotXUnit/*.cs
 
 Next, you will need to add the xunit (2.4.1) as a dependency for
 your main project.
@@ -56,7 +76,7 @@ to make the installation of this easier and remove the manual steps.
 
 ## How It Works
 
-When you click on a run, the first thing is the run args gets written
+When you click a run button, the first thing is the run args gets written
 to ./addons/GodotXUnit/_work/RunArgs.json. this allows the runner to
 know what needs to be ran. 
 
@@ -74,6 +94,7 @@ the location with the GodotXUnit/results_summary ProjectSetting.
 
 ## Known Issues
 
+* debugging will not work.
 * sometimes the editor will just stop being able to pull events. i don't know
   why this is. but if it happens, hit the stop button and it should clean everything
   up safely and you can attempt rerun.
@@ -92,3 +113,13 @@ the location with the GodotXUnit/results_summary ProjectSetting.
 * create a custom runner so we can have better control of what tests run.
 * setup a way to automatically add a test to the tree if the test extends a godot node.
 * make the results be in the junit format
+
+## Thanks To
+
+icons made by:
+- https://freeicons.io/profile/3484
+- https://freeicons.io/profile/3
+
+for great work:
+* https://github.com/CodeDarigan/WATSharp
+* https://github.com/NathanWarden/godot-test-tools

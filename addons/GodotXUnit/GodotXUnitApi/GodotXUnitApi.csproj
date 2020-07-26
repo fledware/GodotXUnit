@@ -44,16 +44,18 @@
         <Compile Include="FactOnPhysicsProcess.cs" />
         <Compile Include="FactOnProcess.cs" />
         <Compile Include="FactOnScene.cs" />
+        <Compile Include="GDU.cs" />
         <Compile Include="GodotXUnitEvents.cs" />
-        <Compile Include="GodotXUnitSummary.cs" />
-        <Compile Include="internal\Extensions.cs" />
-        <Compile Include="internal\WorkFiles.cs" />
-        <Compile Include="internal\MessagePassing.cs" />
-        <Compile Include="internal\RunArgs.cs" />
+        <Compile Include="Internal\Extensions.cs" />
+        <Compile Include="Internal\FactDiscoveries.cs" />
+        <Compile Include="Internal\GodotXUnitRunner.cs" />
+        <Compile Include="Internal\WorkFiles.cs" />
+        <Compile Include="Internal\MessagePassing.cs" />
+        <Compile Include="Internal\RunArgs.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="internal\Consts.cs" />
-        <Compile Include="internal\TestCaseAfterSignal.cs" />
-        <Compile Include="internal\TestCaseOnScene.cs" />
+        <Compile Include="Internal\Consts.cs" />
+        <Compile Include="Internal\TestCaseAfterSignal.cs" />
+        <Compile Include="Internal\TestCaseOnScene.cs" />
     </ItemGroup>
     <ItemGroup>
       <PackageReference Include="Newtonsoft.Json">

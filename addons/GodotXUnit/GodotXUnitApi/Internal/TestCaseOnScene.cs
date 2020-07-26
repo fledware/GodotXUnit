@@ -1,11 +1,10 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Godot;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
-namespace GodotXUnitApi
+namespace GodotXUnitApi.Internal
 {
     public class TestCaseOnScene : XunitTestCase
     {
@@ -34,7 +33,7 @@ namespace GodotXUnitApi
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
         {
-            if (GodotXUnitEvents.Instance.GetTree().ChangeSceneTo(GD.Load<PackedScene>(sceneName)) != Error.Ok)
+            if (GDU.Instance.GetTree().ChangeSceneTo(GD.Load<PackedScene>(sceneName)) != Error.Ok)
             {
                 GD.PrintErr($"could not load scene: {sceneName}");
                 return new RunSummary
@@ -43,19 +42,19 @@ namespace GodotXUnitApi
                     Failed = 1
                 };
             }
-            await GodotXUnitEvents.OnIdleFrameAwaiter;
-            await GodotXUnitEvents.OnIdleFrameAwaiter;
-            await GodotXUnitEvents.OnProcessAwaiter;
+            await GDU.OnIdleFrameAwaiter;
+            await GDU.OnIdleFrameAwaiter;
+            await GDU.OnProcessAwaiter;
             var result = await base.RunAsync(
                 diagnosticMessageSink,
                 messageBus,
                 constructorArguments,
                 aggregator,
                 cancellationTokenSource);
-            GodotXUnitEvents.Instance.GetTree().ChangeScene(Consts.EMPTY_SCENE_PATH);
-            await GodotXUnitEvents.OnIdleFrameAwaiter;
-            await GodotXUnitEvents.OnIdleFrameAwaiter;
-            await GodotXUnitEvents.OnProcessAwaiter;
+            GDU.Instance.GetTree().ChangeScene(Consts.EMPTY_SCENE_PATH);
+            await GDU.OnIdleFrameAwaiter;
+            await GDU.OnIdleFrameAwaiter;
+            await GDU.OnProcessAwaiter;
             return result;
         }
     }

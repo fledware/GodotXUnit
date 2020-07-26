@@ -4,16 +4,13 @@ using System.Text;
 using Godot;
 using Godot.Collections;
 using GodotXUnitApi;
+using GodotXUnitApi.Internal;
 
-namespace GodotXUnit.editor
+namespace GodotXUnit
 {
     [Tool]
     public class XUnitDock : MarginContainer
     {
-        private SummaryIntLabel summaryTotal;
-        private SummaryIntLabel passedTotal;
-        private SummaryIntLabel failedTotal;
-        private SummaryFloatLabel timeTotal;
         private RichTextLabel resultDetails;
         private Tree resultsTree;
         private MessageWatcher watcher;
@@ -26,17 +23,40 @@ namespace GodotXUnit.editor
         private LineEdit targetClassLabel;
         private LineEdit targetMethodLabel;
         private int runningPid = -1;
+        
+        // there are better ways to do this, but to try to limit the amount of user
+        // setup required, we'll just do this the hacky way.
+        private Label summaryTotal;
+        private string summaryFormat;
+        private int summaryValue;
+        private Label passedTotal;
+        private string passedFormat;
+        private int passedValue;
+        private Label failedTotal;
+        private string failedFormat;
+        private int failedValue;
+        private Label timeTotal;
+        private string timeFormat;
+        private float timeValue;
 
         public override void _Ready()
         {
-            summaryTotal = (SummaryIntLabel) FindNode("TotalRanLabel");
-            summaryTotal.TextValue = 0;
-            passedTotal = (SummaryIntLabel) FindNode("PassedLabel");
-            passedTotal.TextValue = 0;
-            failedTotal = (SummaryIntLabel) FindNode("FailedLabel");
-            failedTotal.TextValue = 0;
-            timeTotal = (SummaryFloatLabel) FindNode("TimeLabel");
-            timeTotal.TextValue = 0;
+            summaryTotal = (Label) FindNode("TotalRanLabel");
+            summaryFormat = summaryTotal.Text;
+            summaryValue = 0;
+            summaryTotal.Text = string.Format(summaryFormat, summaryValue);
+            passedTotal = (Label) FindNode("PassedLabel");
+            passedFormat = passedTotal.Text;
+            passedValue = 0;
+            passedTotal.Text = string.Format(passedFormat, passedValue);
+            failedTotal = (Label) FindNode("FailedLabel");
+            failedFormat = failedTotal.Text;
+            failedValue = 0;
+            failedTotal.Text = string.Format(failedFormat, failedValue);
+            timeTotal = (Label) FindNode("TimeLabel");
+            timeFormat = timeTotal.Text;
+            timeValue = 0;
+            timeTotal.Text = string.Format(timeFormat, timeValue);
             stopButton = (Button) FindNode("StopButton");
             stopButton.Connect("pressed", this, nameof(StopTests));
             runAllButton = (Button) FindNode("RunAllTestsButton");
@@ -101,10 +121,7 @@ namespace GodotXUnit.editor
             runAllButton.Disabled = true;
             reRunButton.Disabled = true;
             runSelectedButton.Disabled = true;
-            summaryTotal.TextValue = 0;
-            passedTotal.TextValue = 0;
-            failedTotal.TextValue = 0;
-            timeTotal.TextValue = 0;
+            ResetLabels();
             resultsTree.Clear();
             testTargets.Clear();
             testDetails.Clear();
@@ -192,11 +209,21 @@ namespace GodotXUnit.editor
             {
                 case "passed":
                     testItem.SetIcon(0, Consts.IconCheck);
-                    IncIfMissing(testItem, passedTotal, true);
+                    if (!testDetails.ContainsKey(testItem))
+                    {
+                        IncPassedLabel();
+                        IncTotalLabel();
+                        IncTimeLabel(testResult.time);
+                    }
                     break;
                 case "failed":
                     testItem.SetIcon(0, Consts.IconError);
-                    IncIfMissing(testItem, failedTotal, true);
+                    if (!testDetails.ContainsKey(testItem))
+                    {
+                        IncFailedLabel();
+                        IncTotalLabel();
+                        IncTimeLabel(testResult.time);
+                    }
                     break;
                 case "skipped":
                     testItem.SetIcon(0, Consts.IconWarn);
@@ -208,21 +235,13 @@ namespace GodotXUnit.editor
             SetTestResultDetails(testResult, testItem);
         }
 
-        private void IncIfMissing(TreeItem item, SummaryIntLabel label, bool appendTotal)
-        {
-            if (!testDetails.ContainsKey(item))
-            {
-                label.TextValue += 1;
-                if (appendTotal)
-                    summaryTotal.TextValue = summaryTotal.TextValue + 1;
-            }
-        }
-
         private void SetTestResultDetails(GodotXUnitTestResult testResult, TreeItem item)
         {
+            // set the header to include the time it took
             var millis = (int) (testResult.time * 1000f);
             item.SetText(0, $"{testResult.testCaseName} ({millis} ms)");
-            timeTotal.TextValue += testResult.time;
+            
+            // create the test result details
             var details = new StringBuilder();
             details.AppendLine(testResult.FullName);
             details.AppendLine(testResult.result);
@@ -236,6 +255,8 @@ namespace GodotXUnit.editor
             }
             details.AppendLine(string.IsNullOrEmpty(testResult.output) ? "No Output" : testResult.output);
             testDetails[item] = details.ToString();
+            
+            // add the target so the run selected button can query what to run
             var target = new Array<string>();
             target.Add(testResult.testCaseClass);
             target.Add(testResult.testCaseName);
@@ -276,6 +297,48 @@ namespace GodotXUnit.editor
             var newClassItem = resultsTree.CreateItem(parent);
             newClassItem.SetText(0, name);
             return newClassItem;
+        }
+
+        // label work below...
+        // dont look at me, i'm hideous
+        private void ResetLabels()
+        {
+            summaryValue = 0;
+            summaryTotal.Text = string.Format(summaryFormat, summaryValue);
+            passedValue = 0;
+            passedTotal.Text = string.Format(passedFormat, passedValue);
+            failedValue = 0;
+            failedTotal.Text = string.Format(failedFormat, failedValue);
+            timeValue = 0;
+            timeTotal.Text = string.Format(timeFormat, timeValue);
+        }
+
+        private void IncPassedLabel()
+        {
+            // gross
+            passedValue++;
+            passedTotal.Text = string.Format(passedFormat, passedValue);
+        }
+
+        private void IncFailedLabel()
+        {
+            // naughty
+            failedValue++;
+            failedTotal.Text = string.Format(failedFormat, failedValue);
+        }
+
+        private void IncTotalLabel()
+        {
+            // terrible
+            summaryValue++;
+            summaryTotal.Text = string.Format(summaryFormat, summaryValue);
+        }
+
+        private void IncTimeLabel(float time)
+        {
+            // why?
+            timeValue += time;
+            timeTotal.Text = string.Format(timeFormat, (int) (timeValue * 1000));
         }
     }
 }

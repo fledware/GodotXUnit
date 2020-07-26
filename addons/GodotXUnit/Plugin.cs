@@ -1,8 +1,7 @@
 using System;
 using Godot;
 using Godot.Collections;
-using GodotXUnit.editor;
-using GodotXUnitApi;
+using GodotXUnitApi.Internal;
 
 namespace GodotXUnit
 {

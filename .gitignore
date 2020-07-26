@@ -4,9 +4,17 @@
 *.sln.docstates
 .idea
 .mono
+data_*/
 packages
 
 mono_crash.*
-TestResults.json
 SomeOtherTestProject/bin
 SomeOtherTestProject/obj
+
+# Godot-specific ignores
+.import/
+export.cfg
+export_presets.cfg
+
+# Imported translations (automatically generated from CSV files)
+*.translation

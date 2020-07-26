@@ -1,7 +1,7 @@
 using Godot;
 using Godot.Collections;
 
-namespace GodotXUnitApi
+namespace GodotXUnitApi.Internal
 {
     public static class Consts
     {
@@ -18,10 +18,9 @@ namespace GodotXUnitApi
         
         public static readonly string SETTING_TARGET_ASSEMBLY = "GodotXUnit/target_assembly";
         
-        public const int GODOT_RUN_PLAY_SCENE = 39;
         public const string RUNNER_SCENE_PATH = "res://addons/GodotXUnit/runner/GodotTestRunnerScene.tscn";
         public const string EMPTY_SCENE_PATH = "res://addons/GodotXUnit/runner/EmptyScene.tscn";
-        public const string DOCK_SCENE_PATH = "res://addons/GodotXUnit/editor/XUnitDock.tscn";
+        public const string DOCK_SCENE_PATH = "res://addons/GodotXUnit/XUnitDock.tscn";
 
         public const string ICON_RUNNING = "res://addons/GodotXUnit/assets/running.png";
         public const string ICON_WARN = "res://addons/GodotXUnit/assets/warn.png";

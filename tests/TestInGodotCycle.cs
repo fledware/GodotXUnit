@@ -42,10 +42,10 @@ namespace GodotCSUnitTest.Tests
         {
             Assert.False(Engine.IsInPhysicsFrame());
 
-            await GodotXUnitEvents.OnPhysicsProcessAwaiter;
+            await GDU.OnPhysicsProcessAwaiter;
             Assert.True(Engine.IsInPhysicsFrame());
 
-            await GodotXUnitEvents.OnProcessAwaiter;
+            await GDU.OnProcessAwaiter;
             Assert.False(Engine.IsInPhysicsFrame());
         }
     }
