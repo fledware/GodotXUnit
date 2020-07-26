@@ -2,8 +2,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GodotXUnit", "GodotXUnit.csproj", "{B6A000AB-04AE-4D1E-A0D5-93911E363F6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SomeOtherTestProject", "SomeOtherTestProject\SomeOtherTestProject.csproj", "{06EA34CE-4574-4DA2-A375-878B7B205BB3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GodotXUnitApi", "addons\GodotXUnit\GodotXUnitApi\GodotXUnitApi.csproj", "{06417CA9-47A6-44C4-B5D9-D623F0FF10A4}"
 EndProject
 Global
@@ -19,12 +17,6 @@ Global
 		{B6A000AB-04AE-4D1E-A0D5-93911E363F6D}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
 		{B6A000AB-04AE-4D1E-A0D5-93911E363F6D}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
 		{B6A000AB-04AE-4D1E-A0D5-93911E363F6D}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
-		{06EA34CE-4574-4DA2-A375-878B7B205BB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{06EA34CE-4574-4DA2-A375-878B7B205BB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{06EA34CE-4574-4DA2-A375-878B7B205BB3}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
-		{06EA34CE-4574-4DA2-A375-878B7B205BB3}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
-		{06EA34CE-4574-4DA2-A375-878B7B205BB3}.ExportRelease|Any CPU.ActiveCfg = Debug|Any CPU
-		{06EA34CE-4574-4DA2-A375-878B7B205BB3}.ExportRelease|Any CPU.Build.0 = Debug|Any CPU
 		{06417CA9-47A6-44C4-B5D9-D623F0FF10A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{06417CA9-47A6-44C4-B5D9-D623F0FF10A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06417CA9-47A6-44C4-B5D9-D623F0FF10A4}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
