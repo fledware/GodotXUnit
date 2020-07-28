@@ -1,6 +1,3 @@
 
-a few extra setup steps:
-- the main project should include the ./addons/GodotXUnit/*.cs files
-- the main project should reference GodotXUnitApi project
-- the main project will require the `xunit` package
-
+the complete installation process can be found here: 
+https://github.com/fledware/GodotXUnit

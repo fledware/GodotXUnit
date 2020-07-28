@@ -53,23 +53,25 @@ timeouts. full example at ./tests/PhysicsCollisionTest.cs
 
 ## Installation
 
-I'm going to try and get this in the godot AssetLib. Until then,
-you will need to checkout this repo and copy the GodotXUnit
-dir into your projects addons directory.
+* Go to AssetLib tab and search for GodotXUnit and Install project. Don't enable yet.
+* include these scripts to your mono project csproj
+    * addons/GodotXUnit/GodotTestRunner.cs
+    * addons/GodotXUnit/Plugin.cs
+    * addons/GodotXUnit/XUnitDock.cs
+* execute this command on the cli at the root of your project:
 
-Next, you need to add a project reference to GodotXUnitApi project located
-at ./addons/GodotXUnit/GodotXUnitApi/GodotXUnitApi.csproj in your main project.
-GodotXUnitApi needs to be its own assembly for how xunit's
-XunitTestCaseDiscoverer (please correct me if I'm wrong).
+        nuget restore ./addons/GodotXUnit/GodotXUnitApi/GodotXUnitApi.csproj
 
-Next, make sure to include the cs files that are not in the GodotXUnitApi project:
-* addons/GodotXUnit/*.cs
+* add this dependency to your main project:
+    * xunit (2.4.1)
+* add this reference to your main project:
+    * ./addons/GodotXUnit/GodotXUnitApi/GodotXUnitApi.csproj
+* build the solutions and let me know if there are any errors.
+    * even if the errors are easy to fix, feel free to let me know so i can better
+      document the installation process
+* enable the plugin and you should see `GodotXUnit` on the bottom dock
+  and there should be no errors in output
 
-Next, you will need to add the xunit (2.4.1) as a dependency for
-your main project.
-
-Next, enable the plugin. If there are errors that are not obvious, please
-report them to me. 
 
 If there is a better way to do this, please let me know. I'd really like
 to make the installation of this easier and remove the manual steps.

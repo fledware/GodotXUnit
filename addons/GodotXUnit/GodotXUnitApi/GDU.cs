@@ -46,6 +46,8 @@ namespace GodotXUnitApi
             Instance.ToSignal(Instance.GetTree(), "idle_frame");
 
         public static SceneTree Tree => Instance.GetTree();
+
+        public static Viewport Viewport => Instance.GetViewport();
         
         public static Node CurrentScene => Instance.GetTree().CurrentScene;
         
@@ -55,7 +57,14 @@ namespace GodotXUnitApi
             int timeoutMillis,
             bool throwOnTimeout = true)
         {
-            var awaiter = source.ToSignal(source, signal);
+            return await AwaitWithTimeout(source.ToSignal(source, signal), timeoutMillis, throwOnTimeout);
+        }
+        
+        public static async Task<object[]> AwaitWithTimeout(
+            SignalAwaiter awaiter,
+            int timeoutMillis,
+            bool throwOnTimeout = true)
+        {
             var task = Task.Run(async () => await awaiter);
             using (var token = new CancellationTokenSource()) {
 
@@ -65,7 +74,7 @@ namespace GodotXUnitApi
                     return await task;
                 }
                 if (throwOnTimeout)
-                    throw new TimeoutException($"signal {signal} on {source.GetType()} timed out after {timeoutMillis}ms.");
+                    throw new TimeoutException($"signal {awaiter} timed out after {timeoutMillis}ms.");
                 return null;
             }
         }
