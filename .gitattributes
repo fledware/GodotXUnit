@@ -1,0 +1,13 @@
+/.gitattributes     export-ignore
+/.gitignore         export-ignore
+/default_env.tres   export-ignore
+/GodotXUnit.*       export-ignore
+/icon.png           export-ignore
+/icon.png.import    export-ignore
+/project.godot      export-ignore
+/README.md          export-ignore
+/TestSummary.json   export-ignore
+
+/screenshots        export-ignore
+/test_scenes        export-ignore
+/tests              export-ignore
