@@ -7,6 +7,8 @@
 data_*/
 packages
 
+TestSummary.json
+
 mono_crash.*
 SomeOtherTestProject/bin
 SomeOtherTestProject/obj
