@@ -2,7 +2,7 @@ using Godot;
 using GodotXUnitApi;
 using Xunit;
 
-namespace GodotCSUnitTest.Tests
+namespace GodotXUnitTest.Tests
 {
     public class TestInGodotCycle
     {

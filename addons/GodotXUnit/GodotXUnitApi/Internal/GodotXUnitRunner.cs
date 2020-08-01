@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Concurrent;
 using System.Reflection;
 using Godot;
 using Newtonsoft.Json;
@@ -5,9 +7,25 @@ using Xunit.Runners;
 
 namespace GodotXUnitApi.Internal
 {
-    public abstract class GodotXUnitRunner : GDU
+    public abstract class GodotXUnitRunner : Node2D
     {
         protected abstract Assembly GetAssemblyToTest();
+        
+        private ConcurrentQueue<Action<Node2D>> drawRequests = new ConcurrentQueue<Action<Node2D>>();
+
+        [Signal]
+        public delegate void OnProcess();
+
+        [Signal]
+        public delegate void OnPhysicsProcess();
+
+        [Signal]
+        public delegate Node2D OnDrawRequestDone();
+
+        public void RequestDraw(Action<Node2D> request)
+        {
+            drawRequests.Enqueue(request);
+        }
 
         private AssemblyRunner runner;
 
@@ -17,7 +35,7 @@ namespace GodotXUnitApi.Internal
 
         public override void _Ready()
         {
-            Instance = this;
+            GDU.Instance = this;
             GD.Print($"running tests in tree at: {GetPath()}");
 
             WorkFiles.CleanWorkDir();
@@ -45,15 +63,11 @@ namespace GodotXUnitApi.Internal
                     testCaseClass = message.TypeName,
                     testCaseName = message.MethodName
                 });
-                // GD.Print($"OnTestStarting: {message.TestDisplayName}");
             };
             runner.OnTestFailed = message =>
             {
                 messages.SendMessage(summary.AddFailed(message));
                 GD.Print($"  > OnTestFailed: {message.TestDisplayName} in {message.ExecutionTime}");
-                // GD.PrintErr(message.ExceptionType);
-                // GD.PrintErr(message.ExceptionMessage);
-                // GD.PrintErr(message.ExceptionStackTrace);
             };
             runner.OnTestPassed = message =>
             {
@@ -70,9 +84,6 @@ namespace GodotXUnitApi.Internal
                 messages.SendMessage(summary);
                 WriteSummary(summary);
                 GD.Print($"tests completed ({message.ExecutionTime}): {summary.completed}");
-                // GD.Print($"   skipped: {summary.skipped.Count}");
-                // GD.Print($"   passed: {summary.passed.Count}");
-                // GD.Print($"   failed: {summary.failed.Count}");
                 GetTree().Quit();
             };
             
@@ -83,7 +94,7 @@ namespace GodotXUnitApi.Internal
 
         public override void _ExitTree()
         {
-            Instance = null;
+            GDU.Instance = null;
             runner?.Dispose();
             runner = null;
         }
@@ -102,11 +113,19 @@ namespace GodotXUnitApi.Internal
         public override void _Process(float delta)
         {
             EmitSignal(nameof(OnProcess));
+            Update();
         }
 
         public override void _PhysicsProcess(float delta)
         {
             EmitSignal(nameof(OnPhysicsProcess));
+        }
+
+        public override void _Draw()
+        {
+            while (drawRequests.TryDequeue(out var request))
+                request(this);
+            EmitSignal(nameof(OnDrawRequestDone), this);
         }
     }
 }

@@ -7,11 +7,10 @@ namespace GodotXUnitApi
     /// will have the test run in the process notification
     /// </summary>
     /*
-        [FactOnScene("res://test_scenes/SomeTestScene.tscn")]
-        public void IsOnCorrectScene()
+        [FactOnProcess]
+        public void ILikeToRunOnProcess()
         {
-            var scene = GDU.Tree.CurrentScene;
-            Assert.Equal(typeof(SomeTestSceneRoot), scene?.GetType());
+            GD.Print("i'm in the process event!!");
         }
      */
     [XunitTestCaseDiscoverer("GodotXUnitApi.Internal.FactOnProcessDiscoverer", "GodotXUnitApi")]

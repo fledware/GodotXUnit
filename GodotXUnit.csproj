@@ -8,12 +8,13 @@
     <OutputPath>.mono/temp/bin/$(Configuration)</OutputPath>
     <RootNamespace>GodotXUnit</RootNamespace>
     <AssemblyName>GodotXUnit</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <GodotProjectGeneratorVersion>1.0.0.0</GodotProjectGeneratorVersion>
     <BaseIntermediateOutputPath>.mono/temp/obj</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)/$(Configuration)</IntermediateOutputPath>
     <ApiConfiguration Condition=" '$(Configuration)' != 'ExportRelease' ">Debug</ApiConfiguration>
     <ApiConfiguration Condition=" '$(Configuration)' == 'ExportRelease' ">Release</ApiConfiguration>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ExportDebug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -63,14 +64,18 @@
     <Compile Include="addons\GodotXUnit\Plugin.cs" />
     <Compile Include="addons\GodotXUnit\GodotTestRunner.cs" />
     <Compile Include="addons\GodotXUnit\XUnitDock.cs" />
+    <Compile Include="tests\ClickTest.cs" />
+    <Compile Include="tests\DebugDrawingTest.cs" />
     <Compile Include="tests\PhysicsCollisionTest.cs" />
     <Compile Include="tests\SomeBasicTests.cs" />
     <Compile Include="tests\SomePrintStatementsTest.cs" />
     <Compile Include="tests\SomeTestSceneTest.cs" />
     <Compile Include="tests\TestInGodotCycle.cs" />
     <Compile Include="tests\TestInGodotTree.cs" />
+    <Compile Include="tests\TestInGodotTreeFailing.cs" />
     <Compile Include="tests\TestWithSetup.cs" />
     <Compile Include="test_scenes\AVerySpecialBall.cs" />
+    <Compile Include="test_scenes\ClickButtonThing.cs" />
     <Compile Include="test_scenes\SomeTestSceneRoot.cs" />
   </ItemGroup>
   <ItemGroup>

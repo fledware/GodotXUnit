@@ -2,7 +2,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Godot;
-using Xunit;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
@@ -35,6 +34,8 @@ namespace GodotXUnitApi.Internal
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
         {
+            // make sure we are in the process event to switch scenes
+            await GDU.OnProcessAwaiter;
             if (GDU.Instance.GetTree().ChangeScene(sceneName) != Error.Ok)
             {
                 var message = $"could not load scene: {sceneName}";
@@ -46,6 +47,8 @@ namespace GodotXUnitApi.Internal
                     Failed = 1
                 };
             }
+            
+            // the scene should be loaded within two frames
             await GDU.OnIdleFrameAwaiter;
             await GDU.OnIdleFrameAwaiter;
             await GDU.OnProcessAwaiter;
@@ -55,6 +58,8 @@ namespace GodotXUnitApi.Internal
                 constructorArguments,
                 aggregator,
                 cancellationTokenSource);
+            
+            // change scenes again and wait for godot to catch up
             GDU.Instance.GetTree().ChangeScene(Consts.EMPTY_SCENE_PATH);
             await GDU.OnIdleFrameAwaiter;
             await GDU.OnIdleFrameAwaiter;

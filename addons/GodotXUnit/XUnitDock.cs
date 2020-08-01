@@ -23,6 +23,7 @@ namespace GodotXUnit
         private LineEdit targetClassLabel;
         private LineEdit targetMethodLabel;
         private int runningPid = -1;
+        private CheckBox verboseCheck;
         
         // there are better ways to do this, but to try to limit the amount of user
         // setup required, we'll just do this the hacky way.
@@ -73,6 +74,7 @@ namespace GodotXUnit
             resultsTree.SelectMode = Tree.SelectModeEnum.Single;
             resultsTree.Connect("cell_selected", this, nameof(OnCellSelected));
             resultDetails = (RichTextLabel) FindNode("ResultDetails");
+            verboseCheck = (CheckBox) FindNode("VerboseCheckBox");
             SetProcess(false);
         }
 
@@ -129,8 +131,11 @@ namespace GodotXUnit
             watcher = new MessageWatcher();
             watcher.Start();
             SetProcess(true);
-            
-            runningPid = OS.Execute(OS.GetExecutablePath(), new [] {Consts.RUNNER_SCENE_PATH}, false);
+
+            var runArgs = verboseCheck.Pressed
+                ? new[] {Consts.RUNNER_SCENE_PATH, "--verbose"}
+                : new[] {Consts.RUNNER_SCENE_PATH};
+            runningPid = OS.Execute(OS.GetExecutablePath(), runArgs, false);
         }
 
         public bool IsRunningTests()

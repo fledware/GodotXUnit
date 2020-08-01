@@ -1,6 +1,6 @@
 using Godot;
 
-namespace GodotCSUnitTest
+namespace GodotXUnitTest
 {
     public class SomeTestSceneRoot : Node2D
     {

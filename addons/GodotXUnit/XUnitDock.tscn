@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://addons/GodotXUnit/XUnitDock.cs" type="Script" id=1]
 
@@ -15,11 +15,11 @@ __meta__ = {
 }
 
 [node name="Rows" type="VBoxContainer" parent="."]
-margin_right = 1024.0
-margin_bottom = 600.0
+margin_right = 512.0
+margin_bottom = 300.0
 
 [node name="Buttons" type="MarginContainer" parent="Rows"]
-margin_right = 1024.0
+margin_right = 512.0
 margin_bottom = 44.0
 custom_constants/margin_right = 5
 custom_constants/margin_top = 5
@@ -29,7 +29,7 @@ custom_constants/margin_bottom = 5
 [node name="Panel" type="Panel" parent="Rows/Buttons"]
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 1019.0
+margin_right = 507.0
 margin_bottom = 39.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -38,7 +38,7 @@ __meta__ = {
 [node name="Margin" type="MarginContainer" parent="Rows/Buttons"]
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 1019.0
+margin_right = 507.0
 margin_bottom = 39.0
 custom_constants/margin_right = 5
 custom_constants/margin_top = 5
@@ -48,7 +48,7 @@ custom_constants/margin_bottom = 5
 [node name="Buttons" type="HBoxContainer" parent="Rows/Buttons/Margin"]
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 1009.0
+margin_right = 497.0
 margin_bottom = 29.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -73,21 +73,27 @@ text = "ReRun"
 
 [node name="TargetClassLabel" type="LineEdit" parent="Rows/Buttons/Margin/Buttons"]
 margin_left = 199.0
-margin_right = 599.0
+margin_right = 301.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 placeholder_text = "Target Class"
 
 [node name="TargetMethodLabel" type="LineEdit" parent="Rows/Buttons/Margin/Buttons"]
-margin_left = 603.0
-margin_right = 1004.0
+margin_left = 305.0
+margin_right = 407.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 placeholder_text = "Target Method"
 
+[node name="VerboseCheckBox" type="CheckBox" parent="Rows/Buttons/Margin/Buttons"]
+margin_left = 411.0
+margin_right = 491.0
+margin_bottom = 24.0
+text = "Verbose"
+
 [node name="Summary" type="MarginContainer" parent="Rows"]
 margin_top = 48.0
-margin_right = 1024.0
+margin_right = 512.0
 margin_bottom = 82.0
 custom_constants/margin_right = 5
 custom_constants/margin_top = 5
@@ -97,7 +103,7 @@ custom_constants/margin_bottom = 5
 [node name="Panel" type="Panel" parent="Rows/Summary"]
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 1019.0
+margin_right = 507.0
 margin_bottom = 29.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -106,7 +112,7 @@ __meta__ = {
 [node name="Margin" type="MarginContainer" parent="Rows/Summary"]
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 1019.0
+margin_right = 507.0
 margin_bottom = 29.0
 custom_constants/margin_right = 5
 custom_constants/margin_top = 5
@@ -116,48 +122,48 @@ custom_constants/margin_bottom = 5
 [node name="Results" type="HBoxContainer" parent="Rows/Summary/Margin"]
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 1009.0
+margin_right = 497.0
 margin_bottom = 19.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TotalRanLabel" type="Label" parent="Rows/Summary/Margin/Results"]
-margin_right = 248.0
+margin_right = 120.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
-text = "TestsRan: {0}"
+text = "TestsRan: 0"
 valign = 1
 
 [node name="PassedLabel" type="Label" parent="Rows/Summary/Margin/Results"]
-margin_left = 252.0
-margin_right = 500.0
+margin_left = 124.0
+margin_right = 244.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
-text = "Passed: {0}"
+text = "Passed: 0"
 valign = 1
 
 [node name="FailedLabel" type="Label" parent="Rows/Summary/Margin/Results"]
-margin_left = 504.0
-margin_right = 752.0
+margin_left = 248.0
+margin_right = 368.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
-text = "Failed: {0}"
+text = "Failed: 0"
 valign = 1
 
 [node name="TimeLabel" type="Label" parent="Rows/Summary/Margin/Results"]
-margin_left = 756.0
-margin_right = 1004.0
+margin_left = 372.0
+margin_right = 492.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
-text = "Time: {0}ms"
+text = "Time: 0ms"
 valign = 1
 
 [node name="Details" type="MarginContainer" parent="Rows"]
 margin_top = 86.0
-margin_right = 1024.0
-margin_bottom = 600.0
+margin_right = 512.0
+margin_bottom = 300.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/margin_right = 5
@@ -168,37 +174,38 @@ custom_constants/margin_bottom = 5
 [node name="HBoxContainer" type="HBoxContainer" parent="Rows/Details"]
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 1019.0
-margin_bottom = 509.0
+margin_right = 507.0
+margin_bottom = 209.0
 
 [node name="ResultsTree" type="Tree" parent="Rows/Details/HBoxContainer"]
-margin_right = 505.0
-margin_bottom = 504.0
+margin_right = 249.0
+margin_bottom = 204.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 hide_root = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Rows/Details/HBoxContainer"]
-margin_left = 509.0
-margin_right = 1014.0
-margin_bottom = 504.0
+margin_left = 253.0
+margin_right = 502.0
+margin_bottom = 204.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Rows/Details/HBoxContainer/VBoxContainer"]
-margin_right = 505.0
+margin_right = 249.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 
 [node name="RunSelectedButton" type="Button" parent="Rows/Details/HBoxContainer/VBoxContainer/HBoxContainer"]
 margin_right = 95.0
 margin_bottom = 20.0
+disabled = true
 text = "Run Selected"
 
 [node name="ResultDetails" type="RichTextLabel" parent="Rows/Details/HBoxContainer/VBoxContainer"]
 margin_top = 24.0
-margin_right = 505.0
-margin_bottom = 504.0
+margin_right = 249.0
+margin_bottom = 204.0
 focus_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3

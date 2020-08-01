@@ -60,4 +60,22 @@ namespace GodotXUnitApi.Internal
             yield return new TestCaseOnScene(sceneName, diagnosticMessageSink, discoveryOptions, testMethod);
         }
     }
+    
+    public class FactOnTreeDiscoverer : IXunitTestCaseDiscoverer
+    {
+        private readonly IMessageSink diagnosticMessageSink;
+
+        public FactOnTreeDiscoverer(IMessageSink diagnosticMessageSink)
+        {
+            this.diagnosticMessageSink = diagnosticMessageSink;
+        }
+
+        public IEnumerable<IXunitTestCase> Discover(
+            ITestFrameworkDiscoveryOptions discoveryOptions,
+            ITestMethod testMethod,
+            IAttributeInfo factAttribute)
+        {
+            yield return new TestCaseOnTree(diagnosticMessageSink, discoveryOptions, testMethod);
+        }
+    }
 }

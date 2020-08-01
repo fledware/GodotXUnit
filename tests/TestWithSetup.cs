@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace GodotCSUnitTest.Tests
+namespace GodotXUnitTest.Tests
 {
     public class TestWithSetup
     {

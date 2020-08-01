@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Godot;
+using GodotXUnitApi.Internal;
 
 namespace GodotXUnitApi
 {
@@ -20,27 +21,21 @@ namespace GodotXUnitApi
     //
     // - move to the physics frame
     // await GDU.OnPhysicsProcessAwaiter;
-    public class GDU : Node
+    public class GDU
     {
-        private static GDU _instance;
+        private static Node2D _instance;
 
-        public static GDU Instance
+        public static Node2D Instance
         {
             get => _instance ?? throw new Exception("GDU not set");
             set => _instance = value;
         }
 
-        [Signal]
-        public delegate void OnProcess();
-
         public static SignalAwaiter OnProcessAwaiter =>
-            Instance.ToSignal(Instance, nameof(OnProcess));
-
-        [Signal]
-        public delegate void OnPhysicsProcess();
+            Instance.ToSignal(Instance, "OnProcess");
 
         public static SignalAwaiter OnPhysicsProcessAwaiter =>
-            Instance.ToSignal(Instance, nameof(OnPhysicsProcess));
+            Instance.ToSignal(Instance, "OnPhysicsProcess");
 
         public static SignalAwaiter OnIdleFrameAwaiter =>
             Instance.ToSignal(Instance.GetTree(), "idle_frame");
@@ -50,6 +45,12 @@ namespace GodotXUnitApi
         public static Viewport Viewport => Instance.GetViewport();
         
         public static Node CurrentScene => Instance.GetTree().CurrentScene;
+
+        public static async Task WaitForFrames(int count)
+        {
+            for (int i = 0; i < count; i++)
+                await OnProcessAwaiter;
+        }
         
         public static async Task<object[]> ToSignalWithTimeout(
             Godot.Object source,
@@ -76,6 +77,15 @@ namespace GodotXUnitApi
                 if (throwOnTimeout)
                     throw new TimeoutException($"signal {awaiter} timed out after {timeoutMillis}ms.");
                 return null;
+            }
+        }
+
+        public static async Task RequestDrawing(int frames, Action<Node2D> drawer)
+        {
+            for (int i = 0; i < frames; i++)
+            {
+                ((GodotXUnitRunner) Instance).RequestDraw(drawer);
+                await Instance.ToSignal(Instance, "OnDrawRequestDone");
             }
         }
     }

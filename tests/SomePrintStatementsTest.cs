@@ -3,7 +3,7 @@ using GodotXUnitApi;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace GodotCSUnitTest.Tests
+namespace GodotXUnitTest.Tests
 {
     public class SomePrintStatementsTest
     {

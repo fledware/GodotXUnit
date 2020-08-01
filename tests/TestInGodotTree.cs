@@ -1,15 +1,12 @@
 using Godot;
+using GodotXUnitApi;
 using Xunit;
 
-namespace GodotCSUnitTest.Tests
+namespace GodotXUnitTest.Tests
 {
     public class TestInGodotTree : Node
     {
-        /// <summary>
-        /// NOTE: this does not work. i'm not sure if its worth getting
-        ///       this type of pattern to work. 
-        /// </summary>
-        [Fact]
+        [FactOnTree]
         public void IsInTree()
         {
             Assert.NotNull(GetTree());
