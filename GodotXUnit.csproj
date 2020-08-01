@@ -84,6 +84,7 @@
   <ItemGroup>
     <Content Include=".gitattributes" />
     <Content Include="addons\GodotXUnit\.gitignore" />
+    <Content Include="addons\GodotXUnit\LICENSE" />
     <Content Include="addons\GodotXUnit\plugin.cfg" />
     <Content Include="addons\GodotXUnit\README" />
     <Content Include="addons\GodotXUnit\runner\EmptyScene.tscn" />
