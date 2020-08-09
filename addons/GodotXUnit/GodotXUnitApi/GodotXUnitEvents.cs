@@ -12,6 +12,8 @@ namespace GodotXUnitApi
         public List<GodotXUnitTestResult> skipped = new List<GodotXUnitTestResult>();
         public List<GodotXUnitTestResult> passed = new List<GodotXUnitTestResult>();
         public List<GodotXUnitTestResult> failed = new List<GodotXUnitTestResult>();
+        public List<string> diagnostics = new List<string>();
+        public List<GodotXUnitOtherError> errors = new List<GodotXUnitOtherError>();
 
         public int completed => passed.Count + failed.Count;
 
@@ -79,5 +81,13 @@ namespace GodotXUnitApi
     {
         public string testCaseClass;
         public string testCaseName;
+    }
+
+    [Serializable]
+    public class GodotXUnitOtherError
+    {
+        public string exceptionType;
+        public string exceptionMessage;
+        public string exceptionStackTrace;
     }
 }

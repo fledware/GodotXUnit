@@ -13,11 +13,10 @@ namespace GodotXUnitApi
     // here are a few usage examples:
     //
     // - get the current scene:
-    // var scene = GDU.Tree.CurrentScene;
+    // var scene = GDU.CurrentScene;
     //
     // - wait for 60 process frames
-    // for (int i = 0; i < 60; i++)
-    //     await GDU.OnProcessAwaiter;
+    // await GDU.WaitForFrames(60);
     //
     // - move to the physics frame
     // await GDU.OnPhysicsProcessAwaiter;
@@ -46,6 +45,18 @@ namespace GodotXUnitApi
         
         public static Node CurrentScene => Instance.GetTree().CurrentScene;
 
+        /// <summary>
+        /// this can be used within tests instead of grabbing ITestOutputHelper
+        /// </summary>
+        /// <param name="message"></param>
+        public static void Print(string message)
+        {
+            // when [GodotFact] is used, the console output stream is
+            // automatically overridden for each test. but this will
+            // avoid the annoying warnings.
+            Console.WriteLine(message);
+        }
+
         public static async Task WaitForFrames(int count)
         {
             for (int i = 0; i < count; i++)
@@ -67,17 +78,15 @@ namespace GodotXUnitApi
             bool throwOnTimeout = true)
         {
             var task = Task.Run(async () => await awaiter);
-            using (var token = new CancellationTokenSource()) {
-
-                var completedTask = await Task.WhenAny(task, Task.Delay(timeoutMillis, token.Token));
-                if (completedTask == task) {
-                    token.Cancel();
-                    return await task;
-                }
-                if (throwOnTimeout)
-                    throw new TimeoutException($"signal {awaiter} timed out after {timeoutMillis}ms.");
-                return null;
+            using var token = new CancellationTokenSource();
+            var completedTask = await Task.WhenAny(task, Task.Delay(timeoutMillis, token.Token));
+            if (completedTask == task) {
+                token.Cancel();
+                return await task;
             }
+            if (throwOnTimeout)
+                throw new TimeoutException($"signal {awaiter} timed out after {timeoutMillis}ms.");
+            return null;
         }
 
         public static async Task RequestDrawing(int frames, Action<Node2D> drawer)

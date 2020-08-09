@@ -18,7 +18,7 @@ namespace GodotXUnitTest.Tests
         /// <summary>
         /// this test will run in the godot process thread. 
         /// </summary>
-        [FactOnProcess]
+        [GodotFact(Frame = GodotFactFrame.Process)]
         public void IsNotInPhysicsProcess2()
         {
             Assert.False(Engine.IsInPhysicsFrame());
@@ -27,7 +27,7 @@ namespace GodotXUnitTest.Tests
         /// <summary>
         /// this test will run in the godot physics process thread. 
         /// </summary>
-        [FactOnPhysicsProcess]
+        [GodotFact(Frame = GodotFactFrame.PhysicsProcess)]
         public void IsInPhysicsProcess()
         {
             Assert.True(Engine.IsInPhysicsFrame());
@@ -37,7 +37,7 @@ namespace GodotXUnitTest.Tests
         /// this will run in the xunit thread, then wait to be
         /// in the physics frame, then run on the process frame.
         /// </summary>
-        [Fact]
+        [GodotFact]
         public async void AllThreadContextInOne()
         {
             Assert.False(Engine.IsInPhysicsFrame());

@@ -5,6 +5,7 @@ using Godot;
 using Godot.Collections;
 using GodotXUnitApi;
 using GodotXUnitApi.Internal;
+using StringList = System.Collections.Generic.List<string>;
 
 namespace GodotXUnit
 {
@@ -24,40 +25,28 @@ namespace GodotXUnit
         private LineEdit targetMethodLabel;
         private int runningPid = -1;
         private CheckBox verboseCheck;
+        private StringBuilder diagnostics = new StringBuilder();
+        private StringBuilder otherErrors = new StringBuilder();
         
         // there are better ways to do this, but to try to limit the amount of user
         // setup required, we'll just do this the hacky way.
-        private Label summaryTotal;
-        private string summaryFormat;
-        private int summaryValue;
-        private Label passedTotal;
-        private string passedFormat;
+        private Label totalRanLabel;
+        private int totalRanValue;
+        private Label passedLabel;
         private int passedValue;
-        private Label failedTotal;
-        private string failedFormat;
+        private Label failedLabel;
         private int failedValue;
-        private Label timeTotal;
-        private string timeFormat;
+        private Label timeLabel;
         private float timeValue;
 
         public override void _Ready()
         {
-            summaryTotal = (Label) FindNode("TotalRanLabel");
-            summaryFormat = summaryTotal.Text;
-            summaryValue = 0;
-            summaryTotal.Text = string.Format(summaryFormat, summaryValue);
-            passedTotal = (Label) FindNode("PassedLabel");
-            passedFormat = passedTotal.Text;
-            passedValue = 0;
-            passedTotal.Text = string.Format(passedFormat, passedValue);
-            failedTotal = (Label) FindNode("FailedLabel");
-            failedFormat = failedTotal.Text;
-            failedValue = 0;
-            failedTotal.Text = string.Format(failedFormat, failedValue);
-            timeTotal = (Label) FindNode("TimeLabel");
-            timeFormat = timeTotal.Text;
-            timeValue = 0;
-            timeTotal.Text = string.Format(timeFormat, timeValue);
+            totalRanLabel = (Label) FindNode("TotalRanLabel");
+            passedLabel = (Label) FindNode("PassedLabel");
+            failedLabel = (Label) FindNode("FailedLabel");
+            timeLabel = (Label) FindNode("TimeLabel");
+            ResetLabels();
+            
             stopButton = (Button) FindNode("StopButton");
             stopButton.Connect("pressed", this, nameof(StopTests));
             runAllButton = (Button) FindNode("RunAllTestsButton");
@@ -99,19 +88,21 @@ namespace GodotXUnit
         public void RunSelected()
         {
             var item = resultsTree.GetSelected();
-            if (item == null) return;
-            if (testTargets.TryGetValue(item, out var value))
+            // if nothing is selected, just rerun what is there.
+            if (item != null)
             {
-                targetClassLabel.Text = value[0] ?? "";
-                targetMethodLabel.Text = value[1] ?? "";
+                if (testTargets.TryGetValue(item, out var value))
+                {
+                    targetClassLabel.Text = value[0] ?? "";
+                    targetMethodLabel.Text = value[1] ?? "";
+                }
+                else
+                {
+                    targetClassLabel.Text = item.GetText(0) ?? "";
+                    targetMethodLabel.Text = "";
+                }
+                RunArgsHelper.RunClass(targetClassLabel.Text, targetMethodLabel.Text);
             }
-            else
-            {
-                targetClassLabel.Text = item.GetText(0) ?? "";
-                targetMethodLabel.Text = "";
-            }
-
-            RunArgsHelper.RunClass(targetClassLabel.Text);
             StartTests();
         }
         
@@ -132,10 +123,11 @@ namespace GodotXUnit
             watcher.Start();
             SetProcess(true);
 
-            var runArgs = verboseCheck.Pressed
-                ? new[] {Consts.RUNNER_SCENE_PATH, "--verbose"}
-                : new[] {Consts.RUNNER_SCENE_PATH};
-            runningPid = OS.Execute(OS.GetExecutablePath(), runArgs, false);
+            var runArgs = new StringList();
+            runArgs.Add(Consts.RUNNER_SCENE_PATH);
+            if (verboseCheck.Pressed)
+                runArgs.Add("--verbose");
+            runningPid = OS.Execute(OS.GetExecutablePath(), runArgs.ToArray(), false);
         }
 
         public bool IsRunningTests()
@@ -308,42 +300,42 @@ namespace GodotXUnit
         // dont look at me, i'm hideous
         private void ResetLabels()
         {
-            summaryValue = 0;
-            summaryTotal.Text = string.Format(summaryFormat, summaryValue);
+            totalRanValue = 0;
+            totalRanLabel.Text = $"TotalRan: {totalRanValue}";
             passedValue = 0;
-            passedTotal.Text = string.Format(passedFormat, passedValue);
+            passedLabel.Text = $"Passed: {passedValue}";
             failedValue = 0;
-            failedTotal.Text = string.Format(failedFormat, failedValue);
+            failedLabel.Text = $"Failed: {failedValue}";
             timeValue = 0;
-            timeTotal.Text = string.Format(timeFormat, timeValue);
+            timeLabel.Text = $"Time: {timeValue} ms";
         }
 
         private void IncPassedLabel()
         {
             // gross
             passedValue++;
-            passedTotal.Text = string.Format(passedFormat, passedValue);
+            passedLabel.Text = $"Passed: {passedValue}";
         }
 
         private void IncFailedLabel()
         {
             // naughty
             failedValue++;
-            failedTotal.Text = string.Format(failedFormat, failedValue);
+            failedLabel.Text = $"Failed: {failedValue}";
         }
 
         private void IncTotalLabel()
         {
             // terrible
-            summaryValue++;
-            summaryTotal.Text = string.Format(summaryFormat, summaryValue);
+            totalRanValue++;
+            totalRanLabel.Text = $"TotalRan: {totalRanValue}";
         }
 
         private void IncTimeLabel(float time)
         {
             // why?
             timeValue += time;
-            timeTotal.Text = string.Format(timeFormat, (int) (timeValue * 1000));
+            timeLabel.Text = $"Time: {(int) (timeValue * 1000)} ms";
         }
     }
 }

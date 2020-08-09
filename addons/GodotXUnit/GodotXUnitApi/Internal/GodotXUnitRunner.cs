@@ -20,7 +20,7 @@ namespace GodotXUnitApi.Internal
         public delegate void OnPhysicsProcess();
 
         [Signal]
-        public delegate Node2D OnDrawRequestDone();
+        public delegate void OnDrawRequestDone();
 
         public void RequestDraw(Action<Node2D> request)
         {
@@ -42,7 +42,11 @@ namespace GodotXUnitApi.Internal
             messages = new MessageSender();
             summary = new GodotXUnitSummary();
             runner = AssemblyRunner.WithoutAppDomain(GetAssemblyToTest().Location);
-            runner.OnDiagnosticMessage = message => { GD.PrintErr($"OnDiagnosticMessage: {message.Message}"); };
+            runner.OnDiagnosticMessage = message =>
+            {
+                GD.PrintErr($"OnDiagnosticMessage: {message.Message}");
+                summary.diagnostics.Add(message.Message);
+            };
             runner.OnDiscoveryComplete = message =>
             {
                 summary.testsDiscovered = message.TestCasesDiscovered;
@@ -52,9 +56,14 @@ namespace GodotXUnitApi.Internal
             };
             runner.OnErrorMessage = message =>
             {
-                GD.PrintErr($"OnErrorMessage ({message.MesssageType}): {message.ExceptionType}");
-                GD.PrintErr(message.ExceptionMessage);
-                GD.PrintErr("this is a bug in GodotXUnit");
+                GD.PrintErr($"OnErrorMessage ({message.MesssageType}) {message.ExceptionType}: " +
+                            $"{message.ExceptionMessage}\n{message.ExceptionStackTrace}");
+                summary.errors.Add(new GodotXUnitOtherError
+                {
+                    exceptionType = message.ExceptionType,
+                    exceptionMessage = message.ExceptionMessage,
+                    exceptionStackTrace = message.ExceptionStackTrace
+                });
             };
             runner.OnTestStarting = message =>
             {
@@ -88,8 +97,15 @@ namespace GodotXUnitApi.Internal
             };
             
             var runArgs = RunArgsHelper.Read();
-            var classToRun = string.IsNullOrEmpty(runArgs.classToRun) ? null : runArgs.classToRun;
-            runner.Start(classToRun, null, null, null, null, false, null, null);
+            if (!string.IsNullOrEmpty(runArgs.methodToRun))
+            {
+                runner.TestCaseFilter = check =>
+                {
+                    Console.WriteLine($"{runArgs.methodToRun} == {check.TestMethod.Method.Name}");
+                    return runArgs.methodToRun.Equals(check.TestMethod.Method.Name);
+                };
+            }
+            runner.Start(runArgs.classToRun, null, null, null, null, false, null, null);
         }
 
         public override void _ExitTree()
@@ -125,7 +141,7 @@ namespace GodotXUnitApi.Internal
         {
             while (drawRequests.TryDequeue(out var request))
                 request(this);
-            EmitSignal(nameof(OnDrawRequestDone), this);
+            EmitSignal(nameof(OnDrawRequestDone));
         }
     }
 }

@@ -6,7 +6,7 @@ namespace GodotXUnitTest.Tests
 {
     public class ClickTest
     {
-        [FactOnScene("res://test_scenes/ClickTestScene.tscn")]
+        [GodotFact(Scene = "res://test_scenes/ClickTestScene.tscn")]
         public async void TestButtonGetsClicked()
         {
             var checkBox = (Button) GDU.CurrentScene.FindNode("ImAButton");

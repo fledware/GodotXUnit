@@ -1,3 +1,4 @@
+using GodotXUnitApi;
 using Xunit;
 
 namespace GodotXUnitTest.Tests
@@ -11,13 +12,13 @@ namespace GodotXUnitTest.Tests
             sayWhat = 234;
         }
 
-        [Fact]
+        [GodotFact]
         public void TestSayWhat()
         {
             Assert.Equal(234, sayWhat);
         }
 
-        [Fact(Skip = "we need to skip i guess")]
+        [GodotFact(Skip = "we need to skip i guess")]
         public void SkipOrSomething()
         {
             Assert.False(true);

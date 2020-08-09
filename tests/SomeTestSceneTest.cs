@@ -5,23 +5,24 @@ namespace GodotXUnitTest.Tests
 {
     public class SomeTestSceneTest
     {
-        [FactOnScene("res://test_scenes/SomeTestScene.tscn")]
+        [GodotFact(Scene = "res://test_scenes/SomeTestScene.tscn")]
         public void IsOnCorrectScene()
         {
             var scene = GDU.CurrentScene;
             Assert.Equal(typeof(SomeTestSceneRoot), scene?.GetType());
         }
 
-        [FactOnProcess]
+        [GodotFact(Frame = GodotFactFrame.Process)]
         public void IsNotInSomeTestScene()
         {
             var scene = GDU.CurrentScene;
             Assert.NotEqual(typeof(SomeTestSceneRoot), scene?.GetType());
         }
         
-        [FactOnScene("res://SomeSceneNotFound.tscn")]
+        [GodotFact(Scene = "res://SomeSceneNotFound.tscn")]
         public void SceneUnableToBeFound()
         {
+            GDU.Print("this will fail");
             var scene = GDU.CurrentScene;
             Assert.Equal(typeof(SomeTestSceneRoot), scene?.GetType());
         }

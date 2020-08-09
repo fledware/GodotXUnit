@@ -47,9 +47,6 @@
       <Version>1.0.0</Version>
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="xunit">
-      <Version>2.4.1</Version>
-    </PackageReference>
     <Reference Include="GodotSharp">
       <HintPath>$(ProjectDir)/.mono/assemblies/$(ApiConfiguration)/GodotSharp.dll</HintPath>
       <Private>False</Private>
@@ -72,7 +69,6 @@
     <Compile Include="tests\SomeTestSceneTest.cs" />
     <Compile Include="tests\TestInGodotCycle.cs" />
     <Compile Include="tests\TestInGodotTree.cs" />
-    <Compile Include="tests\TestInGodotTreeFailing.cs" />
     <Compile Include="tests\TestWithSetup.cs" />
     <Compile Include="test_scenes\AVerySpecialBall.cs" />
     <Compile Include="test_scenes\ClickButtonThing.cs" />

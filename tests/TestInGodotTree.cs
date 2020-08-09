@@ -4,9 +4,11 @@ using Xunit;
 
 namespace GodotXUnitTest.Tests
 {
+    // tests that extend Godot.Node will automatically
+    // be added as a child to the runner.
     public class TestInGodotTree : Node
     {
-        [FactOnTree]
+        [GodotFact]
         public void IsInTree()
         {
             Assert.NotNull(GetTree());

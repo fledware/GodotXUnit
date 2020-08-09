@@ -14,13 +14,13 @@ namespace GodotXUnitTest.Tests
             this.output = output;
         }
 
-        [Fact]
+        [GodotFact]
         public void SomeStuffPrinted()
         {
             output.WriteLine("hello hello helllloooooo!!!");
         }
 
-        [Fact]
+        [GodotFact]
         public async void SomeReallyLongTest()
         {
             for (int i = 0; i < 100; i++)
@@ -30,10 +30,11 @@ namespace GodotXUnitTest.Tests
             }
         }
 
-        [Fact]
+        [GodotFact]
         public void NaughtyConsolePrint()
         {
-            Console.WriteLine("idk what i'm doing... this will not show up and will be lost");
+            Console.WriteLine("this will be in the test output, but you will get a warning from IDEs");
+            GDU.Print("this will be in test output too");
             output.WriteLine(output.GetType().ToString());
         }
     }

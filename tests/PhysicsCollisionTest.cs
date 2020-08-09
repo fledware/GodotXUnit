@@ -7,9 +7,10 @@ namespace GodotXUnitTest.Tests
     public class PhysicsCollisionTest
     {
         // failing test
-        [FactOnScene("res://test_scenes/PhysicsCollisionTest.tscn")]
+        [GodotFact(Scene = "res://test_scenes/PhysicsCollisionTest.tscn")]
         public async void TestOhNoTooSlowOfFall()
         {
+            GDU.Print("this will fail");
             var ball = (AVerySpecialBall) GDU.CurrentScene.FindNode("AVerySpecialBall");
             Assert.NotNull(ball);
 
@@ -20,9 +21,10 @@ namespace GodotXUnitTest.Tests
         }
         
         // failing test
-        [FactOnScene("res://test_scenes/PhysicsCollisionTest.tscn")]
+        [GodotFact(Scene = "res://test_scenes/PhysicsCollisionTest.tscn")]
         public async void TestOhNoTooSlowOfFallButNoException()
         {
+            GDU.Print("this will fail");
             var ball = (AVerySpecialBall) GDU.CurrentScene.FindNode("AVerySpecialBall");
             Assert.NotNull(ball);
 
@@ -33,7 +35,7 @@ namespace GodotXUnitTest.Tests
         }
         
         // passing test
-        [FactOnScene("res://test_scenes/PhysicsCollisionTest.tscn")]
+        [GodotFact(Scene = "res://test_scenes/PhysicsCollisionTest.tscn")]
         public async void TestThatItWorksBecauseWeSetGravitySuperHigh()
         {
             var ball = (AVerySpecialBall) GDU.CurrentScene.FindNode("AVerySpecialBall");

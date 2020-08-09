@@ -8,7 +8,7 @@ you can look at all the examples in the ./tests directory.
 
 #### Run Test On Scene
 
-    [FactOnScene("res://test_scenes/SomeTestScene.tscn")]
+    [GodotFact(Scene = "res://test_scenes/SomeTestScene.tscn")]
     public void IsOnCorrectScene()
     {
         var scene = GDU.CurrentScene;
@@ -17,7 +17,7 @@ you can look at all the examples in the ./tests directory.
  
 #### Run In Different Thread Contexts
 
-    [Fact]
+    [GodotFact]
     public async void AllThreadContextInOne()
     {
         Assert.False(Engine.IsInPhysicsFrame());
@@ -39,7 +39,7 @@ This method helps simplify tests by allowing you to wait for signals
 but also ensuring the tests actually finish or different parts have
 timeouts. full example at ./tests/PhysicsCollisionTest.cs
 
-        [FactOnScene("res://test_scenes/PhysicsCollisionTest.tscn")]
+        [GodotFact(Scene = "res://test_scenes/PhysicsCollisionTest.tscn")]
         public async void TestOhNoTooSlowOfFall()
         {
             var ball = (AVerySpecialBall) GDU.CurrentScene.FindNode("AVerySpecialBall");
@@ -62,8 +62,6 @@ timeouts. full example at ./tests/PhysicsCollisionTest.cs
 
         nuget restore ./addons/GodotXUnit/GodotXUnitApi/GodotXUnitApi.csproj
 
-* add this dependency to your main project:
-    * xunit (2.4.1)
 * add this reference to your main project:
     * ./addons/GodotXUnit/GodotXUnitApi/GodotXUnitApi.csproj
 * build the solutions and let me know if there are any errors.
@@ -100,20 +98,16 @@ the location with the GodotXUnit/results_summary ProjectSetting.
 * sometimes the editor will just stop being able to pull events. i don't know
   why this is. but if it happens, hit the stop button and it should clean everything
   up safely and you can attempt rerun.
-* we can only run tests to the class level.
 * this does not integrate with IDEs, so tests have to be executed in the godot editor.
   But, you can run the tests via the cli if you execute the 
   res://addons/GodotXUnit/runner/GodotTestRunnerScene.tscn scene.
 
 ## Next steps
 
-* get this into AssetLib
 * figure out how to run other assemblies so we can put tests in different projects
   instead of the main project.
 * try to figure out how to get an cs script running from an assembly other 
   than the main. that way we can get rid of the manual includes.
-* create a custom runner so we can have better control of what tests run.
-* setup a way to automatically add a test to the tree if the test extends a godot node.
 * make the results be in the junit format
 
 ## Thanks To

@@ -6,6 +6,19 @@ namespace GodotXUnitApi.Internal
     public class RunArgs
     {
         public string classToRun;
+        public string methodToRun;
+
+        public string FilterConfig
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(classToRun))
+                    return null;
+                if (string.IsNullOrEmpty(methodToRun))
+                    return classToRun;
+                return $"{classToRun}.{methodToRun}";
+            }
+        }
     }
 
     public static class RunArgsHelper
@@ -22,11 +35,12 @@ namespace GodotXUnitApi.Internal
             WorkFiles.DeleteFile(filename);
         }
 
-        public static void RunClass(string className)
+        public static void RunClass(string className, string methodName)
         {
             WorkFiles.WriteFile(filename, new RunArgs
             {
-                classToRun = className
+                classToRun = className,
+                methodToRun = methodName
             });
         }
     }
