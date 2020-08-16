@@ -13,10 +13,16 @@ _global_script_class_icons={
 
 }
 
+[GodotXUnit]
+
+target_assembly_custom=""
+target_assembly=""
+results_summary="res://TestResults.json"
+
 [application]
 
 config/name="GodotXUnit"
-run/main_scene="res://test_scenes/SomeTestScene.tscn"
+run/main_scene="res://addons/GodotXUnit/runner/GodotTestRunnerScene.tscn"
 config/icon="res://icon.png"
 
 [editor_plugins]

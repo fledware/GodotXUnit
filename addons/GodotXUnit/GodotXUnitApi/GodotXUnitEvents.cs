@@ -12,8 +12,7 @@ namespace GodotXUnitApi
         public List<GodotXUnitTestResult> skipped = new List<GodotXUnitTestResult>();
         public List<GodotXUnitTestResult> passed = new List<GodotXUnitTestResult>();
         public List<GodotXUnitTestResult> failed = new List<GodotXUnitTestResult>();
-        public List<string> diagnostics = new List<string>();
-        public List<GodotXUnitOtherError> errors = new List<GodotXUnitOtherError>();
+        public List<GodotXUnitOtherDiagnostic> diagnostics = new List<GodotXUnitOtherDiagnostic>();
 
         public int completed => passed.Count + failed.Count;
 
@@ -59,6 +58,28 @@ namespace GodotXUnitApi
             failed.Add(result);
             return result;
         }
+
+        public GodotXUnitOtherDiagnostic AddDiagnostic(Exception ex)
+        {
+            var result = new GodotXUnitOtherDiagnostic
+            {
+                message = ex.Message,
+                exceptionType = ex.GetType().ToString(),
+                exceptionStackTrace = ex.StackTrace
+            };
+            diagnostics.Add(result);
+            return result;
+        }
+
+        public GodotXUnitOtherDiagnostic AddDiagnostic(string message)
+        {
+            var result = new GodotXUnitOtherDiagnostic
+            {
+                message = message
+            };
+            diagnostics.Add(result);
+            return result;
+        }
     }
 
     [Serializable]
@@ -84,10 +105,10 @@ namespace GodotXUnitApi
     }
 
     [Serializable]
-    public class GodotXUnitOtherError
+    public class GodotXUnitOtherDiagnostic
     {
+        public string message;
         public string exceptionType;
-        public string exceptionMessage;
         public string exceptionStackTrace;
     }
 }

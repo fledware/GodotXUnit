@@ -9,8 +9,12 @@ namespace GodotXUnitApi.Internal
 {
     public abstract class GodotXUnitRunner : Node2D
     {
-        protected abstract Assembly GetAssemblyToTest();
-        
+        protected abstract Assembly GetTargetAssembly(GodotXUnitSummary summary);
+
+        protected abstract string GetTargetClass(GodotXUnitSummary summary);
+
+        protected abstract string GetTargetMethod(GodotXUnitSummary summary);
+
         private ConcurrentQueue<Action<Node2D>> drawRequests = new ConcurrentQueue<Action<Node2D>>();
 
         [Signal]
@@ -37,15 +41,21 @@ namespace GodotXUnitApi.Internal
         {
             GDU.Instance = this;
             GD.Print($"running tests in tree at: {GetPath()}");
-
             WorkFiles.CleanWorkDir();
-            messages = new MessageSender();
             summary = new GodotXUnitSummary();
-            runner = AssemblyRunner.WithoutAppDomain(GetAssemblyToTest().Location);
+            messages = new MessageSender();
+            CreateRunner();
+            if (runner == null)
+            {
+                messages.SendMessage(summary);
+                WriteSummary(summary);
+                GetTree().Quit(1);
+                return;
+            }
             runner.OnDiagnosticMessage = message =>
             {
                 GD.PrintErr($"OnDiagnosticMessage: {message.Message}");
-                summary.diagnostics.Add(message.Message);
+                summary.AddDiagnostic(message.Message);
             };
             runner.OnDiscoveryComplete = message =>
             {
@@ -58,10 +68,10 @@ namespace GodotXUnitApi.Internal
             {
                 GD.PrintErr($"OnErrorMessage ({message.MesssageType}) {message.ExceptionType}: " +
                             $"{message.ExceptionMessage}\n{message.ExceptionStackTrace}");
-                summary.errors.Add(new GodotXUnitOtherError
+                summary.diagnostics.Add(new GodotXUnitOtherDiagnostic
                 {
+                    message = message.ExceptionMessage,
                     exceptionType = message.ExceptionType,
-                    exceptionMessage = message.ExceptionMessage,
                     exceptionStackTrace = message.ExceptionStackTrace
                 });
             };
@@ -95,17 +105,44 @@ namespace GodotXUnitApi.Internal
                 GD.Print($"tests completed ({message.ExecutionTime}): {summary.completed}");
                 GetTree().Quit();
             };
-            
-            var runArgs = RunArgsHelper.Read();
-            if (!string.IsNullOrEmpty(runArgs.methodToRun))
+
+            var targetMethod = GetTargetMethod(summary);
+            if (!string.IsNullOrEmpty(targetMethod))
             {
-                runner.TestCaseFilter = check =>
-                {
-                    Console.WriteLine($"{runArgs.methodToRun} == {check.TestMethod.Method.Name}");
-                    return runArgs.methodToRun.Equals(check.TestMethod.Method.Name);
-                };
+                GD.Print($"targeting method for discovery: {targetMethod}");
+                runner.TestCaseFilter = test => targetMethod.Equals(test.TestMethod.Method.Name);
             }
-            runner.Start(runArgs.classToRun, null, null, null, null, false, null, null);
+            
+            // if its an empty string, then we need to set it to null because the runner only checks for null
+            var targetClass = GetTargetClass(summary);
+            if (string.IsNullOrEmpty(targetClass))
+                targetClass = null;
+            else
+            {
+                GD.Print($"targeting class for discovery: {targetClass}");
+            }
+            runner.Start(targetClass, null, null, null, null, false, null, null);
+        }
+
+        private void CreateRunner()
+        {
+            try
+            {
+                var check = GetTargetAssembly(summary);
+                if (check == null)
+                {
+                    GD.PrintErr("no assembly returned for tests");
+                    summary.AddDiagnostic(new Exception("no assembly returned for tests"));
+                    return;
+                }
+                runner = AssemblyRunner.WithoutAppDomain(check.Location);
+            }
+            catch (Exception ex)
+            {
+                GD.PrintErr($"error while attempting to get test assembly: {ex}");
+                summary.AddDiagnostic("error while attempting to get test assembly");
+                summary.AddDiagnostic(ex);
+            }
         }
 
         public override void _ExitTree()

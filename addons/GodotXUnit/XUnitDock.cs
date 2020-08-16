@@ -6,6 +6,7 @@ using Godot.Collections;
 using GodotXUnitApi;
 using GodotXUnitApi.Internal;
 using StringList = System.Collections.Generic.List<string>;
+using GodotArray = Godot.Collections.Array;
 
 namespace GodotXUnit
 {
@@ -13,6 +14,7 @@ namespace GodotXUnit
     public class XUnitDock : MarginContainer
     {
         private RichTextLabel resultDetails;
+        private RichTextLabel resultDiagnostics;
         private Tree resultsTree;
         private MessageWatcher watcher;
         private Dictionary<TreeItem, string> testDetails = new Dictionary<TreeItem, string>();
@@ -21,12 +23,13 @@ namespace GodotXUnit
         private Button runAllButton;
         private Button reRunButton;
         private Button runSelectedButton;
+        private LineEdit targetAssemblyLabel;
+        private OptionButton targetAssemblyOption;
         private LineEdit targetClassLabel;
         private LineEdit targetMethodLabel;
         private int runningPid = -1;
         private CheckBox verboseCheck;
-        private StringBuilder diagnostics = new StringBuilder();
-        private StringBuilder otherErrors = new StringBuilder();
+        private TabContainer runTabContainer;
         
         // there are better ways to do this, but to try to limit the amount of user
         // setup required, we'll just do this the hacky way.
@@ -58,12 +61,24 @@ namespace GodotXUnit
             runSelectedButton = (Button) FindNode("RunSelectedButton");
             runSelectedButton.Connect("pressed", this, nameof(RunSelected));
             runSelectedButton.Disabled = true;
+            targetAssemblyOption = (OptionButton) FindNode("TargetAssemblyOption");
+            targetAssemblyOption.Connect("pressed", this, nameof(TargetAssemblyOptionPressed));
+            targetAssemblyOption.Connect("item_selected", this, nameof(TargetAssemblyOptionSelected));
+            targetAssemblyLabel = (LineEdit) FindNode("TargetAssemblyLabel");
+            targetAssemblyLabel.Text = ProjectSettings.HasSetting(Consts.SETTING_TARGET_ASSEMBLY_CUSTOM)
+                ? ProjectSettings.GetSetting(Consts.SETTING_TARGET_ASSEMBLY_CUSTOM).ToString()
+                : "";
+            targetAssemblyLabel.Connect("text_changed", this, nameof(TargetAssemblyLabelChanged));
+            TargetAssemblyOptionPressed();
             resultsTree = (Tree) FindNode("ResultsTree");
             resultsTree.HideRoot = true;
             resultsTree.SelectMode = Tree.SelectModeEnum.Single;
             resultsTree.Connect("cell_selected", this, nameof(OnCellSelected));
             resultDetails = (RichTextLabel) FindNode("ResultDetails");
+            resultDiagnostics = (RichTextLabel) FindNode("Diagnostics");
             verboseCheck = (CheckBox) FindNode("VerboseCheckBox");
+            runTabContainer = (TabContainer) FindNode("RunTabContainer");
+            runTabContainer.CurrentTab = 0;
             SetProcess(false);
         }
 
@@ -76,7 +91,9 @@ namespace GodotXUnit
 
         public void RunAllTests()
         {
-            RunArgsHelper.ClearRunArgs();
+            ProjectSettings.SetSetting(Consts.SETTING_TARGET_CLASS, "");
+            ProjectSettings.SetSetting(Consts.SETTING_TARGET_METHOD, "");
+            ProjectSettings.Save();
             StartTests();
         }
 
@@ -101,7 +118,9 @@ namespace GodotXUnit
                     targetClassLabel.Text = item.GetText(0) ?? "";
                     targetMethodLabel.Text = "";
                 }
-                RunArgsHelper.RunClass(targetClassLabel.Text, targetMethodLabel.Text);
+                ProjectSettings.SetSetting(Consts.SETTING_TARGET_CLASS, targetClassLabel.Text);
+                ProjectSettings.SetSetting(Consts.SETTING_TARGET_METHOD, targetMethodLabel.Text);
+                ProjectSettings.Save();
             }
             StartTests();
         }
@@ -118,6 +137,7 @@ namespace GodotXUnit
             resultsTree.Clear();
             testTargets.Clear();
             testDetails.Clear();
+            resultDiagnostics.Text = "";
             resultDetails.Text = "";
             watcher = new MessageWatcher();
             watcher.Start();
@@ -145,12 +165,72 @@ namespace GodotXUnit
             }
         }
 
+        private void TargetAssemblyOptionPressed()
+        {
+            var items = new GodotArray();
+            var projectList = ProjectListing.GetProjectList();
+            var projectSelected = ProjectSettings.HasSetting(Consts.SETTING_TARGET_ASSEMBLY)
+                ? ProjectSettings.GetSetting(Consts.SETTING_TARGET_ASSEMBLY).ToString()
+                : "";
+            var projectSelectedIndex = 0;
+            for (int i = 0; i < projectList.Count; i++)
+            {
+                var projectName = projectList[i];
+                if (i == 0)
+                    projectName = $"{projectName} (main)";
+                AddProjectListing(items, projectName, i);
+                if (projectName.Equals(projectSelected))
+                    projectSelectedIndex = i;
+            }
+            AddProjectListing(items, "Custom Location ", 1000);
+            if (projectSelected.Equals(Consts.SETTING_TARGET_ASSEMBLY_CUSTOM_FLAG))
+                projectSelectedIndex = projectList.Count;
+            targetAssemblyOption.Items = items;
+            targetAssemblyOption.Selected = projectSelectedIndex;
+        }
+
+        private void TargetAssemblyOptionSelected(int index)
+        {
+            var projectId = targetAssemblyOption.GetItemId(index);
+            switch (projectId)
+            {
+                case 0:
+                    ProjectSettings.SetSetting(Consts.SETTING_TARGET_ASSEMBLY, "");
+                    break;
+                case 1000:
+                    ProjectSettings.SetSetting(Consts.SETTING_TARGET_ASSEMBLY,
+                                               Consts.SETTING_TARGET_ASSEMBLY_CUSTOM_FLAG);
+                    break;
+                default:
+                    var projectName = targetAssemblyOption.GetItemText(index);
+                    ProjectSettings.SetSetting(Consts.SETTING_TARGET_ASSEMBLY, projectName);
+                    break;
+            }
+            ProjectSettings.Save();
+        }
+
+        private void AddProjectListing(GodotArray items, string text, int id)
+        {
+            items.Add(text);
+            items.Add(null);
+            items.Add(false);
+            items.Add(id);
+            items.Add(null);
+        }
+
+        private void TargetAssemblyLabelChanged(string new_text)
+        {
+            ProjectSettings.SetSetting(Consts.SETTING_TARGET_ASSEMBLY_CUSTOM, new_text);
+            ProjectSettings.Save();
+        }
+
         private void OnCellSelected()
         {
             runSelectedButton.Disabled = resultsTree.GetSelected() == null;
             if (!testDetails.TryGetValue(resultsTree.GetSelected(), out var details))
                 details = "Not Found";
             resultDetails.Text = details;
+            runTabContainer.CurrentTab = 0;
         }
 
         public override void _Process(float delta)
@@ -269,6 +349,26 @@ namespace GodotXUnit
             foreach (var skipped in testSummary.skipped)
                 HandleTestResult(skipped);
             SetProcess(false);
+
+            if (testSummary.diagnostics.Count > 0)
+            {
+                var diagnostics = new StringBuilder();
+                foreach (var diagnostic in testSummary.diagnostics)
+                {
+                    if (diagnostic.exceptionType != null)
+                    {
+                        diagnostics.Append(diagnostic.exceptionType).Append(": ");
+                    }
+                    diagnostics.AppendLine(diagnostic.message);
+                    if (diagnostic.exceptionStackTrace != null)
+                    {
+                        diagnostics.AppendLine(diagnostic.exceptionStackTrace);
+                    }
+                    diagnostics.AppendLine();
+                    diagnostics.AppendLine();
+                }
+                resultDiagnostics.Text = diagnostics.ToString();
+            }
         }
 
         private TreeItem EnsureTreeClassAndMethod(string testClass, string testCaseName)

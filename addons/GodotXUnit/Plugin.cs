@@ -23,6 +23,10 @@ namespace GodotXUnit
         {
             _instance = this;
             EnsureProjectSetting(Consts.SETTING_RESULT_SUMMARY_PROP);
+            EnsureProjectSetting(Consts.SETTING_TARGET_ASSEMBLY_PROP);
+            EnsureProjectSetting(Consts.SETTING_TARGET_ASSEMBLY_CUSTOM_PROP);
+            EnsureProjectSetting(Consts.SETTING_TARGET_CLASS_PROP);
+            EnsureProjectSetting(Consts.SETTING_TARGET_METHOD_PROP);
             dock = (XUnitDock) GD.Load<PackedScene>(Consts.DOCK_SCENE_PATH).Instance();
             AddControlToBottomPanel(dock, GetPluginName());
         }

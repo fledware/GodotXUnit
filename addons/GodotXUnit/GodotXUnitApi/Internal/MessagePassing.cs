@@ -52,7 +52,6 @@ namespace GodotXUnitApi.Internal
 
         private void OnCreated(object sender, FileSystemEventArgs eventArgs)
         {
-            if (eventArgs.Name.StartsWith(RunArgsHelper.filename)) return;
             queue.Enqueue(WorkFiles.ReadFile(eventArgs.Name, true));
         }
 

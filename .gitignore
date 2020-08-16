@@ -10,8 +10,10 @@ packages
 TestSummary.json
 
 mono_crash.*
-SomeOtherTestProject/bin
-SomeOtherTestProject/obj
+tests/SubProjectForIntegrationTests/bin
+tests/SubProjectForIntegrationTests/obj
+tests/SubProjectForUnitTests/bin
+tests/SubProjectForUnitTests/obj
 
 # Godot-specific ignores
 .import/

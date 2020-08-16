@@ -14,21 +14,21 @@ namespace GodotXUnitApi.Internal
         public static readonly string sep =
             System.IO.Path.DirectorySeparatorChar.ToString();
 
-        private static string _passDir;
+        private static string _projectDir;
 
-        public static string PassDir
+        public static string ProjectDir
         {
             get
             {
-                if (!string.IsNullOrEmpty(_passDir))
-                    return _passDir;
+                if (!string.IsNullOrEmpty(_projectDir))
+                    return _projectDir;
                 var current = System.IO.Directory.GetCurrentDirectory();
                 while (!string.IsNullOrEmpty(current))
                 {
                     if (System.IO.File.Exists($"{current}{sep}project.godot"))
                     {
-                        _passDir = $"{current}{sep}addons{sep}GodotXUnit{sep}_work";
-                        return _passDir;
+                        _projectDir = current;
+                        return _projectDir;
                     }
                     current = System.IO.Directory.GetParent(current).FullName;
                 }
@@ -39,6 +39,10 @@ namespace GodotXUnitApi.Internal
                 // want to do that if we don't need to.
             }
         }
+
+        private static string _passDir;
+
+        public static string PassDir => _passDir ??= $"{ProjectDir}{sep}addons{sep}GodotXUnit{sep}_work";
 
         public static string PathForFile(string filename)
         {
@@ -55,7 +59,7 @@ namespace GodotXUnitApi.Internal
             while (true)
             {
                 var next = directory.GetNext();
-                if (next.EndsWith(".json") && !next.StartsWith(RunArgsHelper.filename))
+                if (next.EndsWith(".json"))
                 {
                     directory.Remove(next).ThrowIfNotOk();
                 }

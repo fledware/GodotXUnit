@@ -74,6 +74,24 @@ timeouts. full example at ./tests/PhysicsCollisionTest.cs
 If there is a better way to do this, please let me know. I'd really like
 to make the installation of this easier and remove the manual steps.
 
+## Running Tests From A Sub Project
+
+It's common in C# projects to separate unit and integration test into
+sub projects. This helps with package size and enforcing dependencies.
+
+By default, GodotXUnit will attempt to run tests in the root project.
+If you have a subproject (with a csproj file at the root), you can
+run that by selecting the desired project in the target assembly option
+located at the top right of the GodotXUnit panel.
+
+If you have a test project that is external from the godot project,
+GodotXUnit will not be able to automatically find the project. You will
+need to select 'Custom Location' in the drop down and put the absolute
+path to the dll in the 'Custom Assembly Path (dll)' label. Make sure to
+choose the dll that is in the `bin` directory, as xunit will need to
+load the dll dependencies, and they must live next to the assembly being
+discovered on.
+
 ## How It Works
 
 When you click a run button, the first thing is the run args gets written
@@ -104,8 +122,6 @@ the location with the GodotXUnit/results_summary ProjectSetting.
 
 ## Next steps
 
-* figure out how to run other assemblies so we can put tests in different projects
-  instead of the main project.
 * try to figure out how to get an cs script running from an assembly other 
   than the main. that way we can get rid of the manual includes.
 * make the results be in the junit format

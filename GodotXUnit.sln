@@ -4,6 +4,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GodotXUnit", "GodotXUnit.cs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GodotXUnitApi", "addons\GodotXUnit\GodotXUnitApi\GodotXUnitApi.csproj", "{06417CA9-47A6-44C4-B5D9-D623F0FF10A4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubProjectForUnitTests", "tests\SubProjectForUnitTests\SubProjectForUnitTests.csproj", "{022DF5E6-3BCD-42BC-B94B-F817D7E43177}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubProjectForIntegrationTests", "tests\SubProjectForIntegrationTests\SubProjectForIntegrationTests.csproj", "{32219474-F3BA-479D-A8E2-34BD243B16F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 	Debug|Any CPU = Debug|Any CPU
@@ -23,5 +27,17 @@ Global
 		{06417CA9-47A6-44C4-B5D9-D623F0FF10A4}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
 		{06417CA9-47A6-44C4-B5D9-D623F0FF10A4}.ExportRelease|Any CPU.ActiveCfg = Debug|Any CPU
 		{06417CA9-47A6-44C4-B5D9-D623F0FF10A4}.ExportRelease|Any CPU.Build.0 = Debug|Any CPU
+		{022DF5E6-3BCD-42BC-B94B-F817D7E43177}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{022DF5E6-3BCD-42BC-B94B-F817D7E43177}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{022DF5E6-3BCD-42BC-B94B-F817D7E43177}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{022DF5E6-3BCD-42BC-B94B-F817D7E43177}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{022DF5E6-3BCD-42BC-B94B-F817D7E43177}.ExportRelease|Any CPU.ActiveCfg = Debug|Any CPU
+		{022DF5E6-3BCD-42BC-B94B-F817D7E43177}.ExportRelease|Any CPU.Build.0 = Debug|Any CPU
+		{32219474-F3BA-479D-A8E2-34BD243B16F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32219474-F3BA-479D-A8E2-34BD243B16F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32219474-F3BA-479D-A8E2-34BD243B16F0}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32219474-F3BA-479D-A8E2-34BD243B16F0}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{32219474-F3BA-479D-A8E2-34BD243B16F0}.ExportRelease|Any CPU.ActiveCfg = Debug|Any CPU
+		{32219474-F3BA-479D-A8E2-34BD243B16F0}.ExportRelease|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 EndGlobal
