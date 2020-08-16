@@ -8,6 +8,7 @@ data_*/
 packages
 
 TestSummary.json
+TestResults.json
 
 mono_crash.*
 tests/SubProjectForIntegrationTests/bin
