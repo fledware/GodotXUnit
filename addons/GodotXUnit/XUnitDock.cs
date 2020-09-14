@@ -140,14 +140,19 @@ namespace GodotXUnit
             resultDiagnostics.Text = "";
             resultDetails.Text = "";
             watcher = new MessageWatcher();
-            watcher.Start();
-            SetProcess(true);
-
+            
+            // if things dont clean up correctly, the old messages can still
+            // be on the file system. this will cause the XUnitDock process to
+            // see stale messages and potentially stop picking up new messages.
+            WorkFiles.CleanWorkDir();
+            
             var runArgs = new StringList();
             runArgs.Add(Consts.RUNNER_SCENE_PATH);
             if (verboseCheck.Pressed)
                 runArgs.Add("--verbose");
             runningPid = OS.Execute(OS.GetExecutablePath(), runArgs.ToArray(), false);
+            
+            SetProcess(true);
         }
 
         public bool IsRunningTests()
@@ -264,7 +269,15 @@ namespace GodotXUnit
 
         private void GoToPostState()
         {
-            watcher?.Stop();
+            if (watcher != null)
+            {
+                while (true)
+                {
+                    var missed = watcher.Poll();
+                    if (missed == null) break;
+                    GD.PrintErr($"missed message: {missed.GetType()}");
+                }   
+            }
             watcher = null;
             runningPid = -1;
             runAllButton.Disabled = false;
@@ -275,8 +288,10 @@ namespace GodotXUnit
         private void HandleTestStart(GodotXUnitTestStart testStart)
         {
             var testItem = EnsureTreeClassAndMethod(testStart.testCaseClass, testStart.testCaseName);
-            testItem.SetText(0, $"{testStart.testCaseName}");
-            testItem.SetIcon(0, Consts.IconRunning);
+            if (testItem.GetIcon(0) == null)
+            {
+                testItem.SetIcon(0, Consts.IconRunning);                
+            }
         }
 
         private void HandleTestResult(GodotXUnitTestResult testResult)
@@ -388,10 +403,12 @@ namespace GodotXUnit
             var child = parent.GetChildren();
             while (child != null)
             {
-                if (child.GetText(0).StartsWith(name)) return child;
+                var text = child.GetMeta("for");
+                if (text.Equals(name)) return child;
                 child = child.GetNext();
             }
             var newClassItem = resultsTree.CreateItem(parent);
+            newClassItem.SetMeta("for", name);
             newClassItem.SetText(0, name);
             return newClassItem;
         }

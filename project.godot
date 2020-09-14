@@ -16,7 +16,7 @@ _global_script_class_icons={
 [GodotXUnit]
 
 target_assembly_custom=""
-target_assembly="SubProjectForIntegrationTests"
+target_assembly=""
 results_summary="res://TestResults.json"
 
 [application]

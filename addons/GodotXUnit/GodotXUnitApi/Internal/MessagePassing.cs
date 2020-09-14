@@ -1,5 +1,3 @@
-using System.Collections.Concurrent;
-using System.IO;
 using Godot;
 
 namespace GodotXUnitApi.Internal
@@ -13,51 +11,39 @@ namespace GodotXUnitApi.Internal
             return ++idAt;
         }
 
-        public void SendMessage(object message)
+        public void SendMessage(object message, string type)
         {
-            WorkFiles.WriteFile(NextId().ToString(), message);
+            WorkFiles.WriteFile($"{NextId().ToString()}-{type}", message);
         }
     }
 
     public class MessageWatcher
     {
-        private FileSystemWatcher _watcher = null;
-        
-        private ConcurrentQueue<object> queue = new ConcurrentQueue<object>();
+        private Directory directory = new Directory();
         
         public object Poll()
         {
-            if (queue.TryDequeue(out var result)) return result;
-            return null;
-        }
-
-        public void Start()
-        {
-            if (_watcher == null)
+            directory.ChangeDir(WorkFiles.WorkDir).ThrowIfNotOk();
+            directory.ListDirBegin(true, true).ThrowIfNotOk();
+            try
             {
-                _watcher = new FileSystemWatcher(WorkFiles.PassDir);
-                _watcher.Filter = "*.json";
-                _watcher.Created += OnCreated;
-                _watcher.Error += OnError;
+                while (true)
+                {
+                    var next = directory.GetNext();
+                    if (string.IsNullOrEmpty(next)) break;
+                    if (directory.FileExists(next))
+                    {
+                        var result = WorkFiles.ReadFile(next);
+                        directory.Remove(next);
+                        return result;
+                    }
+                }
             }
-            _watcher.EnableRaisingEvents = true;
-        }
-
-        public void Stop()
-        {
-            if (_watcher == null) return;
-            _watcher.EnableRaisingEvents = false;
-            while (Poll() != null) { }
-        }
-
-        private void OnCreated(object sender, FileSystemEventArgs eventArgs)
-        {
-            queue.Enqueue(WorkFiles.ReadFile(eventArgs.Name, true));
-        }
-
-        private void OnError(object sender, ErrorEventArgs eventArgs)
-        {
-            GD.PrintErr(eventArgs.GetException());
+            finally
+            {
+                directory.ListDirEnd();
+            }
+            return null;
         }
     }
 }

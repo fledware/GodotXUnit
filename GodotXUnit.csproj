@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitattributes" />
+    <Content Include=".github\workflows\build.yaml" />
     <Content Include="addons\GodotXUnit\.gitignore" />
     <Content Include="addons\GodotXUnit\LICENSE" />
     <Content Include="addons\GodotXUnit\plugin.cfg" />

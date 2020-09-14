@@ -20,7 +20,7 @@ namespace GodotXUnitApi
     //
     // - move to the physics frame
     // await GDU.OnPhysicsProcessAwaiter;
-    public class GDU
+    public static class GDU
     {
         private static Node2D _instance;
 
@@ -57,27 +57,106 @@ namespace GodotXUnitApi
             Console.WriteLine(message);
         }
 
+        /// <summary>
+        /// creates a task the awaits for the given amount of _Process frames to happen
+        /// </summary>
+        /// <param name="count">the amount of frames to wait</param>
+        /// <returns>the task that resolves after the amount of frames</returns>
         public static async Task WaitForFrames(int count)
         {
             for (int i = 0; i < count; i++)
                 await OnProcessAwaiter;
         }
         
+        /// <summary>
+        /// helper to wrap a SignalAwaiter to return the first element from a signal
+        /// result into the desired type.
+        /// </summary>
+        /// <param name="awaiter">the target signal to wrap</param>
+        /// <typeparam name="T">the type to cast to</typeparam>
+        /// <returns>the task that awaits and casts when resolved</returns>
+        public static async Task<T> AwaitType<T>(this SignalAwaiter awaiter)
+        {
+            return (T) (await awaiter)[0];
+        }
+        
+        /// <summary>
+        /// creates a task for a godot signal with a timeout.
+        /// </summary>
+        /// <param name="source">the object that emits the signal</param>
+        /// <param name="signal">the signal to wait for</param>
+        /// <param name="timeoutMillis">the amount of millis before a timeout happens</param>
+        /// <param name="throwOnTimeout">makes this task throw an exception on timeout. otherwise, just resolves</param>
+        /// <returns>the new task with the given timeout</returns>
+        /// <exception cref="TimeoutException">only throws if throwOnTimeout is true</exception>
         public static async Task<object[]> ToSignalWithTimeout(
-            Godot.Object source,
+            this Godot.Object source,
             string signal,
             int timeoutMillis,
             bool throwOnTimeout = true)
         {
-            return await AwaitWithTimeout(source.ToSignal(source, signal), timeoutMillis, throwOnTimeout);
+            return await source.ToSignal(source, signal).AwaitWithTimeout(timeoutMillis, throwOnTimeout);
         }
         
-        public static async Task<object[]> AwaitWithTimeout(
-            SignalAwaiter awaiter,
+        /// <summary>
+        /// wraps the given SignalAwaiter in a task with a timeout.
+        /// </summary>
+        /// <param name="awaiter">the signal to add a timeout to</param>
+        /// <param name="timeoutMillis">the amount of millis before a timeout happens</param>
+        /// <param name="throwOnTimeout">makes this task throw an exception on timeout. otherwise, just resolves</param>
+        /// <returns>the new task with the given timeout</returns>
+        /// <exception cref="TimeoutException">only throws if throwOnTimeout is true</exception>
+        public static Task<object[]> AwaitWithTimeout(
+            this SignalAwaiter awaiter,
             int timeoutMillis,
             bool throwOnTimeout = true)
         {
-            var task = Task.Run(async () => await awaiter);
+            return Task.Run(async () => await awaiter).AwaitWithTimeout(timeoutMillis, throwOnTimeout);
+        }
+        
+        /// <summary>
+        /// wraps a task with a task that will resolve after the wrapped task
+        /// or after the specified amount of time (either by exiting or by throwing
+        /// an exception) 
+        /// </summary>
+        /// <param name="wrapping">the task to wrap</param>
+        /// <param name="timeoutMillis">the amount of millis before a timeout happens</param>
+        /// <param name="throwOnTimeout">makes this task throw an exception on timeout. otherwise, just resolves</param>
+        /// <returns>the new task with the given timeout</returns>
+        /// <exception cref="TimeoutException">only throws if throwOnTimeout is true</exception>
+        public static async Task AwaitWithTimeout(
+            this Task wrapping,
+            int timeoutMillis,
+            bool throwOnTimeout = true)
+        {
+            var task = Task.Run(async () => await wrapping);
+            using var token = new CancellationTokenSource();
+            var completedTask = await Task.WhenAny(task, Task.Delay(timeoutMillis, token.Token));
+            if (completedTask == task) {
+                token.Cancel();
+                await task;
+            }
+            if (throwOnTimeout)
+                throw new TimeoutException($"signal {wrapping} timed out after {timeoutMillis}ms.");
+        }
+        
+        /// <summary>
+        /// wraps a task with a task that will resolve after the wrapped task
+        /// or after the specified amount of time (either by exiting or by throwing
+        /// an exception) 
+        /// </summary>
+        /// <param name="wrapping">the task to wrap</param>
+        /// <param name="timeoutMillis">the amount of millis before a timeout happens</param>
+        /// <param name="throwOnTimeout">makes this task throw an exception on timeout. otherwise, just resolves</param>
+        /// <typeparam name="T">the wrapping type that will be the result if wrapping resolves</typeparam>
+        /// <returns>the new task with the given timeout</returns>
+        /// <exception cref="TimeoutException">only throws if throwOnTimeout is true</exception>
+        public static async Task<T> AwaitWithTimeout<T>(
+            this Task<T> wrapping,
+            int timeoutMillis,
+            bool throwOnTimeout = true) 
+        {
+            var task = Task.Run(async () => await wrapping);
             using var token = new CancellationTokenSource();
             var completedTask = await Task.WhenAny(task, Task.Delay(timeoutMillis, token.Token));
             if (completedTask == task) {
@@ -85,10 +164,19 @@ namespace GodotXUnitApi
                 return await task;
             }
             if (throwOnTimeout)
-                throw new TimeoutException($"signal {awaiter} timed out after {timeoutMillis}ms.");
-            return null;
+                throw new TimeoutException($"signal {wrapping} timed out after {timeoutMillis}ms.");
+            return default;
         }
 
+        /// <summary>
+        /// allows the caller to draw for the specific amount of frames.
+        /// 
+        /// very helpful when trying to debug why the freaking buttons are not
+        /// being clicked when you very clearly asked GDI to click something.
+        /// </summary>
+        /// <param name="frames"></param>
+        /// <param name="drawer"></param>
+        /// <returns></returns>
         public static async Task RequestDrawing(int frames, Action<Node2D> drawer)
         {
             for (int i = 0; i < frames; i++)

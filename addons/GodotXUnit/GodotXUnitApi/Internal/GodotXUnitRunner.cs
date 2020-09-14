@@ -47,7 +47,7 @@ namespace GodotXUnitApi.Internal
             CreateRunner();
             if (runner == null)
             {
-                messages.SendMessage(summary);
+                messages.SendMessage(summary, "summary");
                 WriteSummary(summary);
                 GetTree().Quit(1);
                 return;
@@ -81,26 +81,26 @@ namespace GodotXUnitApi.Internal
                 {
                     testCaseClass = message.TypeName,
                     testCaseName = message.MethodName
-                });
+                }, "start");
             };
             runner.OnTestFailed = message =>
             {
-                messages.SendMessage(summary.AddFailed(message));
+                messages.SendMessage(summary.AddFailed(message), "failed");
                 GD.Print($"  > OnTestFailed: {message.TestDisplayName} in {message.ExecutionTime}");
             };
             runner.OnTestPassed = message =>
             {
-                messages.SendMessage(summary.AddPassed(message));
+                messages.SendMessage(summary.AddPassed(message), "passed");
                 GD.Print($"  > OnTestPassed: {message.TestDisplayName} in {message.ExecutionTime}");
             };
             runner.OnTestSkipped = message =>
             {
-                messages.SendMessage(summary.AddSkipped(message));
+                messages.SendMessage(summary.AddSkipped(message), "skipped");
                 GD.Print($"  > OnTestSkipped: {message.TestDisplayName}");
             };
             runner.OnExecutionComplete = message =>
             {
-                messages.SendMessage(summary);
+                messages.SendMessage(summary, "summary");
                 WriteSummary(summary);
                 GD.Print($"tests completed ({message.ExecutionTime}): {summary.completed}");
                 GetTree().Quit();
@@ -158,8 +158,11 @@ namespace GodotXUnitApi.Internal
                 ? ProjectSettings.GetSetting(Consts.SETTING_RESULTS_SUMMARY).ToString()
                 : Consts.SETTING_RESULTS_SUMMARY_DEF;
             var file = new File();
-            file.Open(location, File.ModeFlags.Write);
-            file.StoreString(JsonConvert.SerializeObject(testSummary, Formatting.Indented, WorkFiles.jsonSettings));
+            var result = file.Open(location, File.ModeFlags.Write);
+            if (result == Error.Ok)
+                file.StoreString(JsonConvert.SerializeObject(testSummary, Formatting.Indented, WorkFiles.jsonSettings));
+            else
+                GD.Print($"error returned for writing message at {location}: {result}");
             file.Close();
         }
 
