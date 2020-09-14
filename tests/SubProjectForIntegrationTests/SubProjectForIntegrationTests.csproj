@@ -9,7 +9,7 @@
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <RootNamespace>SubProjectForIntegrationTests</RootNamespace>
         <AssemblyName>SubProjectForIntegrationTests</AssemblyName>
-        <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+        <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -32,7 +32,7 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="GodotSharp, Version=1.0.7482.11423, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="GodotSharp">
           <HintPath>..\..\.mono\assemblies\Debug\GodotSharp.dll</HintPath>
         </Reference>
         <Reference Include="System" />
@@ -41,6 +41,7 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="RealFailingTests.cs" />
         <Compile Include="SomeIntegrationTest.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>

@@ -8,6 +8,7 @@
 /README.md          export-ignore
 /TestSummary.json   export-ignore
 
+/.github
 /screenshots        export-ignore
 /test_scenes        export-ignore
 /tests              export-ignore
