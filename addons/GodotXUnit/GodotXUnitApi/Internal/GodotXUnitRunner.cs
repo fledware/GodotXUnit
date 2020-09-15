@@ -103,7 +103,7 @@ namespace GodotXUnitApi.Internal
                 messages.SendMessage(summary, "summary");
                 WriteSummary(summary);
                 GD.Print($"tests completed ({message.ExecutionTime}): {summary.completed}");
-                GetTree().Quit();
+                GetTree().Quit(Mathf.Clamp(summary.failed.Count, 0, 20));
             };
 
             var targetMethod = GetTargetMethod(summary);

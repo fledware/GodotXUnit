@@ -1,0 +1,81 @@
+name: GodotXUnit Tests
+
+on:
+  push: {}
+
+jobs:
+  run-godot-xunit:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:mono-3.2.2
+    steps:
+      # checkout the repo  
+      - uses: actions/checkout@v2
+
+
+      # ======================================================
+      # pull deps and build 
+      # ======================================================
+      # download the nuget dependencies
+      - run: nuget restore
+      # copy the godot DLLs where they are expected
+      - run: |
+          mkdir -p .mono/assemblies/Debug
+          cp /usr/local/bin/GodotSharp/Api/Release/* .mono/assemblies/Debug
+      # build the solution
+      - run: msbuild
+
+
+      # ======================================================
+      # execute tests in root project 
+      # ======================================================
+      # you can override any godot project setting:
+      # https://docs.godotengine.org/en/3.2/classes/class_projectsettings.html
+      # 
+      # all GodotXUnit config values can be overridden like this. a list of all of them
+      # and what they do can be found at:
+      # https://github.com/fledware/GodotXUnit/blob/master/addons/GodotXUnit/GodotXUnitApi/Internal/Consts.cs
+      - name: Configure Tests For Root Project
+        run: |
+          cat > override.cfg <<EOL
+          [GodotXUnit]
+          target_assembly=""
+          target_assembly_custom=""
+          target_class=""
+          target_method=""
+          results_summary="res://TestResults.json"
+          EOL
+      # everything is configured, so execute the tests by just calling this scene
+      - name: Execute Tests
+        timeout-minutes: 1
+        run: godot res://addons/GodotXUnit/runner/GodotTestRunnerScene.tscn
+      - name: Show Test Results
+        run: cat TestResults.json
+
+
+
+      # ======================================================
+      # execute tests in a sub project 
+      # ======================================================
+      # reconfigure to run the integration tests.
+      - name: Configure Tests For Sub Project
+        run: |
+          cat > override.cfg <<EOL
+          [GodotXUnit]
+          target_assembly="SubProjectForIntegrationTests"
+          target_assembly_custom=""
+          target_class=""
+          target_method=""
+          results_summary="res://TestResults.json"
+          EOL
+      - name: Execute Failing Integration Tests
+        timeout-minutes: 1
+        run: |
+          set -x
+          set +e
+          godot res://addons/GodotXUnit/runner/GodotTestRunnerScene.tscn
+          failed_test_count=$?
+          set -e
+          test $failed_test_count = '1' 
+      - name: Show Test Results
+        run: cat TestResults.json

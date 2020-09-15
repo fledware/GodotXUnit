@@ -18,13 +18,5 @@ namespace GodotXUnitTest.Tests
             var scene = GDU.CurrentScene;
             Assert.NotEqual(typeof(SomeTestSceneRoot), scene?.GetType());
         }
-        
-        [GodotFact(Scene = "res://SomeSceneNotFound.tscn")]
-        public void SceneUnableToBeFound()
-        {
-            GDU.Print("this will fail");
-            var scene = GDU.CurrentScene;
-            Assert.Equal(typeof(SomeTestSceneRoot), scene?.GetType());
-        }
     }
 }

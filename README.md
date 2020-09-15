@@ -92,6 +92,35 @@ choose the dll that is in the `bin` directory, as xunit will need to
 load the dll dependencies, and they must live next to the assembly being
 discovered on.
 
+## Running Tests In CI
+
+This project runs in github's CI to show working examples of how to run
+these tests in CI. The example can be found in `.github/workflows/build.yaml`.
+
+Basically, you configure godot project with the `override.cfg` to tell
+GodotXUnitRunner what to run and where to put the results. Then, just
+run `godot res://addons/GodotXUnit/runner/GodotTestRunnerScene.tscn`.
+
+### Important Note About Unit Tests Vs Integration Tests
+
+I don't want to get too philosophical.. But to make sure we're on the same
+page with definitions:
+- An `Integration` test is a test that runs within the full stack required for the code.
+In this case, it would be running tests that call into an active godot API. 
+- A `Unit` test is a test that executes only code that needs to be exercised. An example
+would be a low level algorithm like a search method or some different form of 
+number generation.
+
+These two are important because both of these types of tests can be ran within GodotXUnit.
+But, if you are executing unit tests that don't require calling into an active
+godot API, then you can just use xunit to run the tests if you want. This also has the
+added benefit of integrating with IDEs.
+
+For instance, I can run SubProjectForUnitTests in Rider. And one of the tests use
+the `[GodotFact]` attribute. This works because GodotXUnit will only attempt to call
+into godot APIs if you request it (like loading a scene for a test). This also means
+that other standard xunit tools should work just fine with the `[GodotFact]` attribute.
+
 ## How It Works
 
 When you click a run button, the first thing is the run args gets written
