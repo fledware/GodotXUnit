@@ -44,8 +44,14 @@ namespace GodotXUnitApi
         {
             Assert.True(Engine.IsInPhysicsFrame());
         }
+        
+        
+        
+        note: 
+        you will need to change this to whatever the name to your main assembly is.
+        else, anything that is setup with this attribute will not be found
      */
-    [XunitTestCaseDiscoverer("GodotXUnitApi.Internal.GodotFactDiscoverer", "GodotXUnitApi")]
+    [XunitTestCaseDiscoverer("GodotXUnitApi.Internal.GodotFactDiscoverer", "GodotXUnit")]
     // ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
     public class GodotFactAttribute : FactAttribute
     {
