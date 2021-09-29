@@ -6,6 +6,7 @@
 .mono
 data_*/
 packages
+GodotXUnit.csproj.old
 
 TestSummary.json
 TestResults.json
