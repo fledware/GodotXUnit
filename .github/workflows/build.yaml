@@ -7,7 +7,7 @@ jobs:
   run-godot-xunit:
     runs-on: ubuntu-latest
     container:
-      image: barichello/godot-ci:mono-3.2.2
+      image: barichello/godot-ci:mono-3.3.3
     steps:
       # checkout the repo  
       - uses: actions/checkout@v2
