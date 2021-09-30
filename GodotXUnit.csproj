@@ -20,6 +20,7 @@
     <Compile Include="addons\GodotXUnit\Plugin.cs" />
     <Compile Include="addons\GodotXUnit\GodotTestRunner.cs" />
     <Compile Include="addons\GodotXUnit\XUnitDock.cs" />
+    <Compile Include="RiderTestRunner\Runner.cs" />
     <Compile Include="tests\ClickTest.cs" />
     <Compile Include="tests\DebugDrawingTest.cs" />
     <Compile Include="tests\PhysicsCollisionTest.cs" />
@@ -44,6 +45,7 @@
     <Content Include="addons\GodotXUnit\runner\GodotTestRunnerScene.tscn" />
     <Content Include="addons\GodotXUnit\XUnitDock.tscn" />
     <Content Include="addons\GodotXUnit\_work\.gdignore" />
+    <Content Include="RiderTestRunner\Runner.tscn" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="addons\GodotXUnit\GodotXUnitApi\GodotXUnitApi.csproj">
