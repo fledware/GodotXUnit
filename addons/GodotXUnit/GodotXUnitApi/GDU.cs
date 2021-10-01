@@ -181,7 +181,7 @@ namespace GodotXUnitApi
         {
             for (int i = 0; i < frames; i++)
             {
-                ((GodotXUnitRunner) Instance).RequestDraw(drawer);
+                ((GodotXUnitRunnerBase) Instance).RequestDraw(drawer);
                 await Instance.ToSignal(Instance, "OnDrawRequestDone");
             }
         }

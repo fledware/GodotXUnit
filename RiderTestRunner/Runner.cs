@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
 using Godot;
-using GodotXUnit;
 using GodotXUnitApi;
+using GodotXUnitApi.Internal;
 using Environment = System.Environment;
 using Thread = System.Threading.Thread;
 
@@ -10,7 +10,7 @@ using Thread = System.Threading.Thread;
 namespace RiderTestRunner
 {
     // ReSharper disable once UnusedType.Global
-    public class Runner : GodotTestRunner // for GodotXUnit use: public class Runner : GodotTestRunner. https://github.com/fledware/GodotXUnit/issues/8#issuecomment-929849478
+    public class Runner : GodotXUnitRunnerBase // for GodotXUnit use: public class Runner : GodotTestRunner. https://github.com/fledware/GodotXUnit/issues/8#issuecomment-929849478
     {
         public override void _Ready()
         {
