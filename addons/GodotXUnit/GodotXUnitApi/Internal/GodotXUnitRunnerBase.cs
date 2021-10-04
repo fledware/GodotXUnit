@@ -4,6 +4,8 @@ using System.Reflection;
 using Godot;
 using Newtonsoft.Json;
 using Xunit.Runners;
+using Path = System.IO.Path;
+using Directory = System.IO.Directory;
 
 namespace GodotXUnitApi.Internal
 {
@@ -47,7 +49,9 @@ namespace GodotXUnitApi.Internal
             }
 
             // finally, attempt to load project..
-            var name = AssemblyName.GetAssemblyName(projectList[targetProject].GetDllFromCsProjectPath());
+            var currentDir = Directory.GetCurrentDirectory();
+            var targetAssembly = Path.Combine(currentDir, $".mono/build/bin/Debug/{targetProject}.dll");
+            var name = AssemblyName.GetAssemblyName(targetAssembly);
             return AppDomain.CurrentDomain.Load(name);
         }
 
@@ -207,8 +211,8 @@ namespace GodotXUnitApi.Internal
             var location = ProjectSettings.HasSetting(Consts.SETTING_RESULTS_SUMMARY)
                 ? ProjectSettings.GetSetting(Consts.SETTING_RESULTS_SUMMARY).ToString()
                 : Consts.SETTING_RESULTS_SUMMARY_DEF;
-            var file = new File();
-            var result = file.Open(location, File.ModeFlags.Write);
+            var file = new Godot.File();
+            var result = file.Open(location, Godot.File.ModeFlags.Write);
             if (result == Error.Ok)
                 file.StoreString(JsonConvert.SerializeObject(testSummary, Formatting.Indented, WorkFiles.jsonSettings));
             else
