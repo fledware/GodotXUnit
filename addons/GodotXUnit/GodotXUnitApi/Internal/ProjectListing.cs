@@ -74,12 +74,5 @@ namespace GodotXUnitApi.Internal
             }
             return Path.GetFileNameWithoutExtension(project[0]);
         }
-
-        public static string GetDllFromCsProjectPath(this string projectPath)
-        {
-            var projectRoot = Path.GetDirectoryName(projectPath);
-            var projectName = Path.GetFileNameWithoutExtension(projectPath);
-            return string.Join(sep, projectRoot, "bin", "Debug", $"{projectName}.dll");
-        }
     }
 }

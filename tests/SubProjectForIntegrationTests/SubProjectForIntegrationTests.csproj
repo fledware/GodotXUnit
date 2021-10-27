@@ -1,72 +1,23 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Godot.NET.Sdk/3.3.0">
     <PropertyGroup>
-        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{32219474-F3BA-479D-A8E2-34BD243B16F0}</ProjectGuid>
-        <OutputType>Library</OutputType>
-        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <Version>1.0.0</Version>
+        <authors>rexfleischer</authors>
+        <TargetFramework>net472</TargetFramework>
+
         <RootNamespace>SubProjectForIntegrationTests</RootNamespace>
         <AssemblyName>SubProjectForIntegrationTests</AssemblyName>
-        <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-        <FileAlignment>512</FileAlignment>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <DebugSymbols>true</DebugSymbols>
-        <DebugType>full</DebugType>
-        <Optimize>false</Optimize>
-        <OutputPath>bin\Debug\</OutputPath>
-        <DefineConstants>DEBUG;TRACE</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <DebugType>pdbonly</DebugType>
-        <Optimize>true</Optimize>
-        <OutputPath>bin\Release\</OutputPath>
-        <DefineConstants>TRACE</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
-    </PropertyGroup>
-    <ItemGroup>
-        <Reference Include="GodotSharp">
-          <HintPath>..\..\.mono\assemblies\Debug\GodotSharp.dll</HintPath>
-        </Reference>
-        <Reference Include="System" />
-        <Reference Include="System.Core" />
-        <Reference Include="System.Data" />
-        <Reference Include="System.Xml" />
-    </ItemGroup>
-    <ItemGroup>
-        <Compile Include="RealFailingTests.cs" />
-        <Compile Include="SomeIntegrationTest.cs" />
-        <Compile Include="Properties\AssemblyInfo.cs" />
-    </ItemGroup>
-    <ItemGroup>
-      <PackageReference Include="xunit">
-        <Version>2.4.1</Version>
-      </PackageReference>
-    </ItemGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\..\addons\GodotXUnit\GodotXUnitApi\GodotXUnitApi.csproj">
-        <Project>{06417ca9-47a6-44c4-b5d9-d623f0ff10a4}</Project>
-        <Name>GodotXUnitApi</Name>
-      </ProjectReference>
-      <ProjectReference Include="..\..\GodotXUnit.csproj">
-        <Project>{b6a000ab-04ae-4d1e-a0d5-93911e363f6d}</Project>
-        <Name>GodotXUnit</Name>
-      </ProjectReference>
-    </ItemGroup>
-    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-         Other similar extension points exist, see Microsoft.Common.targets.
-    <Target Name="BeforeBuild">
-    </Target>
-    <Target Name="AfterBuild">
-    </Target>
-    -->
 
+        <LangVersion>8</LangVersion>
+
+    </PropertyGroup>
+    <PropertyGroup>
+        <OutputPath>../../.mono/build/bin/$(Configuration)</OutputPath>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="xunit" Version="2.4.1" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\addons\GodotXUnit\GodotXUnitApi\GodotXUnitApi.csproj" />
+        <ProjectReference Include="..\..\GodotXUnit.csproj"/>
+    </ItemGroup>
 </Project>
