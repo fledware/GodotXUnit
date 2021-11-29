@@ -79,3 +79,10 @@ jobs:
           test $failed_test_count = '1' 
       - name: Show Test Results
         run: cat TestResults.json
+        
+        
+      - name: Show mono logs
+        if: always()
+        run: | 
+          ls -la /github/home/.local/share/godot/mono/mono_logs/*
+          cat /github/home/.local/share/godot/mono/mono_logs/*

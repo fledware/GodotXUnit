@@ -19,6 +19,7 @@
   <ItemGroup>
     <Compile Include="addons\GodotXUnit\Plugin.cs" />
     <Compile Include="addons\GodotXUnit\GodotTestRunner.cs" />
+    <Compile Include="addons\GodotXUnit\runner\RiderTestRunner\Runner.cs" Condition="'$(Configuration)' == 'Debug' " />
     <Compile Include="addons\GodotXUnit\XUnitDock.cs" />
     <Compile Include="tests\ClickTest.cs" />
     <Compile Include="tests\DebugDrawingTest.cs" />
@@ -42,6 +43,7 @@
     <Content Include="addons\GodotXUnit\README" />
     <Content Include="addons\GodotXUnit\runner\EmptyScene.tscn" />
     <Content Include="addons\GodotXUnit\runner\GodotTestRunnerScene.tscn" />
+    <Content Include="addons\GodotXUnit\runner\RiderTestRunner\Runner.tscn" Condition="'$(Configuration)' == 'Debug' "/>
     <Content Include="addons\GodotXUnit\XUnitDock.tscn" />
     <Content Include="addons\GodotXUnit\_work\.gdignore" />
   </ItemGroup>
