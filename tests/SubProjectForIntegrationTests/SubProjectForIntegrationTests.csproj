@@ -7,7 +7,7 @@
         <RootNamespace>SubProjectForIntegrationTests</RootNamespace>
         <AssemblyName>SubProjectForIntegrationTests</AssemblyName>
 
-        <LangVersion>8</LangVersion>
+        <LangVersion>10</LangVersion>
 
     </PropertyGroup>
     <PropertyGroup>

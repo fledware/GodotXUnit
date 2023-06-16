@@ -5,7 +5,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>GodotXUnitApi</AssemblyName>
     <RootNamespace>GodotXUnitApi</RootNamespace>
-    <LangVersion>8</LangVersion>
+    <LangVersion>10</LangVersion>
     <PackageId>GodotXUnitApi</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>

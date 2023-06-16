@@ -5,7 +5,7 @@
     <RootNamespace>GodotXUnit</RootNamespace>
     <AssemblyName>GodotXUnit</AssemblyName>
     <GodotProjectGeneratorVersion>1.0.0.0</GodotProjectGeneratorVersion>
-    <LangVersion>8</LangVersion>
+    <LangVersion>10</LangVersion>
     <TargetFramework>net6.0</TargetFramework>
     <!--The following properties were overriden during migration to prevent errors.
     Enabling them may require other manual changes to the project and its files.-->
