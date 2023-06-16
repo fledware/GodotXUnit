@@ -10,8 +10,6 @@ namespace GodotXUnitTest
         // this ball doesnt really like to go anywhere
         public float gravity = 10f;
 
-        public Vector2 velocity = new Vector2();
-
         public override void _Process(double delta)
         {
             QueueRedraw();
@@ -19,8 +17,8 @@ namespace GodotXUnitTest
 
         public override void _PhysicsProcess(double delta)
         {
-            velocity.Y += (float)(gravity * delta);
-            velocity = MoveAndSlide(velocity, Vector2.Up);
+            Velocity += new Vector2(0, gravity * (float)delta);
+            MoveAndSlide();
             if (IsOnFloor())
             {
                 GD.Print("yay");

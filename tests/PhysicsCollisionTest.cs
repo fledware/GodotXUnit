@@ -31,7 +31,7 @@ namespace GodotXUnitTest.Tests
             await ball.ToSignalWithTimeout(nameof(AVerySpecialBall.WeCollidedd), 1000, throwOnTimeout: false);
 
             // it will get here, but it will fail this equals check
-            Assert.NotEqual(new Vector2(), ball.velocity);
+            Assert.NotEqual(new Vector2(), ball.Velocity);
         }
 
         // passing test
@@ -44,7 +44,7 @@ namespace GodotXUnitTest.Tests
 
             // it will pass here
             await ball.ToSignalWithTimeout(nameof(AVerySpecialBall.WeCollidedd), 1000);
-            Assert.Equal(new Vector2(), ball.velocity);
+            Assert.Equal(new Vector2(), ball.Velocity);
         }
     }
 }
