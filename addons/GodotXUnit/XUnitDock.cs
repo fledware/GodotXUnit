@@ -389,12 +389,10 @@ namespace GodotXUnit
 
         private TreeItem FindTreeChildOrCreate(TreeItem parent, string name)
         {
-            var child = parent.GetChildren();
-            while (child != null)
+            foreach (var child in parent.GetChildren())
             {
                 var text = child.GetMeta("for");
                 if (text.Equals(name)) return child;
-                child = child.GetNext();
             }
             var newClassItem = resultsTree.CreateItem(parent);
             newClassItem.SetMeta("for", name);
