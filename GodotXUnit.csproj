@@ -1,4 +1,4 @@
-<Project Sdk="Godot.NET.Sdk/3.3.0">
+<Project Sdk="Godot.NET.Sdk/4.1.0-beta.2">
   <PropertyGroup>
     <ProjectGuid>{B6A000AB-04AE-4D1E-A0D5-93911E363F6D}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -43,7 +43,7 @@
     <Content Include="addons\GodotXUnit\README" />
     <Content Include="addons\GodotXUnit\runner\EmptyScene.tscn" />
     <Content Include="addons\GodotXUnit\runner\GodotTestRunnerScene.tscn" />
-    <Content Include="addons\GodotXUnit\runner\RiderTestRunner\Runner.tscn" Condition="'$(Configuration)' == 'Debug' "/>
+    <Content Include="addons\GodotXUnit\runner\RiderTestRunner\Runner.tscn" Condition="'$(Configuration)' == 'Debug' " />
     <Content Include="addons\GodotXUnit\XUnitDock.tscn" />
     <Content Include="addons\GodotXUnit\_work\.gdignore" />
   </ItemGroup>
