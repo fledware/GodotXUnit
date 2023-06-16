@@ -27,7 +27,7 @@ namespace GodotXUnit
             EnsureProjectSetting(Consts.SETTING_TARGET_ASSEMBLY_CUSTOM_PROP);
             EnsureProjectSetting(Consts.SETTING_TARGET_CLASS_PROP);
             EnsureProjectSetting(Consts.SETTING_TARGET_METHOD_PROP);
-            dock = (XUnitDock)GD.Load<PackedScene>(Consts.DOCK_SCENE_PATH).Instance();
+            dock = GD.Load<PackedScene>(Consts.DOCK_SCENE_PATH).Instantiate<XUnitDock>();
             AddControlToBottomPanel(dock, _GetPluginName());
         }
 
