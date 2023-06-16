@@ -150,7 +150,7 @@ namespace GodotXUnit
             runArgs.Add(Consts.RUNNER_SCENE_PATH);
             if (verboseCheck.ButtonPressed)
                 runArgs.Add("--verbose");
-            runningPid = OS.Execute(OS.GetExecutablePath(), runArgs.ToArray(), false);
+            runningPid = OS.Execute(OS.GetExecutablePath(), runArgs.ToArray(), null, false);
 
             SetProcess(true);
         }
