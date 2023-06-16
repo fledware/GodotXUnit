@@ -100,7 +100,7 @@ offset_right = 1004.0
 offset_bottom = 24.0
 size_flags_horizontal = 3
 text = "not found"
-placeholder_text = "Custom Assembly Path3D (dll)"
+placeholder_text = "Custom Assembly Path (dll)"
 __meta__ = {
 "_editor_description_": ""
 }

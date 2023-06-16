@@ -7,7 +7,7 @@ namespace GodotXUnitApi.Internal
 {
     public static class ProjectListing
     {
-        public static readonly string sep = Path3D.DirectorySeparatorChar.ToString();
+        public static readonly string sep = Path.DirectorySeparatorChar.ToString();
 
         private static string _projectDir;
 
@@ -42,7 +42,7 @@ namespace GodotXUnitApi.Internal
             {
                 if (filename.Contains("GodotXUnitApi"))
                     continue;
-                result.Add(Path3D.GetFileNameWithoutExtension(filename));
+                result.Add(Path.GetFileNameWithoutExtension(filename));
             }
             return result;
         }
@@ -54,7 +54,7 @@ namespace GodotXUnitApi.Internal
             {
                 if (filename.Contains("GodotXUnitApi"))
                     continue;
-                result[Path3D.GetFileNameWithoutExtension(filename)] = filename;
+                result[Path.GetFileNameWithoutExtension(filename)] = filename;
             }
             return result;
         }
@@ -72,7 +72,7 @@ namespace GodotXUnitApi.Internal
                 GodotGD.PrintErr($"multiple csproj found on project root at {ProjectDir}.");
                 return "";
             }
-            return Path3D.GetFileNameWithoutExtension(project[0]);
+            return Path.GetFileNameWithoutExtension(project[0]);
         }
     }
 }
