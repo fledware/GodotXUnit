@@ -42,7 +42,7 @@ timeouts. full example at ./tests/PhysicsCollisionTest.cs
         [GodotFact(Scene = "res://test_scenes/PhysicsCollisionTest.tscn")]
         public async void TestOhNoTooSlowOfFall()
         {
-            var ball = (AVerySpecialBall) GDU.CurrentScene.FindNode("AVerySpecialBall");
+            var ball = (AVerySpecialBall) GDU.CurrentScene.FindChild("AVerySpecialBall");
             Assert.NotNull(ball);
 
             // it will throw a TimeoutException here because the gravity value is too low
