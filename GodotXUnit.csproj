@@ -14,9 +14,6 @@
     <Deterministic>false</Deterministic>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="addons\GodotXUnit\Plugin.cs" />
     <Compile Include="addons\GodotXUnit\GodotTestRunner.cs" />
     <Compile Include="addons\GodotXUnit\runner\RiderTestRunner\Runner.cs" Condition="'$(Configuration)' == 'Debug' " />
