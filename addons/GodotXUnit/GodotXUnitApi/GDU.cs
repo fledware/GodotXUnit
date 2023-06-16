@@ -83,7 +83,7 @@ namespace GodotXUnitApi
         /// <returns>the task that awaits and casts when resolved</returns>
         public static async Task<T> AwaitType<T>(this SignalAwaiter awaiter)
         {
-            return (T)(await awaiter)[0];
+            return (await awaiter)[0].As<T>();
         }
 
         /// <summary>
@@ -95,8 +95,8 @@ namespace GodotXUnitApi
         /// <param name="throwOnTimeout">makes this task throw an exception on timeout. otherwise, just resolves</param>
         /// <returns>the new task with the given timeout</returns>
         /// <exception cref="TimeoutException">only throws if throwOnTimeout is true</exception>
-        public static async Task<object[]> ToSignalWithTimeout(
-            this Godot.Object source,
+        public static async Task<Variant[]> ToSignalWithTimeout(
+            this GodotObject source,
             string signal,
             int timeoutMillis,
             bool throwOnTimeout = true)
@@ -112,7 +112,7 @@ namespace GodotXUnitApi
         /// <param name="throwOnTimeout">makes this task throw an exception on timeout. otherwise, just resolves</param>
         /// <returns>the new task with the given timeout</returns>
         /// <exception cref="TimeoutException">only throws if throwOnTimeout is true</exception>
-        public static Task<object[]> AwaitWithTimeout(
+        public static Task<Variant[]> AwaitWithTimeout(
             this SignalAwaiter awaiter,
             int timeoutMillis,
             bool throwOnTimeout = true)

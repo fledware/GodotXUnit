@@ -217,10 +217,10 @@ namespace GodotXUnit
         private void AddProjectListing(GodotArray items, string text, int id)
         {
             items.Add(text);
-            items.Add(null);
+            items.Add(default);
             items.Add(false);
             items.Add(id);
-            items.Add(null);
+            items.Add(default);
         }
 
         private void TargetAssemblyLabelChanged(string new_text)
