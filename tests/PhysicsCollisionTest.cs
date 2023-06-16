@@ -17,7 +17,7 @@ namespace GodotXUnitTest.Tests
             await Assert.ThrowsAsync<TimeoutException>(async () =>
             {
                 // this will throw a TimeoutException
-                await ball.ToSignalWithTimeout(nameof(AVerySpecialBall.WeCollidedd), 1000);
+                await ball.ToSignalWithTimeout(nameof(AVerySpecialBall.WeCollided), 1000);
             });
         }
 
@@ -28,7 +28,7 @@ namespace GodotXUnitTest.Tests
             Assert.NotNull(ball);
 
             // it will not throw here, it will just continue
-            await ball.ToSignalWithTimeout(nameof(AVerySpecialBall.WeCollidedd), 1000, throwOnTimeout: false);
+            await ball.ToSignalWithTimeout(nameof(AVerySpecialBall.WeCollided), 1000, throwOnTimeout: false);
 
             // it will get here, but it will fail this equals check
             Assert.NotEqual(new Vector2(), ball.Velocity);
@@ -43,7 +43,7 @@ namespace GodotXUnitTest.Tests
             ball.gravity = 1500f;
 
             // it will pass here
-            await ball.ToSignalWithTimeout(nameof(AVerySpecialBall.WeCollidedd), 1000);
+            await ball.ToSignalWithTimeout(nameof(AVerySpecialBall.WeCollided), 1000);
             Assert.Equal(new Vector2(), ball.Velocity);
         }
     }

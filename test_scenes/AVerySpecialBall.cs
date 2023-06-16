@@ -5,7 +5,7 @@ namespace GodotXUnitTest
     public partial class AVerySpecialBall : CharacterBody2D
     {
         [Signal]
-        public delegate void WeCollidedd();
+        public delegate void WeCollidedEventHandler();
 
         // this ball doesnt really like to go anywhere
         public float gravity = 10f;
@@ -22,7 +22,7 @@ namespace GodotXUnitTest
             if (IsOnFloor())
             {
                 GD.Print("yay");
-                EmitSignal(nameof(WeCollidedd));
+                EmitSignal(nameof(WeCollided));
             }
         }
 

@@ -71,13 +71,13 @@ namespace GodotXUnitApi.Internal
         private ConcurrentQueue<Action<Node2D>> drawRequests = new ConcurrentQueue<Action<Node2D>>();
 
         [Signal]
-        public delegate void OnProcess();
+        public delegate void OnProcessEventHandler();
 
         [Signal]
-        public delegate void OnPhysicsProcess();
+        public delegate void OnPhysicsProcessEventHandler();
 
         [Signal]
-        public delegate void OnDrawRequestDone();
+        public delegate void OnDrawRequestDoneEventHandler();
 
         public void RequestDraw(Action<Node2D> request)
         {
