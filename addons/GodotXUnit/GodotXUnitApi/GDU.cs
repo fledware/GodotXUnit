@@ -81,7 +81,7 @@ namespace GodotXUnitApi
         /// <param name="awaiter">the target signal to wrap</param>
         /// <typeparam name="T">the type to cast to</typeparam>
         /// <returns>the task that awaits and casts when resolved</returns>
-        public static async Task<T> AwaitType<T>(this SignalAwaiter awaiter)
+        public static async Task<T> AwaitType<[MustBeVariant] T>(this SignalAwaiter awaiter)
         {
             return (await awaiter)[0].As<T>();
         }
