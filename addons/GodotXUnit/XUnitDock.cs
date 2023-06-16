@@ -11,7 +11,7 @@ using GodotArray = Godot.Collections.Array;
 namespace GodotXUnit
 {
     [Tool]
-    public class XUnitDock : MarginContainer
+    public partial class XUnitDock : MarginContainer
     {
         private RichTextLabel resultDetails;
         private RichTextLabel resultDiagnostics;
@@ -51,29 +51,29 @@ namespace GodotXUnit
             ResetLabels();
             
             stopButton = (Button) FindNode("StopButton");
-            stopButton.Connect("pressed", this, nameof(StopTests));
+            stopButton.Connect("pressed", new Callable(this, nameof(StopTests)));
             runAllButton = (Button) FindNode("RunAllTestsButton");
-            runAllButton.Connect("pressed", this, nameof(RunAllTests));
+            runAllButton.Connect("pressed", new Callable(this, nameof(RunAllTests)));
             reRunButton = (Button) FindNode("ReRunButton");
-            reRunButton.Connect("pressed", this, nameof(ReRunTests));
+            reRunButton.Connect("pressed", new Callable(this, nameof(ReRunTests)));
             targetClassLabel = (LineEdit) FindNode("TargetClassLabel");
             targetMethodLabel = (LineEdit) FindNode("TargetMethodLabel");
             runSelectedButton = (Button) FindNode("RunSelectedButton");
-            runSelectedButton.Connect("pressed", this, nameof(RunSelected));
+            runSelectedButton.Connect("pressed", new Callable(this, nameof(RunSelected)));
             runSelectedButton.Disabled = true;
             targetAssemblyOption = (OptionButton) FindNode("TargetAssemblyOption");
-            targetAssemblyOption.Connect("pressed", this, nameof(TargetAssemblyOptionPressed));
-            targetAssemblyOption.Connect("item_selected", this, nameof(TargetAssemblyOptionSelected));
+            targetAssemblyOption.Connect("pressed", new Callable(this, nameof(TargetAssemblyOptionPressed)));
+            targetAssemblyOption.Connect("item_selected", new Callable(this, nameof(TargetAssemblyOptionSelected)));
             targetAssemblyLabel = (LineEdit) FindNode("TargetAssemblyLabel");
             targetAssemblyLabel.Text = ProjectSettings.HasSetting(Consts.SETTING_TARGET_ASSEMBLY_CUSTOM)
                 ? ProjectSettings.GetSetting(Consts.SETTING_TARGET_ASSEMBLY_CUSTOM).ToString()
                 : "";
-            targetAssemblyLabel.Connect("text_changed", this, nameof(TargetAssemblyLabelChanged));
+            targetAssemblyLabel.Connect("text_changed", new Callable(this, nameof(TargetAssemblyLabelChanged)));
             TargetAssemblyOptionPressed();
             resultsTree = (Tree) FindNode("ResultsTree");
             resultsTree.HideRoot = true;
             resultsTree.SelectMode = Tree.SelectModeEnum.Single;
-            resultsTree.Connect("cell_selected", this, nameof(OnCellSelected));
+            resultsTree.Connect("cell_selected", new Callable(this, nameof(OnCellSelected)));
             resultDetails = (RichTextLabel) FindNode("ResultDetails");
             resultDiagnostics = (RichTextLabel) FindNode("Diagnostics");
             verboseCheck = (CheckBox) FindNode("VerboseCheckBox");

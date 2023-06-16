@@ -4,8 +4,8 @@ using System.Reflection;
 using Godot;
 using Newtonsoft.Json;
 using Xunit.Runners;
-using Path = System.IO.Path;
-using Directory = System.IO.Directory;
+using Path3D = System.IO.Path3D;
+using DirAccess = System.IO.DirAccess;
 
 namespace GodotXUnitApi.Internal
 {
@@ -49,8 +49,8 @@ namespace GodotXUnitApi.Internal
             }
 
             // finally, attempt to load project..
-            var currentDir = Directory.GetCurrentDirectory();
-            var targetAssembly = Path.Combine(currentDir, $".mono/build/bin/Debug/{targetProject}.dll");
+            var currentDir = DirAccess.GetCurrentDirectory();
+            var targetAssembly = Path3D.Combine(currentDir, $".mono/build/bin/Debug/{targetProject}.dll");
             var name = AssemblyName.GetAssemblyName(targetAssembly);
             return AppDomain.CurrentDomain.Load(name);
         }

@@ -6,7 +6,7 @@ using GodotXUnitApi.Internal;
 namespace GodotXUnit
 {
     [Tool]
-    public class Plugin : EditorPlugin
+    public partial class Plugin : EditorPlugin
     {
         private static Plugin _instance;
 
@@ -14,7 +14,7 @@ namespace GodotXUnit
 
         private XUnitDock dock;
 
-        public override string GetPluginName()
+        public override string _GetPluginName()
         {
             return nameof(GodotXUnit);
         }
@@ -28,7 +28,7 @@ namespace GodotXUnit
             EnsureProjectSetting(Consts.SETTING_TARGET_CLASS_PROP);
             EnsureProjectSetting(Consts.SETTING_TARGET_METHOD_PROP);
             dock = (XUnitDock) GD.Load<PackedScene>(Consts.DOCK_SCENE_PATH).Instance();
-            AddControlToBottomPanel(dock, GetPluginName());
+            AddControlToBottomPanel(dock, _GetPluginName());
         }
 
         public override void _ExitTree()

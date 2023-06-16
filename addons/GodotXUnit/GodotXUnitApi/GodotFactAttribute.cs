@@ -47,7 +47,7 @@ namespace GodotXUnitApi
      */
     [XunitTestCaseDiscoverer("GodotXUnitApi.Internal.GodotFactDiscoverer", "GodotXUnitApi")]
     // ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
-    public class GodotFactAttribute : FactAttribute
+    public partial class GodotFactAttribute : FactAttribute
     {
         /// <summary>
         /// loads the given scene before the test starts and loads an empty scene after

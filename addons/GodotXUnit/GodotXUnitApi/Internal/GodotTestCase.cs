@@ -10,7 +10,7 @@ using Xunit.Sdk;
 
 namespace GodotXUnitApi.Internal
 {
-    public class GodotTestCase : XunitTestCase
+    public partial class GodotTestCase : XunitTestCase
     {
         private IAttributeInfo attribute;
         
@@ -51,7 +51,7 @@ namespace GodotXUnitApi.Internal
         }
     }
 
-    public class GodotTestCaseRunner : XunitTestCaseRunner
+    public partial class GodotTestCaseRunner : XunitTestCaseRunner
     {
         private IAttributeInfo attribute;
         
@@ -102,7 +102,7 @@ namespace GodotXUnitApi.Internal
         }
     }
 
-    public class GodotTestRunner : XunitTestRunner
+    public partial class GodotTestRunner : XunitTestRunner
     {
         private IAttributeInfo attribute;
 
@@ -166,7 +166,7 @@ namespace GodotXUnitApi.Internal
         }
     }
 
-    public class GodotTestInvoker : XunitTestInvoker
+    public partial class GodotTestInvoker : XunitTestInvoker
     {
         private IAttributeInfo attribute;
         
@@ -213,7 +213,7 @@ namespace GodotXUnitApi.Internal
             {
                 // you must be in the process frame to 
                 await GDU.OnProcessAwaiter;
-                if (GDU.Instance.GetTree().ChangeScene(sceneCheck) != Error.Ok)
+                if (GDU.Instance.GetTree().ChangeSceneToFile(sceneCheck) != Error.Ok)
                 {
                     Aggregator.Add(new Exception($"could not load scene: {sceneCheck}"));
                     return;
@@ -270,7 +270,7 @@ namespace GodotXUnitApi.Internal
             if (loadEmptyScene)
             {
                 // change scenes again and wait for godot to catch up
-                GDU.Instance.GetTree().ChangeScene(Consts.EMPTY_SCENE_PATH);
+                GDU.Instance.GetTree().ChangeSceneToFile(Consts.EMPTY_SCENE_PATH);
                 await GDU.OnIdleFrameAwaiter;
                 await GDU.OnIdleFrameAwaiter;
                 await GDU.OnProcessAwaiter;

@@ -5,7 +5,7 @@ using Xunit.Abstractions;
 
 namespace GodotXUnitTest.Tests
 {
-    public class SomePrintStatementsTest
+    public partial class SomePrintStatementsTest
     {
         private readonly ITestOutputHelper output;
 

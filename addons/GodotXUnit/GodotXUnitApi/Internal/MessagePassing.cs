@@ -2,7 +2,7 @@ using Godot;
 
 namespace GodotXUnitApi.Internal
 {
-    public class MessageSender
+    public partial class MessageSender
     {
         public int idAt { get; private set; }
 
@@ -17,9 +17,9 @@ namespace GodotXUnitApi.Internal
         }
     }
 
-    public class MessageWatcher
+    public partial class MessageWatcher
     {
-        private Directory directory = new Directory();
+        private DirAccess directory = new DirAccess();
         
         public object Poll()
         {

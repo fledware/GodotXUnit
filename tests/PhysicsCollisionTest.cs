@@ -5,7 +5,7 @@ using Xunit;
 
 namespace GodotXUnitTest.Tests
 {
-    public class PhysicsCollisionTest
+    public partial class PhysicsCollisionTest
     {
         [GodotFact(Scene = "res://test_scenes/PhysicsCollisionTest.tscn")]
         public async void TestOhNoTooSlowOfFall()

@@ -41,7 +41,7 @@ namespace GodotXUnitApi
 
         public static SceneTree Tree => Instance.GetTree();
 
-        public static Viewport Viewport => Instance.GetViewport();
+        public static SubViewport SubViewport => Instance.GetViewport();
         
         public static Node CurrentScene => Instance.GetTree().CurrentScene;
 

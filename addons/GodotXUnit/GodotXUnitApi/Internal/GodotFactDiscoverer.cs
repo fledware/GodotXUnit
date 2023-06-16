@@ -4,7 +4,7 @@ using Xunit.Sdk;
 
 namespace GodotXUnitApi.Internal
 {
-    public class GodotFactDiscoverer : IXunitTestCaseDiscoverer
+    public partial class GodotFactDiscoverer : IXunitTestCaseDiscoverer
     {
         private readonly IMessageSink diagnosticMessageSink;
 

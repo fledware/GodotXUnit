@@ -21,7 +21,7 @@ namespace GodotXUnitApi.Internal
 
         public static void CleanWorkDir()
         {
-            var directory = new Godot.Directory();
+            var directory = new Godot.DirAccess();
             directory.MakeDirRecursive(WorkDir).ThrowIfNotOk();
             directory.Open(WorkDir).ThrowIfNotOk();
             directory.ListDirBegin(true, true).ThrowIfNotOk();

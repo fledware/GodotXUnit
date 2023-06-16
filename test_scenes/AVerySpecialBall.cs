@@ -2,7 +2,7 @@ using Godot;
 
 namespace GodotXUnitTest
 {
-    public class AVerySpecialBall : KinematicBody2D
+    public partial class AVerySpecialBall : CharacterBody2D
     {
         [Signal]
         public delegate void WeCollidedd();

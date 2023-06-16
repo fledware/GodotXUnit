@@ -4,7 +4,7 @@ using Xunit;
 
 namespace GodotXUnitTest.Tests
 {
-    public class ClickTest
+    public partial class ClickTest
     {
         [GodotFact(Scene = "res://test_scenes/ClickTestScene.tscn")]
         public async void TestButtonGetsClicked()

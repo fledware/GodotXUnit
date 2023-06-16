@@ -66,9 +66,9 @@ namespace GodotXUnitApi.Internal
         public const string ICON_CHECK = "res://addons/GodotXUnit/assets/check.png";
         public const string ICON_ERROR = "res://addons/GodotXUnit/assets/error.png";
         
-        public static Texture IconRunning => GD.Load<Texture>(ICON_RUNNING);
-        public static Texture IconWarn => GD.Load<Texture>(ICON_WARN);
-        public static Texture IconCheck => GD.Load<Texture>(ICON_CHECK);
-        public static Texture IconError => GD.Load<Texture>(ICON_ERROR);
+        public static Texture2D IconRunning => GD.Load<Texture2D>(ICON_RUNNING);
+        public static Texture2D IconWarn => GD.Load<Texture2D>(ICON_WARN);
+        public static Texture2D IconCheck => GD.Load<Texture2D>(ICON_CHECK);
+        public static Texture2D IconError => GD.Load<Texture2D>(ICON_ERROR);
     }
 }
