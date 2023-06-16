@@ -172,6 +172,7 @@ namespace GodotXUnit
 
         private void TargetAssemblyOptionPressed()
         {
+            targetAssemblyOption.Clear();
             var projectList = ProjectListing.GetProjectList();
             var projectSelected = ProjectSettings.HasSetting(Consts.SETTING_TARGET_ASSEMBLY)
                 ? ProjectSettings.GetSetting(Consts.SETTING_TARGET_ASSEMBLY).ToString()
