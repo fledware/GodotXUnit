@@ -14,17 +14,17 @@ namespace GodotXUnitApi
         /// </summary>
         public static float PositionXByScreenPercent(float percent)
         {
-            return GDU.SubViewport.Size.x * percent;
+            return GDU.SubViewport.Size.X * percent;
         }
-        
+
         /// <summary>
         /// gets the y pixel position based on the percent of the screen
         /// </summary>
         public static float PositionYByScreenPercent(float percent)
         {
-            return GDU.SubViewport.Size.y * percent;
+            return GDU.SubViewport.Size.Y * percent;
         }
-        
+
         /// <summary>
         /// gets a vector2 representing the pixel positions based on the screen percents. 
         /// </summary>
@@ -46,7 +46,7 @@ namespace GodotXUnitApi
                 throw new Exception("scene root must be a Node2D to use this method");
             return (scene.GetViewportTransform() * scene.GetGlobalTransform()).Xform(worldPos);
         }
-        
+
         /// <summary>
         /// sends an mouse down event into godot
         /// </summary>
@@ -56,8 +56,8 @@ namespace GodotXUnitApi
             inputEvent.GlobalPosition = screenPosition;
             inputEvent.Position = screenPosition;
             inputEvent.Pressed = true;
-            inputEvent.ButtonIndex = (int) index;
-            inputEvent.ButtonMask = (int) index;
+            inputEvent.ButtonIndex = (int)index;
+            inputEvent.ButtonMask = (int)index;
             Input.ParseInputEvent(inputEvent);
         }
 
@@ -70,8 +70,8 @@ namespace GodotXUnitApi
             inputEvent.GlobalPosition = screenPosition;
             inputEvent.Position = screenPosition;
             inputEvent.Pressed = false;
-            inputEvent.ButtonIndex = (int) index;
-            inputEvent.ButtonMask = (int) index;
+            inputEvent.ButtonIndex = (int)index;
+            inputEvent.ButtonMask = (int)index;
             Input.ParseInputEvent(inputEvent);
         }
 
@@ -150,7 +150,7 @@ namespace GodotXUnitApi
             await GDU.OnProcessAwaiter;
             await GDU.OnProcessAwaiter;
         }
-        
+
         /// <summary>
         /// simulates a click with these steps:
         /// - send a mouse moved event to the requested position
@@ -168,7 +168,7 @@ namespace GodotXUnitApi
             SimulateMouseClick(position, index);
 #pragma warning restore 4014
         }
-        
+
         /// <summary>
         /// simulates a mouse drag with these steps:
         /// - move mouse to start position

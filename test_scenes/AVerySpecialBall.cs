@@ -6,12 +6,12 @@ namespace GodotXUnitTest
     {
         [Signal]
         public delegate void WeCollidedd();
-        
+
         // this ball doesnt really like to go anywhere
         public float gravity = 10f;
 
         public Vector2 velocity = new Vector2();
-        
+
         public override void _Process(float delta)
         {
             Update();
@@ -19,7 +19,7 @@ namespace GodotXUnitTest
 
         public override void _PhysicsProcess(float delta)
         {
-            velocity.y += gravity * delta;
+            velocity.Y += gravity * delta;
             velocity = MoveAndSlide(velocity, Vector2.Up);
             if (IsOnFloor())
             {
