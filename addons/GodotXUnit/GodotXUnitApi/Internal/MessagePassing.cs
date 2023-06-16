@@ -19,12 +19,12 @@ namespace GodotXUnitApi.Internal
 
     public partial class MessageWatcher
     {
-        private DirAccess directory = new DirAccess();
-        
         public object Poll()
         {
-            directory.ChangeDir(WorkFiles.WorkDir).ThrowIfNotOk();
-            directory.ListDirBegin(true, true).ThrowIfNotOk();
+            var directory = DirAccess.Open(WorkFiles.WorkDir).ThrowIfNotOk();
+            directory.IncludeHidden = false;
+            directory.IncludeNavigational = false;
+            directory.ListDirBegin().ThrowIfNotOk();
             try
             {
                 while (true)

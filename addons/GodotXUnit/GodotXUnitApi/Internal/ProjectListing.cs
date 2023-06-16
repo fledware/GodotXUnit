@@ -17,7 +17,7 @@ namespace GodotXUnitApi.Internal
             {
                 if (!string.IsNullOrEmpty(_projectDir))
                     return _projectDir;
-                var current = DirAccess.GetCurrentDirectory();
+                var current = Directory.GetCurrentDirectory();
                 while (!string.IsNullOrEmpty(current))
                 {
                     if (File.Exists($"{current}{sep}project.godot"))
@@ -25,7 +25,7 @@ namespace GodotXUnitApi.Internal
                         _projectDir = current;
                         return _projectDir;
                     }
-                    current = DirAccess.GetParent(current).FullName;
+                    current = Directory.GetParent(current).FullName;
                 }
                 GodotGD.PrintErr("unable to find root of godot project");
                 throw new Exception("unable to find root dir");
@@ -38,7 +38,7 @@ namespace GodotXUnitApi.Internal
         public static List<string> GetProjectList()
         {
             var result = new List<string>();
-            foreach (var filename in DirAccess.GetFiles(ProjectDir, "*.csproj", SearchOption.AllDirectories))
+            foreach (var filename in Directory.GetFiles(ProjectDir, "*.csproj", SearchOption.AllDirectories))
             {
                 if (filename.Contains("GodotXUnitApi"))
                     continue;
@@ -50,7 +50,7 @@ namespace GodotXUnitApi.Internal
         public static Dictionary<string, string> GetProjectInfo()
         {
             var result = new Dictionary<string, string>();
-            foreach (var filename in DirAccess.GetFiles(ProjectDir, "*.csproj", SearchOption.AllDirectories))
+            foreach (var filename in Directory.GetFiles(ProjectDir, "*.csproj", SearchOption.AllDirectories))
             {
                 if (filename.Contains("GodotXUnitApi"))
                     continue;
@@ -61,7 +61,7 @@ namespace GodotXUnitApi.Internal
 
         public static string GetDefaultProject()
         {
-            var project = DirAccess.GetFiles(ProjectDir, "*.csproj", SearchOption.TopDirectoryOnly);
+            var project = Directory.GetFiles(ProjectDir, "*.csproj", SearchOption.TopDirectoryOnly);
             if (project.Length == 0)
             {
                 GodotGD.PrintErr($"no csproj found on project root at {ProjectDir}. is this a mono project?");

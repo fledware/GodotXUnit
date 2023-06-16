@@ -5,7 +5,6 @@ using Godot;
 using Newtonsoft.Json;
 using Xunit.Runners;
 using Path = System.IO.Path;
-using DirAccess = System.IO.DirAccess;
 
 namespace GodotXUnitApi.Internal
 {
@@ -49,7 +48,7 @@ namespace GodotXUnitApi.Internal
             }
 
             // finally, attempt to load project..
-            var currentDir = DirAccess.GetCurrentDirectory();
+            var currentDir = System.IO.Directory.GetCurrentDirectory();
             var targetAssembly = Path.Combine(currentDir, $".mono/build/bin/Debug/{targetProject}.dll");
             var name = AssemblyName.GetAssemblyName(targetAssembly);
             return AppDomain.CurrentDomain.Load(name);
@@ -211,13 +210,17 @@ namespace GodotXUnitApi.Internal
             var location = ProjectSettings.HasSetting(Consts.SETTING_RESULTS_SUMMARY)
                 ? ProjectSettings.GetSetting(Consts.SETTING_RESULTS_SUMMARY).ToString()
                 : Consts.SETTING_RESULTS_SUMMARY_DEF;
-            var file = new Godot.File();
-            var result = file.Open(location, Godot.File.ModeFlags.Write);
-            if (result == Error.Ok)
+
+            try
+            {
+                var file = FileAccess.Open(location, FileAccess.ModeFlags.Write).ThrowIfNotOk();
                 file.StoreString(JsonConvert.SerializeObject(testSummary, Formatting.Indented, WorkFiles.jsonSettings));
-            else
-                GD.Print($"error returned for writing message at {location}: {result}");
-            file.Close();
+                file.Close();
+            }
+            catch (System.IO.IOException e)
+            {
+                GD.Print($"error returned for writing message at {location}: {e}");
+            }
         }
 
         public override void _Process(double delta)
