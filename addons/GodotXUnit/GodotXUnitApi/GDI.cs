@@ -14,7 +14,7 @@ namespace GodotXUnitApi
         /// </summary>
         public static float PositionXByScreenPercent(float percent)
         {
-            return GDU.SubViewport.Size.X * percent;
+            return GDU.ViewportSize.X * percent;
         }
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace GodotXUnitApi
         /// </summary>
         public static float PositionYByScreenPercent(float percent)
         {
-            return GDU.SubViewport.Size.Y * percent;
+            return GDU.ViewportSize.Y * percent;
         }
 
         /// <summary>
