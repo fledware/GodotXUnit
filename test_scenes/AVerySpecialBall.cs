@@ -14,7 +14,7 @@ namespace GodotXUnitTest
 
         public override void _Process(float delta)
         {
-            Update();
+            QueueRedraw();
         }
 
         public override void _PhysicsProcess(float delta)

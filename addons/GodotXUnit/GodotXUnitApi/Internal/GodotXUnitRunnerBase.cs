@@ -223,7 +223,7 @@ namespace GodotXUnitApi.Internal
         public override void _Process(float delta)
         {
             EmitSignal(nameof(OnProcess));
-            Update();
+            QueueRedraw();
         }
 
         public override void _PhysicsProcess(float delta)
