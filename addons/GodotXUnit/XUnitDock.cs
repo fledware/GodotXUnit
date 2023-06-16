@@ -148,7 +148,7 @@ namespace GodotXUnit
 
             var runArgs = new StringList();
             runArgs.Add(Consts.RUNNER_SCENE_PATH);
-            if (verboseCheck.Pressed)
+            if (verboseCheck.ButtonPressed)
                 runArgs.Add("--verbose");
             runningPid = OS.Execute(OS.GetExecutablePath(), runArgs.ToArray(), false);
 

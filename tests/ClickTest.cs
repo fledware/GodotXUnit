@@ -11,7 +11,7 @@ namespace GodotXUnitTest.Tests
         {
             var checkBox = (Button)GDU.CurrentScene.FindChild("ImAButton");
             Assert.NotNull(checkBox);
-            Assert.False(checkBox.Pressed);
+            Assert.False(checkBox.ButtonPressed);
 
             await GDU.RequestDrawing(60, drawer =>
             {
@@ -20,7 +20,7 @@ namespace GodotXUnitTest.Tests
             });
 
             await GDI.SimulateMouseClick(0.5f, 0.5f);
-            Assert.True(checkBox.Pressed);
+            Assert.True(checkBox.ButtonPressed);
         }
     }
 }
