@@ -58,14 +58,14 @@ namespace GodotXUnitApi.Internal
         protected virtual string GetTargetClass(GodotXUnitSummary summary)
         {
             return ProjectSettings.HasSetting(Consts.SETTING_TARGET_CLASS)
-                ? ProjectSettings.GetSetting(Consts.SETTING_TARGET_CLASS)?.ToString()
+                ? ProjectSettings.GetSetting(Consts.SETTING_TARGET_CLASS).AsString()
                 : null;
         }
 
         protected virtual string GetTargetMethod(GodotXUnitSummary summary)
         {
             return ProjectSettings.HasSetting(Consts.SETTING_TARGET_METHOD)
-                ? ProjectSettings.GetSetting(Consts.SETTING_TARGET_METHOD)?.ToString()
+                ? ProjectSettings.GetSetting(Consts.SETTING_TARGET_METHOD).AsString()
                 : null;
         }
 
@@ -166,7 +166,7 @@ namespace GodotXUnitApi.Internal
                 GD.Print($"targeting method for discovery: {targetMethod}");
                 runner.TestCaseFilter = test => targetMethod.Equals(test.TestMethod.Method.Name);
             }
-            
+
             // if its an empty string, then we need to set it to null because the runner only checks for null
             var targetClass = GetTargetClass(summary);
             if (string.IsNullOrEmpty(targetClass))

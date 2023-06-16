@@ -27,7 +27,7 @@ namespace GodotXUnit
             EnsureProjectSetting(Consts.SETTING_TARGET_ASSEMBLY_CUSTOM_PROP);
             EnsureProjectSetting(Consts.SETTING_TARGET_CLASS_PROP);
             EnsureProjectSetting(Consts.SETTING_TARGET_METHOD_PROP);
-            dock = (XUnitDock) GD.Load<PackedScene>(Consts.DOCK_SCENE_PATH).Instance();
+            dock = (XUnitDock)GD.Load<PackedScene>(Consts.DOCK_SCENE_PATH).Instance();
             AddControlToBottomPanel(dock, _GetPluginName());
         }
 
@@ -44,7 +44,7 @@ namespace GodotXUnit
 
         private void EnsureProjectSetting(Dictionary prop)
         {
-            var name = prop["name"]?.ToString() ?? throw new Exception("no name in prop");
+            var name = prop["name"].AsString() ?? throw new Exception("no name in prop");
             if (!ProjectSettings.HasSetting(name))
             {
                 ProjectSettings.SetSetting(name, prop["default"]);
