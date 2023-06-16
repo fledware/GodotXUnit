@@ -44,7 +44,7 @@ namespace GodotXUnitApi
             var scene = GDU.CurrentScene as Node2D;
             if (scene == null)
                 throw new Exception("scene root must be a Node2D to use this method");
-            return (scene.GetViewportTransform() * scene.GetGlobalTransform()).Xform(worldPos);
+            return (scene.GetViewportTransform() * scene.GetGlobalTransform()) * worldPos;
         }
 
         /// <summary>
