@@ -11,6 +11,7 @@
     Enabling them may require other manual changes to the project and its files.-->
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <Deterministic>false</Deterministic>
   </PropertyGroup>
   <ItemGroup>
