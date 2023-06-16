@@ -172,7 +172,6 @@ namespace GodotXUnit
 
         private void TargetAssemblyOptionPressed()
         {
-            var items = new GodotArray();
             var projectList = ProjectListing.GetProjectList();
             var projectSelected = ProjectSettings.HasSetting(Consts.SETTING_TARGET_ASSEMBLY)
                 ? ProjectSettings.GetSetting(Consts.SETTING_TARGET_ASSEMBLY).ToString()
@@ -183,14 +182,13 @@ namespace GodotXUnit
                 var projectName = projectList[i];
                 if (i == 0)
                     projectName = $"{projectName} (main)";
-                AddProjectListing(items, projectName, i);
+                targetAssemblyOption.AddItem(projectName, i);
                 if (projectName.Equals(projectSelected))
                     projectSelectedIndex = i;
             }
-            AddProjectListing(items, "Custom Location ", 1000);
+            targetAssemblyOption.AddItem("Custom Location ", 1000);
             if (projectSelected.Equals(Consts.SETTING_TARGET_ASSEMBLY_CUSTOM_FLAG))
                 projectSelectedIndex = projectList.Count;
-            targetAssemblyOption.Items = items;
             targetAssemblyOption.Selected = projectSelectedIndex;
         }
 
@@ -212,15 +210,6 @@ namespace GodotXUnit
                     break;
             }
             ProjectSettings.Save();
-        }
-
-        private void AddProjectListing(GodotArray items, string text, int id)
-        {
-            items.Add(text);
-            items.Add(default);
-            items.Add(false);
-            items.Add(id);
-            items.Add(default);
         }
 
         private void TargetAssemblyLabelChanged(string new_text)
