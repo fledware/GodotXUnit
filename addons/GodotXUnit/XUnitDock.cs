@@ -238,7 +238,7 @@ namespace GodotXUnit
             runTabContainer.CurrentTab = 0;
         }
 
-        public override void _Process(float delta)
+        public override void _Process(double delta)
         {
             while (watcher != null)
             {

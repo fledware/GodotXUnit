@@ -12,14 +12,14 @@ namespace GodotXUnitTest
 
         public Vector2 velocity = new Vector2();
 
-        public override void _Process(float delta)
+        public override void _Process(double delta)
         {
             QueueRedraw();
         }
 
-        public override void _PhysicsProcess(float delta)
+        public override void _PhysicsProcess(double delta)
         {
-            velocity.Y += gravity * delta;
+            velocity.Y += (float)(gravity * delta);
             velocity = MoveAndSlide(velocity, Vector2.Up);
             if (IsOnFloor())
             {
