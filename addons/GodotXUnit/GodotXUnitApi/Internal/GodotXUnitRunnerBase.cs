@@ -8,7 +8,7 @@ using Path = System.IO.Path;
 
 namespace GodotXUnitApi.Internal
 {
-    public abstract class GodotXUnitRunnerBase : Node2D
+    public abstract partial class GodotXUnitRunnerBase : Node2D
     {
         protected virtual Assembly GetTargetAssembly(GodotXUnitSummary summary)
         {
