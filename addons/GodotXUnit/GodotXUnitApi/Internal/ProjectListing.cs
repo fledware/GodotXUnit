@@ -8,9 +8,9 @@ namespace GodotXUnitApi.Internal
     public static class ProjectListing
     {
         public static readonly string sep = Path3D.DirectorySeparatorChar.ToString();
-        
+
         private static string _projectDir;
-        
+
         public static string ProjectDir
         {
             get
@@ -29,12 +29,12 @@ namespace GodotXUnitApi.Internal
                 }
                 GodotGD.PrintErr("unable to find root of godot project");
                 throw new Exception("unable to find root dir");
-                
+
                 // TODO: if this becomes a problem, we can do OS.Execute('pwd'....), but i don't
                 // want to do that if we don't need to.
             }
         }
-        
+
         public static List<string> GetProjectList()
         {
             var result = new List<string>();
@@ -46,7 +46,7 @@ namespace GodotXUnitApi.Internal
             }
             return result;
         }
-        
+
         public static Dictionary<string, string> GetProjectInfo()
         {
             var result = new Dictionary<string, string>();
