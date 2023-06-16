@@ -27,7 +27,7 @@ project/assembly_name="GodotXUnit"
 
 [editor_plugins]
 
-enabled=PackedStringArray("GodotXUnit")
+enabled=PackedStringArray("res://addons/GodotXUnit/plugin.cfg")
 
 [mono]
 
