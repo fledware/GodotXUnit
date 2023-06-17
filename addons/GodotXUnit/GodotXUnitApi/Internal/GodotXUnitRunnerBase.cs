@@ -10,19 +10,43 @@ namespace GodotXUnitApi.Internal
 {
     public abstract partial class GodotXUnitRunnerBase : Node2D
     {
-        protected virtual Assembly GetTargetAssembly(GodotXUnitSummary summary)
+        /// <summary>
+        /// Get the assembly name from the project settings.
+        /// </summary>
+        /// <returns>The name of the target assembly or null if the default is requested</returns>
+        private String GetTargetAssemblyNameFromSettings()
         {
-            // check if we even have a project assembly set
             if (!ProjectSettings.HasSetting(Consts.SETTING_TARGET_ASSEMBLY))
-                return Assembly.GetExecutingAssembly();
-
-            // get the project and if its the default (the godot project), return executing
+            {
+                return null;
+            }
             var targetProject = ProjectSettings.GetSetting(Consts.SETTING_TARGET_ASSEMBLY).ToString();
             if (string.IsNullOrEmpty(targetProject) || targetProject.Equals(ProjectListing.GetDefaultProject()))
-                return Assembly.GetExecutingAssembly();
+            {
+                return null;
+            }
+            return targetProject;
+        }
 
-            // if its a custom project target, attempt to just load the assembly directly
-            if (targetProject.Equals(Consts.SETTING_TARGET_ASSEMBLY_CUSTOM_FLAG))
+        private String GetAssemblyPath(String assemblyName)
+        {
+            var currentDir = System.IO.Directory.GetCurrentDirectory();
+            return Path.Combine(currentDir, $".mono/build/bin/Debug/{assemblyName}.dll");
+        }
+
+        private String GetDefaultTargetAssemblyPath()
+        {
+            return GetAssemblyPath(Assembly.GetExecutingAssembly().GetName().Name);
+        }
+
+        private String GetTargetAssemblyPath(GodotXUnitSummary summary)
+        {
+            var assemblyName = GetTargetAssemblyNameFromSettings();
+            if (assemblyName is null)
+            {
+                return GetDefaultTargetAssemblyPath();
+            }
+            if (assemblyName.Equals(Consts.SETTING_TARGET_ASSEMBLY_CUSTOM_FLAG))
             {
                 var customDll = ProjectSettings.HasSetting(Consts.SETTING_TARGET_ASSEMBLY_CUSTOM)
                     ? ProjectSettings.GetSetting(Consts.SETTING_TARGET_ASSEMBLY_CUSTOM).ToString()
@@ -31,27 +55,25 @@ namespace GodotXUnitApi.Internal
                 {
                     summary.AddDiagnostic("no custom dll assembly configured.");
                     GD.PrintErr("no custom dll assembly configured.");
-                    return Assembly.GetExecutingAssembly();
+                    return GetDefaultTargetAssemblyPath();
                 }
 
                 summary.AddDiagnostic($"attempting to load custom dll at: {customDll}");
-                return AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(customDll));
+                return customDll;
             }
 
             // find the project in the project list. if its not there, print error and leave
             var projectList = ProjectListing.GetProjectInfo();
-            if (!projectList.ContainsKey(targetProject))
+            if (!projectList.ContainsKey(assemblyName))
             {
                 GD.PrintErr(
-                    $"unable to find project {targetProject}. expected values: {string.Join(", ", projectList.Keys)}");
-                return Assembly.GetExecutingAssembly();
+                    $"unable to find project {assemblyName}. expected values: {string.Join(", ", projectList.Keys)}");
+                return GetDefaultTargetAssemblyPath();
             }
 
             // finally, attempt to load project..
-            var currentDir = System.IO.Directory.GetCurrentDirectory();
-            var targetAssembly = Path.Combine(currentDir, $".mono/build/bin/Debug/{targetProject}.dll");
-            var name = AssemblyName.GetAssemblyName(targetAssembly);
-            return AppDomain.CurrentDomain.Load(name);
+            var targetAssembly = GetAssemblyPath(assemblyName);
+            return targetAssembly;
         }
 
         protected virtual string GetTargetClass(GodotXUnitSummary summary)
@@ -181,14 +203,14 @@ namespace GodotXUnitApi.Internal
         {
             try
             {
-                var check = GetTargetAssembly(summary);
-                if (check == null)
+                var assemblyPath = GetTargetAssemblyPath(summary);
+                if (String.IsNullOrEmpty(assemblyPath))
                 {
-                    GD.PrintErr("no assembly returned for tests");
                     summary.AddDiagnostic(new Exception("no assembly returned for tests"));
                     return;
                 }
-                runner = AssemblyRunner.WithoutAppDomain(check.Location);
+                summary.AddDiagnostic($"Loading assembly at {assemblyPath}");
+                runner = AssemblyRunner.WithoutAppDomain(assemblyPath);
             }
             catch (Exception ex)
             {
