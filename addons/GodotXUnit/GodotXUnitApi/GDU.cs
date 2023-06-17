@@ -36,8 +36,8 @@ namespace GodotXUnitApi
         public static SignalAwaiter OnPhysicsProcessAwaiter =>
             Instance.ToSignal(Instance, "OnPhysicsProcess");
 
-        public static SignalAwaiter OnIdleFrameAwaiter =>
-            Instance.ToSignal(Instance.GetTree(), "idle_frame");
+        public static SignalAwaiter OnProcessFrameAwaiter =>
+            Instance.ToSignal(Instance.GetTree(), SceneTree.SignalName.ProcessFrame);
 
         public static SceneTree Tree => Instance.GetTree();
 

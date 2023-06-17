@@ -202,7 +202,7 @@ namespace GodotXUnitApi.Internal
             var check = base.CreateTestClass();
             if (check is Node node)
                 addingToTree = node;
-            
+
             return check;
         }
 
@@ -219,13 +219,13 @@ namespace GodotXUnitApi.Internal
                     return;
                 }
                 loadEmptyScene = true;
-            
+
                 // the scene should be loaded within two frames
-                await GDU.OnIdleFrameAwaiter;
-                await GDU.OnIdleFrameAwaiter;
+                await GDU.OnProcessFrameAwaiter;
+                await GDU.OnProcessFrameAwaiter;
                 await GDU.OnProcessAwaiter;
             }
-            
+
             if (addingToTree != null)
             {
                 await GDU.OnProcessAwaiter;
@@ -271,8 +271,8 @@ namespace GodotXUnitApi.Internal
             {
                 // change scenes again and wait for godot to catch up
                 GDU.Instance.GetTree().ChangeSceneToFile(Consts.EMPTY_SCENE_PATH);
-                await GDU.OnIdleFrameAwaiter;
-                await GDU.OnIdleFrameAwaiter;
+                await GDU.OnProcessFrameAwaiter;
+                await GDU.OnProcessFrameAwaiter;
                 await GDU.OnProcessAwaiter;
             }
         }
