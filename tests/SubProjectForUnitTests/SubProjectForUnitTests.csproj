@@ -6,6 +6,7 @@
 
         <RootNamespace>SubProjectForUnitTests</RootNamespace>
         <AssemblyName>SubProjectForUnitTests</AssemblyName>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 
         <LangVersion>10</LangVersion>
 

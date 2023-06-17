@@ -6,6 +6,7 @@
 
         <RootNamespace>SubProjectForIntegrationTests</RootNamespace>
         <AssemblyName>SubProjectForIntegrationTests</AssemblyName>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 
         <LangVersion>10</LangVersion>
 

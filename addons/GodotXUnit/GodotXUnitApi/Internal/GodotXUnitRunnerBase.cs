@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Linq;
 using System.Reflection;
 using Godot;
 using Newtonsoft.Json;
@@ -112,6 +113,31 @@ namespace GodotXUnitApi.Internal
 
         private MessageSender messages;
 
+        public Assembly AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            GD.Print($"Resolving {args.Name}.");
+            Assembly assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.FullName == args.Name);
+            if (assembly is not null)
+            {
+                GD.Print($"Assembly resolution success, already loaded: {assembly.Location}");
+                return assembly;
+            }
+            try
+            {
+                var shortName = args.Name.Split(",")[0];
+                assembly = Assembly.LoadFile(GetAssemblyPath(shortName));
+                GD.Print($"Assembly resolution success {args.Name} -> {assembly.Location}");
+                return assembly;
+            }
+            catch (System.IO.FileNotFoundException e)
+            {
+                var msg = $"Assembly resolution failed for {args.Name}, requested by {args.RequestingAssembly?.FullName ?? "unknown assembly"}";
+                GD.PrintErr(msg);
+                GD.PushError(msg);
+                return null;
+            }
+        }
+
         public override void _Ready()
         {
             GDU.Instance = this;
@@ -119,6 +145,7 @@ namespace GodotXUnitApi.Internal
             WorkFiles.CleanWorkDir();
             summary = new GodotXUnitSummary();
             messages = new MessageSender();
+            AppDomain.CurrentDomain.AssemblyResolve += AssemblyResolve;
             CreateRunner();
             if (runner == null)
             {
