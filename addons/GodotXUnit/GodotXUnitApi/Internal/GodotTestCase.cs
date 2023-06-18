@@ -13,11 +13,11 @@ namespace GodotXUnitApi.Internal
     public partial class GodotTestCase : XunitTestCase
     {
         private IAttributeInfo attribute;
-        
+
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Obsolete("Called by the de-serializer; should only be called by deriving classes for de-serialization purposes")]
-        public GodotTestCase() {}
-        
+        public GodotTestCase() { }
+
         public GodotTestCase(IAttributeInfo attribute,
                              IMessageSink diagnosticMessageSink,
                              ITestFrameworkDiscoveryOptions discoveryOptions,
@@ -42,7 +42,7 @@ namespace GodotXUnitApi.Internal
                                                  this,
                                                  DisplayName,
                                                  SkipReason,
-                                                 constructorArguments, 
+                                                 constructorArguments,
                                                  TestMethodArguments,
                                                  messageBus,
                                                  aggregator,
@@ -54,7 +54,7 @@ namespace GodotXUnitApi.Internal
     public partial class GodotTestCaseRunner : XunitTestCaseRunner
     {
         private IAttributeInfo attribute;
-        
+
         public GodotTestCaseRunner(IAttributeInfo attribute,
                                    IXunitTestCase testCase,
                                    string displayName,
@@ -90,7 +90,7 @@ namespace GodotXUnitApi.Internal
         {
             return new GodotTestRunner(attribute,
                                        test,
-                                       messageBus, 
+                                       messageBus,
                                        testClass,
                                        constructorArguments,
                                        testMethod,
@@ -130,17 +130,17 @@ namespace GodotXUnitApi.Internal
         {
             this.attribute = attribute;
         }
-        
+
         protected override async Task<Tuple<Decimal, string>> InvokeTestAsync(ExceptionAggregator aggregator)
         {
-            
+
             // override the ITestOutputHelper from XunitTestClassRunner
-            TestOutputHelper helper = null; 
+            TestOutputHelper helper = null;
             for (int i = 0; i < ConstructorArguments.Length; i++)
             {
                 if (ConstructorArguments[i] is ITestOutputHelper)
                 {
-                    helper = (TestOutputHelper) ConstructorArguments[i];
+                    helper = (TestOutputHelper)ConstructorArguments[i];
                     break;
                 }
             }
@@ -169,7 +169,7 @@ namespace GodotXUnitApi.Internal
     public partial class GodotTestInvoker : XunitTestInvoker
     {
         private IAttributeInfo attribute;
-        
+
         private Node addingToTree;
 
         private bool loadEmptyScene;
@@ -185,8 +185,8 @@ namespace GodotXUnitApi.Internal
                                 ExceptionAggregator aggregator,
                                 CancellationTokenSource cancellationTokenSource)
             : base(test,
-                   messageBus, 
-                   testClass, 
+                   messageBus,
+                   testClass,
                    constructorArguments,
                    testMethod,
                    testMethodArguments,
