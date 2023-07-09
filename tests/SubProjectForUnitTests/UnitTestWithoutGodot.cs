@@ -1,10 +1,10 @@
-﻿using System.Configuration;
+using System.Configuration;
 using GodotXUnitApi;
 using Xunit;
 
 namespace SubProjectForUnitTests
 {
-    public class SomeClassTest
+    public partial class SomeClassTest
     {
         [GodotFact]
         public void SomePrettyCoolTest()

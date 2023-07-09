@@ -3,7 +3,7 @@ using Xunit;
 
 namespace GodotXUnitTest.Tests
 {
-    public class SomeTestSceneTest
+    public partial class SomeTestSceneTest
     {
         [GodotFact(Scene = "res://test_scenes/SomeTestScene.tscn")]
         public void IsOnCorrectScene()

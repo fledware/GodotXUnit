@@ -5,7 +5,7 @@ using Xunit.Runners;
 namespace GodotXUnitApi
 {
     [Serializable]
-    public class GodotXUnitSummary
+    public partial class GodotXUnitSummary
     {
         public int testsDiscovered;
         public int testsExpectedToRun;
@@ -83,7 +83,7 @@ namespace GodotXUnitApi
     }
 
     [Serializable]
-    public class GodotXUnitTestResult
+    public partial class GodotXUnitTestResult
     {
         public string testCaseClass;
         public string testCaseName;
@@ -98,14 +98,14 @@ namespace GodotXUnitApi
     }
 
     [Serializable]
-    public class GodotXUnitTestStart
+    public partial class GodotXUnitTestStart
     {
         public string testCaseClass;
         public string testCaseName;
     }
 
     [Serializable]
-    public class GodotXUnitOtherDiagnostic
+    public partial class GodotXUnitOtherDiagnostic
     {
         public string message;
         public string exceptionType;

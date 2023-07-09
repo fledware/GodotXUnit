@@ -11,7 +11,7 @@ using GodotArray = Godot.Collections.Array;
 namespace GodotXUnit
 {
     [Tool]
-    public class XUnitDock : MarginContainer
+    public partial class XUnitDock : MarginContainer
     {
         private RichTextLabel resultDetails;
         private RichTextLabel resultDiagnostics;
@@ -30,7 +30,7 @@ namespace GodotXUnit
         private int runningPid = -1;
         private CheckBox verboseCheck;
         private TabContainer runTabContainer;
-        
+
         // there are better ways to do this, but to try to limit the amount of user
         // setup required, we'll just do this the hacky way.
         private Label totalRanLabel;
@@ -44,40 +44,40 @@ namespace GodotXUnit
 
         public override void _Ready()
         {
-            totalRanLabel = (Label) FindNode("TotalRanLabel");
-            passedLabel = (Label) FindNode("PassedLabel");
-            failedLabel = (Label) FindNode("FailedLabel");
-            timeLabel = (Label) FindNode("TimeLabel");
+            totalRanLabel = (Label)FindChild("TotalRanLabel");
+            passedLabel = (Label)FindChild("PassedLabel");
+            failedLabel = (Label)FindChild("FailedLabel");
+            timeLabel = (Label)FindChild("TimeLabel");
             ResetLabels();
-            
-            stopButton = (Button) FindNode("StopButton");
-            stopButton.Connect("pressed", this, nameof(StopTests));
-            runAllButton = (Button) FindNode("RunAllTestsButton");
-            runAllButton.Connect("pressed", this, nameof(RunAllTests));
-            reRunButton = (Button) FindNode("ReRunButton");
-            reRunButton.Connect("pressed", this, nameof(ReRunTests));
-            targetClassLabel = (LineEdit) FindNode("TargetClassLabel");
-            targetMethodLabel = (LineEdit) FindNode("TargetMethodLabel");
-            runSelectedButton = (Button) FindNode("RunSelectedButton");
-            runSelectedButton.Connect("pressed", this, nameof(RunSelected));
+
+            stopButton = (Button)FindChild("StopButton");
+            stopButton.Connect("pressed", new Callable(this, nameof(StopTests)));
+            runAllButton = (Button)FindChild("RunAllTestsButton");
+            runAllButton.Connect("pressed", new Callable(this, nameof(RunAllTests)));
+            reRunButton = (Button)FindChild("ReRunButton");
+            reRunButton.Connect("pressed", new Callable(this, nameof(ReRunTests)));
+            targetClassLabel = (LineEdit)FindChild("TargetClassLabel");
+            targetMethodLabel = (LineEdit)FindChild("TargetMethodLabel");
+            runSelectedButton = (Button)FindChild("RunSelectedButton");
+            runSelectedButton.Connect("pressed", new Callable(this, nameof(RunSelected)));
             runSelectedButton.Disabled = true;
-            targetAssemblyOption = (OptionButton) FindNode("TargetAssemblyOption");
-            targetAssemblyOption.Connect("pressed", this, nameof(TargetAssemblyOptionPressed));
-            targetAssemblyOption.Connect("item_selected", this, nameof(TargetAssemblyOptionSelected));
-            targetAssemblyLabel = (LineEdit) FindNode("TargetAssemblyLabel");
+            targetAssemblyOption = (OptionButton)FindChild("TargetAssemblyOption");
+            targetAssemblyOption.Connect("pressed", new Callable(this, nameof(TargetAssemblyOptionPressed)));
+            targetAssemblyOption.Connect("item_selected", new Callable(this, nameof(TargetAssemblyOptionSelected)));
+            targetAssemblyLabel = (LineEdit)FindChild("TargetAssemblyLabel");
             targetAssemblyLabel.Text = ProjectSettings.HasSetting(Consts.SETTING_TARGET_ASSEMBLY_CUSTOM)
                 ? ProjectSettings.GetSetting(Consts.SETTING_TARGET_ASSEMBLY_CUSTOM).ToString()
                 : "";
-            targetAssemblyLabel.Connect("text_changed", this, nameof(TargetAssemblyLabelChanged));
+            targetAssemblyLabel.Connect("text_changed", new Callable(this, nameof(TargetAssemblyLabelChanged)));
             TargetAssemblyOptionPressed();
-            resultsTree = (Tree) FindNode("ResultsTree");
+            resultsTree = (Tree)FindChild("ResultsTree");
             resultsTree.HideRoot = true;
             resultsTree.SelectMode = Tree.SelectModeEnum.Single;
-            resultsTree.Connect("cell_selected", this, nameof(OnCellSelected));
-            resultDetails = (RichTextLabel) FindNode("ResultDetails");
-            resultDiagnostics = (RichTextLabel) FindNode("Diagnostics");
-            verboseCheck = (CheckBox) FindNode("VerboseCheckBox");
-            runTabContainer = (TabContainer) FindNode("RunTabContainer");
+            resultsTree.Connect("cell_selected", new Callable(this, nameof(OnCellSelected)));
+            resultDetails = (RichTextLabel)FindChild("ResultDetails");
+            resultDiagnostics = (RichTextLabel)FindChild("Diagnostics");
+            verboseCheck = (CheckBox)FindChild("VerboseCheckBox");
+            runTabContainer = (TabContainer)FindChild("RunTabContainer");
             runTabContainer.CurrentTab = 0;
             SetProcess(false);
         }
@@ -124,12 +124,12 @@ namespace GodotXUnit
             }
             StartTests();
         }
-        
+
         public void StartTests()
         {
             if (IsRunningTests())
                 OS.Kill(runningPid);
-            
+
             runAllButton.Disabled = true;
             reRunButton.Disabled = true;
             runSelectedButton.Disabled = true;
@@ -140,18 +140,18 @@ namespace GodotXUnit
             resultDiagnostics.Text = "";
             resultDetails.Text = "";
             watcher = new MessageWatcher();
-            
+
             // if things dont clean up correctly, the old messages can still
             // be on the file system. this will cause the XUnitDock process to
             // see stale messages and potentially stop picking up new messages.
             WorkFiles.CleanWorkDir();
-            
+
             var runArgs = new StringList();
             runArgs.Add(Consts.RUNNER_SCENE_PATH);
-            if (verboseCheck.Pressed)
+            if (verboseCheck.ButtonPressed)
                 runArgs.Add("--verbose");
-            runningPid = OS.Execute(OS.GetExecutablePath(), runArgs.ToArray(), false);
-            
+            runningPid = OS.Execute(OS.GetExecutablePath(), runArgs.ToArray(), null, false);
+
             SetProcess(true);
         }
 
@@ -172,7 +172,7 @@ namespace GodotXUnit
 
         private void TargetAssemblyOptionPressed()
         {
-            var items = new GodotArray();
+            targetAssemblyOption.Clear();
             var projectList = ProjectListing.GetProjectList();
             var projectSelected = ProjectSettings.HasSetting(Consts.SETTING_TARGET_ASSEMBLY)
                 ? ProjectSettings.GetSetting(Consts.SETTING_TARGET_ASSEMBLY).ToString()
@@ -183,14 +183,13 @@ namespace GodotXUnit
                 var projectName = projectList[i];
                 if (i == 0)
                     projectName = $"{projectName} (main)";
-                AddProjectListing(items, projectName, i);
+                targetAssemblyOption.AddItem(projectName, i);
                 if (projectName.Equals(projectSelected))
                     projectSelectedIndex = i;
             }
-            AddProjectListing(items, "Custom Location ", 1000);
+            targetAssemblyOption.AddItem("Custom Location ", 1000);
             if (projectSelected.Equals(Consts.SETTING_TARGET_ASSEMBLY_CUSTOM_FLAG))
                 projectSelectedIndex = projectList.Count;
-            targetAssemblyOption.Items = items;
             targetAssemblyOption.Selected = projectSelectedIndex;
         }
 
@@ -214,15 +213,6 @@ namespace GodotXUnit
             ProjectSettings.Save();
         }
 
-        private void AddProjectListing(GodotArray items, string text, int id)
-        {
-            items.Add(text);
-            items.Add(null);
-            items.Add(false);
-            items.Add(id);
-            items.Add(null);
-        }
-
         private void TargetAssemblyLabelChanged(string new_text)
         {
             ProjectSettings.SetSetting(Consts.SETTING_TARGET_ASSEMBLY_CUSTOM, new_text);
@@ -238,7 +228,7 @@ namespace GodotXUnit
             runTabContainer.CurrentTab = 0;
         }
 
-        public override void _Process(float delta)
+        public override void _Process(double delta)
         {
             while (watcher != null)
             {
@@ -276,7 +266,7 @@ namespace GodotXUnit
                     var missed = watcher.Poll();
                     if (missed == null) break;
                     GD.PrintErr($"missed message: {missed.GetType()}");
-                }   
+                }
             }
             watcher = null;
             runningPid = -1;
@@ -290,7 +280,7 @@ namespace GodotXUnit
             var testItem = EnsureTreeClassAndMethod(testStart.testCaseClass, testStart.testCaseName);
             if (testItem.GetIcon(0) == null)
             {
-                testItem.SetIcon(0, Consts.IconRunning);                
+                testItem.SetIcon(0, Consts.IconRunning);
             }
         }
 
@@ -330,9 +320,9 @@ namespace GodotXUnit
         private void SetTestResultDetails(GodotXUnitTestResult testResult, TreeItem item)
         {
             // set the header to include the time it took
-            var millis = (int) (testResult.time * 1000f);
+            var millis = (int)(testResult.time * 1000f);
             item.SetText(0, $"{testResult.testCaseName} ({millis} ms)");
-            
+
             // create the test result details
             var details = new StringBuilder();
             details.AppendLine(testResult.FullName);
@@ -347,7 +337,7 @@ namespace GodotXUnit
             }
             details.AppendLine(string.IsNullOrEmpty(testResult.output) ? "No Output" : testResult.output);
             testDetails[item] = details.ToString();
-            
+
             // add the target so the run selected button can query what to run
             var target = new Array<string>();
             target.Add(testResult.testCaseClass);
@@ -400,12 +390,10 @@ namespace GodotXUnit
 
         private TreeItem FindTreeChildOrCreate(TreeItem parent, string name)
         {
-            var child = parent.GetChildren();
-            while (child != null)
+            foreach (var child in parent.GetChildren())
             {
                 var text = child.GetMeta("for");
                 if (text.Equals(name)) return child;
-                child = child.GetNext();
             }
             var newClassItem = resultsTree.CreateItem(parent);
             newClassItem.SetMeta("for", name);
@@ -452,7 +440,7 @@ namespace GodotXUnit
         {
             // why?
             timeValue += time;
-            timeLabel.Text = $"Time: {(int) (timeValue * 1000)} ms";
+            timeLabel.Text = $"Time: {(int)(timeValue * 1000)} ms";
         }
     }
 }

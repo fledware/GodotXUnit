@@ -14,17 +14,17 @@ namespace GodotXUnitApi
         /// </summary>
         public static float PositionXByScreenPercent(float percent)
         {
-            return GDU.Viewport.Size.x * percent;
+            return GDU.ViewportSize.X * percent;
         }
-        
+
         /// <summary>
         /// gets the y pixel position based on the percent of the screen
         /// </summary>
         public static float PositionYByScreenPercent(float percent)
         {
-            return GDU.Viewport.Size.y * percent;
+            return GDU.ViewportSize.Y * percent;
         }
-        
+
         /// <summary>
         /// gets a vector2 representing the pixel positions based on the screen percents. 
         /// </summary>
@@ -44,34 +44,38 @@ namespace GodotXUnitApi
             var scene = GDU.CurrentScene as Node2D;
             if (scene == null)
                 throw new Exception("scene root must be a Node2D to use this method");
-            return (scene.GetViewportTransform() * scene.GetGlobalTransform()).Xform(worldPos);
+            return (scene.GetViewportTransform() * scene.GetGlobalTransform()) * worldPos;
         }
-        
+
+        // There exists a mouse_button_to_mask in the C++ code, but it's not exposed.
+        private static MouseButtonMask MouseButtonToMask(MouseButton index) =>
+            (MouseButtonMask)(1 << ((int)index) - 1);
+
         /// <summary>
         /// sends an mouse down event into godot
         /// </summary>
-        public static void InputMouseDown(Vector2 screenPosition, ButtonList index = ButtonList.Left)
+        public static void InputMouseDown(Vector2 screenPosition, MouseButton index = MouseButton.Left)
         {
             var inputEvent = new InputEventMouseButton();
             inputEvent.GlobalPosition = screenPosition;
             inputEvent.Position = screenPosition;
             inputEvent.Pressed = true;
-            inputEvent.ButtonIndex = (int) index;
-            inputEvent.ButtonMask = (int) index;
+            inputEvent.ButtonIndex = index;
+            inputEvent.ButtonMask = MouseButtonToMask(index);
             Input.ParseInputEvent(inputEvent);
         }
 
         /// <summary>
         /// sends an mouse up event into godot
         /// </summary>
-        public static void InputMouseUp(Vector2 screenPosition, ButtonList index = ButtonList.Left)
+        public static void InputMouseUp(Vector2 screenPosition, MouseButton index = MouseButton.Left)
         {
             var inputEvent = new InputEventMouseButton();
             inputEvent.GlobalPosition = screenPosition;
             inputEvent.Position = screenPosition;
             inputEvent.Pressed = false;
-            inputEvent.ButtonIndex = (int) index;
-            inputEvent.ButtonMask = (int) index;
+            inputEvent.ButtonIndex = index;
+            inputEvent.ButtonMask = MouseButtonToMask(index);
             Input.ParseInputEvent(inputEvent);
         }
 
@@ -99,7 +103,7 @@ namespace GodotXUnitApi
         /// <param name="screenPercentY">same as PositionByScreenPercent</param>
         /// <param name="index">the button index</param>
         /// <returns>the task that will resolve when the simulation is finished</returns>
-        public static async Task SimulateMouseClick(float screenPercentX, float screenPercentY, ButtonList index = ButtonList.Left)
+        public static async Task SimulateMouseClick(float screenPercentX, float screenPercentY, MouseButton index = MouseButton.Left)
         {
             var position = PositionByScreenPercent(screenPercentX, screenPercentY);
             await SimulateMouseClick(position, index);
@@ -117,7 +121,7 @@ namespace GodotXUnitApi
         /// <param name="screenPercentX">same as PositionByScreenPercent</param>
         /// <param name="screenPercentY">same as PositionByScreenPercent</param>
         /// <param name="index">the button index</param>
-        public static void SimulateMouseClickNoWait(float screenPercentX, float screenPercentY, ButtonList index = ButtonList.Left)
+        public static void SimulateMouseClickNoWait(float screenPercentX, float screenPercentY, MouseButton index = MouseButton.Left)
         {
 #pragma warning disable 4014
             SimulateMouseClick(screenPercentX, screenPercentY, index);
@@ -138,7 +142,7 @@ namespace GodotXUnitApi
         /// <param name="position">the position of where to click</param>
         /// <param name="index">the button index</param>
         /// <returns>the task that will resolve when the simulation is finished</returns>
-        public static async Task SimulateMouseClick(Vector2 position, ButtonList index = ButtonList.Left)
+        public static async Task SimulateMouseClick(Vector2 position, MouseButton index = MouseButton.Left)
         {
             await GDU.OnProcessAwaiter;
             InputMouseMove(position);
@@ -150,7 +154,7 @@ namespace GodotXUnitApi
             await GDU.OnProcessAwaiter;
             await GDU.OnProcessAwaiter;
         }
-        
+
         /// <summary>
         /// simulates a click with these steps:
         /// - send a mouse moved event to the requested position
@@ -162,13 +166,13 @@ namespace GodotXUnitApi
         /// </summary>
         /// <param name="position">the position of where to click</param>
         /// <param name="index">the button index</param>
-        public static void SimulateMouseClickNoWait(Vector2 position, ButtonList index = ButtonList.Left)
+        public static void SimulateMouseClickNoWait(Vector2 position, MouseButton index = MouseButton.Left)
         {
 #pragma warning disable 4014
             SimulateMouseClick(position, index);
 #pragma warning restore 4014
         }
-        
+
         /// <summary>
         /// simulates a mouse drag with these steps:
         /// - move mouse to start position
@@ -187,7 +191,7 @@ namespace GodotXUnitApi
         /// <returns>the task that will resolve when the simulation is finished</returns>
         public static async Task SimulateMouseDrag(float startScreenPercentX, float startScreenPercentY,
                                                    float endScreenPercentX, float endScreenPercentY,
-                                                   ButtonList index = ButtonList.Left)
+                                                   MouseButton index = MouseButton.Left)
         {
             var start = PositionByScreenPercent(startScreenPercentX, startScreenPercentY);
             var end = PositionByScreenPercent(endScreenPercentX, endScreenPercentY);
@@ -211,7 +215,7 @@ namespace GodotXUnitApi
         /// <param name="index">the button index</param>
         public static void SimulateMouseDragNoWait(float startScreenPercentX, float startScreenPercentY,
                                                    float endScreenPercentX, float endScreenPercentY,
-                                                   ButtonList index = ButtonList.Left)
+                                                   MouseButton index = MouseButton.Left)
         {
 #pragma warning disable 4014
             SimulateMouseDrag(startScreenPercentX, startScreenPercentY, endScreenPercentX, endScreenPercentY, index);
@@ -232,7 +236,7 @@ namespace GodotXUnitApi
         /// <param name="end">the position of where the drag ends</param>
         /// <param name="index">the button index</param>
         /// <returns>the task that will resolve when the simulation is finished</returns>
-        public static async Task SimulateMouseDrag(Vector2 start, Vector2 end, ButtonList index = ButtonList.Left)
+        public static async Task SimulateMouseDrag(Vector2 start, Vector2 end, MouseButton index = MouseButton.Left)
         {
             await GDU.OnProcessAwaiter;
             InputMouseMove(start);
@@ -260,7 +264,7 @@ namespace GodotXUnitApi
         /// <param name="start">the position of where the drag starts</param>
         /// <param name="end">the position of where the drag ends</param>
         /// <param name="index">the button index</param>
-        public static void SimulateMouseDragNoWait(Vector2 start, Vector2 end, ButtonList index = ButtonList.Left)
+        public static void SimulateMouseDragNoWait(Vector2 start, Vector2 end, MouseButton index = MouseButton.Left)
         {
 #pragma warning disable 4014
             SimulateMouseDrag(start, end, index);

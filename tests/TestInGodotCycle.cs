@@ -4,7 +4,7 @@ using Xunit;
 
 namespace GodotXUnitTest.Tests
 {
-    public class TestInGodotCycle
+    public partial class TestInGodotCycle
     {
         /// <summary>
         /// this test will run in the xunit thread. 

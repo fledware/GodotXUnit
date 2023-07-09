@@ -1,11 +1,11 @@
-﻿<Project Sdk="Godot.NET.Sdk/3.3.0">
+<Project Sdk="Godot.NET.Sdk/4.1.0-beta.2">
   <PropertyGroup>
     <Version>1.0.0</Version>
     <authors>rexfleischer</authors>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>GodotXUnitApi</AssemblyName>
     <RootNamespace>GodotXUnitApi</RootNamespace>
-    <LangVersion>8</LangVersion>
+    <LangVersion>10</LangVersion>
     <PackageId>GodotXUnitApi</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>

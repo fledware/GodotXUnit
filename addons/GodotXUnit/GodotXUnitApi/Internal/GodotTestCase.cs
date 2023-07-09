@@ -10,14 +10,14 @@ using Xunit.Sdk;
 
 namespace GodotXUnitApi.Internal
 {
-    public class GodotTestCase : XunitTestCase
+    public partial class GodotTestCase : XunitTestCase
     {
         private IAttributeInfo attribute;
-        
+
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Obsolete("Called by the de-serializer; should only be called by deriving classes for de-serialization purposes")]
-        public GodotTestCase() {}
-        
+        public GodotTestCase() { }
+
         public GodotTestCase(IAttributeInfo attribute,
                              IMessageSink diagnosticMessageSink,
                              ITestFrameworkDiscoveryOptions discoveryOptions,
@@ -42,7 +42,7 @@ namespace GodotXUnitApi.Internal
                                                  this,
                                                  DisplayName,
                                                  SkipReason,
-                                                 constructorArguments, 
+                                                 constructorArguments,
                                                  TestMethodArguments,
                                                  messageBus,
                                                  aggregator,
@@ -51,10 +51,10 @@ namespace GodotXUnitApi.Internal
         }
     }
 
-    public class GodotTestCaseRunner : XunitTestCaseRunner
+    public partial class GodotTestCaseRunner : XunitTestCaseRunner
     {
         private IAttributeInfo attribute;
-        
+
         public GodotTestCaseRunner(IAttributeInfo attribute,
                                    IXunitTestCase testCase,
                                    string displayName,
@@ -90,7 +90,7 @@ namespace GodotXUnitApi.Internal
         {
             return new GodotTestRunner(attribute,
                                        test,
-                                       messageBus, 
+                                       messageBus,
                                        testClass,
                                        constructorArguments,
                                        testMethod,
@@ -102,7 +102,7 @@ namespace GodotXUnitApi.Internal
         }
     }
 
-    public class GodotTestRunner : XunitTestRunner
+    public partial class GodotTestRunner : XunitTestRunner
     {
         private IAttributeInfo attribute;
 
@@ -130,17 +130,17 @@ namespace GodotXUnitApi.Internal
         {
             this.attribute = attribute;
         }
-        
+
         protected override async Task<Tuple<Decimal, string>> InvokeTestAsync(ExceptionAggregator aggregator)
         {
-            
+
             // override the ITestOutputHelper from XunitTestClassRunner
-            TestOutputHelper helper = null; 
+            TestOutputHelper helper = null;
             for (int i = 0; i < ConstructorArguments.Length; i++)
             {
                 if (ConstructorArguments[i] is ITestOutputHelper)
                 {
-                    helper = (TestOutputHelper) ConstructorArguments[i];
+                    helper = (TestOutputHelper)ConstructorArguments[i];
                     break;
                 }
             }
@@ -166,10 +166,10 @@ namespace GodotXUnitApi.Internal
         }
     }
 
-    public class GodotTestInvoker : XunitTestInvoker
+    public partial class GodotTestInvoker : XunitTestInvoker
     {
         private IAttributeInfo attribute;
-        
+
         private Node addingToTree;
 
         private bool loadEmptyScene;
@@ -185,8 +185,8 @@ namespace GodotXUnitApi.Internal
                                 ExceptionAggregator aggregator,
                                 CancellationTokenSource cancellationTokenSource)
             : base(test,
-                   messageBus, 
-                   testClass, 
+                   messageBus,
+                   testClass,
                    constructorArguments,
                    testMethod,
                    testMethodArguments,
@@ -202,79 +202,141 @@ namespace GodotXUnitApi.Internal
             var check = base.CreateTestClass();
             if (check is Node node)
                 addingToTree = node;
-            
+
             return check;
+        }
+
+        /// <summary>
+        /// Runs the given function in Godot's main thread.
+        /// </summary>
+        /// <param name="fn"></param>
+        private void CallInGodotMain(Func<Task> fn)
+        {
+            Exception caught = null;
+            var semaphore = new Godot.Semaphore();
+            // Create a callable and use CallDeferred to add it to Godot's
+            // execution queue, which will run the function in the main thread.
+            // Callables do not (as of Godot 4.1) accept Task functions.
+            // Wrapping it in an action makes it fire-and-forget, which is
+            // fine; we're using a semaphore to signal completion anyway.
+            Callable.From(new Action(async () =>
+            {
+                try
+                {
+                    await fn();
+                }
+                catch (AggregateException aggregate)
+                {
+                    caught = aggregate.InnerException;
+                }
+                catch (Exception e)
+                {
+                    caught = e;
+                }
+                finally
+                {
+                    semaphore.Post();
+                }
+            })).CallDeferred();
+            // Note: We're blocking the thread here. Is that a bad thing?
+            // It's probably a XUnit worker thread, so maybe its fine, but
+            // if any deadlocks are discovered we might want to spawn a new
+            // thread for this whole operation. It might be nicer if this whole
+            // method was async anyway.
+            semaphore.Wait();
+            if (caught is not null)
+            {
+                throw caught;
+            }
         }
 
         protected override async Task BeforeTestMethodInvokedAsync()
         {
             var sceneCheck = attribute.GetNamedArgument<string>(nameof(GodotFactAttribute.Scene));
-            if (!string.IsNullOrEmpty(sceneCheck))
+            try
             {
-                // you must be in the process frame to 
-                await GDU.OnProcessAwaiter;
-                if (GDU.Instance.GetTree().ChangeScene(sceneCheck) != Error.Ok)
+                CallInGodotMain(async () =>
                 {
-                    Aggregator.Add(new Exception($"could not load scene: {sceneCheck}"));
-                    return;
-                }
-                loadEmptyScene = true;
-            
-                // the scene should be loaded within two frames
-                await GDU.OnIdleFrameAwaiter;
-                await GDU.OnIdleFrameAwaiter;
-                await GDU.OnProcessAwaiter;
-            }
-            
-            if (addingToTree != null)
-            {
-                await GDU.OnProcessAwaiter;
-                GDU.Instance.AddChild(addingToTree);
-                await GDU.OnProcessAwaiter;
-            }
+                    if (!string.IsNullOrEmpty(sceneCheck))
+                    {
+                        // you must be in the process frame to 
+                        await GDU.OnProcessAwaiter;
 
+                        if (GDU.Instance.GetTree().ChangeSceneToFile(sceneCheck) != Error.Ok)
+                        {
+                            Aggregator.Add(new Exception($"could not load scene: {sceneCheck}"));
+                            return;
+                        }
+                        loadEmptyScene = true;
+
+                        // the scene should be loaded within two frames
+                        await GDU.OnProcessFrameAwaiter;
+                        await GDU.OnProcessFrameAwaiter;
+                        await GDU.OnProcessAwaiter;
+                    }
+
+                    if (addingToTree != null)
+                    {
+                        await GDU.OnProcessAwaiter;
+                        GDU.Instance.AddChild(addingToTree);
+                        await GDU.OnProcessAwaiter;
+                    }
+                });
+
+            }
+            catch (Exception e)
+            {
+                Aggregator.Add(e);
+            }
             await base.BeforeTestMethodInvokedAsync();
         }
 
         protected override async Task<decimal> InvokeTestMethodAsync(object testClassInstance)
         {
-            var sceneCheck = attribute.GetNamedArgument<GodotFactFrame>(nameof(GodotFactAttribute.Frame));
-            switch (sceneCheck)
+            decimal result = default;
+            CallInGodotMain(async () =>
             {
-                case GodotFactFrame.Default:
-                    break;
-                case GodotFactFrame.Process:
-                    await GDU.OnProcessAwaiter;
-                    break;
-                case GodotFactFrame.PhysicsProcess:
-                    await GDU.OnPhysicsProcessAwaiter;
-                    break;
-                default:
-                    Aggregator.Add(new Exception($"unknown GodotFactFrame: {sceneCheck.ToString()}"));
-                    throw new ArgumentOutOfRangeException();
-            }
-            return await base.InvokeTestMethodAsync(testClassInstance);
+                var sceneCheck = attribute.GetNamedArgument<GodotFactFrame>(nameof(GodotFactAttribute.Frame));
+                switch (sceneCheck)
+                {
+                    case GodotFactFrame.Default:
+                        break;
+                    case GodotFactFrame.Process:
+                        await GDU.OnProcessAwaiter;
+                        break;
+                    case GodotFactFrame.PhysicsProcess:
+                        await GDU.OnPhysicsProcessAwaiter;
+                        break;
+                    default:
+                        Aggregator.Add(new Exception($"unknown GodotFactFrame: {sceneCheck.ToString()}"));
+                        throw new ArgumentOutOfRangeException();
+                }
+                result = await base.InvokeTestMethodAsync(testClassInstance);
+            });
+            return result;
         }
 
         protected override async Task AfterTestMethodInvokedAsync()
         {
             await base.AfterTestMethodInvokedAsync();
-
-            if (addingToTree != null)
+            CallInGodotMain(async () =>
             {
-                await GDU.OnProcessAwaiter;
-                GDU.Instance.RemoveChild(addingToTree);
-                await GDU.OnProcessAwaiter;
-            }
+                if (addingToTree != null)
+                {
+                    await GDU.OnProcessAwaiter;
+                    GDU.Instance.RemoveChild(addingToTree);
+                    await GDU.OnProcessAwaiter;
+                }
 
-            if (loadEmptyScene)
-            {
-                // change scenes again and wait for godot to catch up
-                GDU.Instance.GetTree().ChangeScene(Consts.EMPTY_SCENE_PATH);
-                await GDU.OnIdleFrameAwaiter;
-                await GDU.OnIdleFrameAwaiter;
-                await GDU.OnProcessAwaiter;
-            }
+                if (loadEmptyScene)
+                {
+                    // change scenes again and wait for godot to catch up
+                    GDU.Instance.GetTree().ChangeSceneToFile(Consts.EMPTY_SCENE_PATH);
+                    await GDU.OnProcessFrameAwaiter;
+                    await GDU.OnProcessFrameAwaiter;
+                    await GDU.OnProcessAwaiter;
+                }
+            });
         }
     }
 }

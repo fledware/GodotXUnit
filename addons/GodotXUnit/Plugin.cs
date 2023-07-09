@@ -6,7 +6,7 @@ using GodotXUnitApi.Internal;
 namespace GodotXUnit
 {
     [Tool]
-    public class Plugin : EditorPlugin
+    public partial class Plugin : EditorPlugin
     {
         private static Plugin _instance;
 
@@ -14,7 +14,7 @@ namespace GodotXUnit
 
         private XUnitDock dock;
 
-        public override string GetPluginName()
+        public override string _GetPluginName()
         {
             return nameof(GodotXUnit);
         }
@@ -27,8 +27,8 @@ namespace GodotXUnit
             EnsureProjectSetting(Consts.SETTING_TARGET_ASSEMBLY_CUSTOM_PROP);
             EnsureProjectSetting(Consts.SETTING_TARGET_CLASS_PROP);
             EnsureProjectSetting(Consts.SETTING_TARGET_METHOD_PROP);
-            dock = (XUnitDock) GD.Load<PackedScene>(Consts.DOCK_SCENE_PATH).Instance();
-            AddControlToBottomPanel(dock, GetPluginName());
+            dock = GD.Load<PackedScene>(Consts.DOCK_SCENE_PATH).Instantiate<XUnitDock>();
+            AddControlToBottomPanel(dock, _GetPluginName());
         }
 
         public override void _ExitTree()
@@ -44,7 +44,7 @@ namespace GodotXUnit
 
         private void EnsureProjectSetting(Dictionary prop)
         {
-            var name = prop["name"]?.ToString() ?? throw new Exception("no name in prop");
+            var name = prop["name"].AsString() ?? throw new Exception("no name in prop");
             if (!ProjectSettings.HasSetting(name))
             {
                 ProjectSettings.SetSetting(name, prop["default"]);

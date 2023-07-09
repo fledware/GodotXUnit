@@ -3,7 +3,7 @@ using Xunit;
 
 namespace GodotXUnitTest.Tests
 {
-    public class TestWithSetup
+    public partial class TestWithSetup
     {
         public int sayWhat = 0;
         

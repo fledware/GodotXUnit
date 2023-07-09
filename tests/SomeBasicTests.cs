@@ -2,7 +2,7 @@ using Xunit;
 
 namespace GodotXUnitTest.Tests
 {
-    public class SomeBasicTests
+    public partial class SomeBasicTests
     {
         [Fact]
         public void SanityCheckThatWeGotHere()

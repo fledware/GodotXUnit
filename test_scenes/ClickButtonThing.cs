@@ -2,7 +2,7 @@ using Godot;
 
 namespace GodotXUnitTest
 {
-    public class ClickButtonThing : CheckBox
+    public partial class ClickButtonThing : CheckBox
     {
         public override void _UnhandledInput(InputEvent inputEvent)
         {

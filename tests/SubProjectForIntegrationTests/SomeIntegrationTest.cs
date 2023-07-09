@@ -1,10 +1,10 @@
-﻿using GodotXUnitApi;
+using GodotXUnitApi;
 using GodotXUnitTest;
 using Xunit;
 
 namespace SubProjectForIntegrationTests
 {
-    public class SomeIntegrationTest
+    public partial class SomeIntegrationTest
     {
         [GodotFact(Scene = "res://test_scenes/SomeTestScene.tscn")]
         public void IsOnCorrectScene()

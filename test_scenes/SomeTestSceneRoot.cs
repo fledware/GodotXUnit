@@ -2,7 +2,7 @@ using Godot;
 
 namespace GodotXUnitTest
 {
-    public class SomeTestSceneRoot : Node2D
+    public partial class SomeTestSceneRoot : Node2D
     {
         
     }

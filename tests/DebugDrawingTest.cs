@@ -4,7 +4,7 @@ using Xunit;
 
 namespace GodotXUnitTest.Tests
 {
-    public class DebugDrawingTest
+    public partial class DebugDrawingTest
     {
         [Fact]
         public async void TestDrawingStuffs()

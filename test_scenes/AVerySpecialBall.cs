@@ -2,29 +2,27 @@ using Godot;
 
 namespace GodotXUnitTest
 {
-    public class AVerySpecialBall : KinematicBody2D
+    public partial class AVerySpecialBall : CharacterBody2D
     {
         [Signal]
-        public delegate void WeCollidedd();
-        
+        public delegate void WeCollidedEventHandler();
+
         // this ball doesnt really like to go anywhere
         public float gravity = 10f;
 
-        public Vector2 velocity = new Vector2();
-        
-        public override void _Process(float delta)
+        public override void _Process(double delta)
         {
-            Update();
+            QueueRedraw();
         }
 
-        public override void _PhysicsProcess(float delta)
+        public override void _PhysicsProcess(double delta)
         {
-            velocity.y += gravity * delta;
-            velocity = MoveAndSlide(velocity, Vector2.Up);
+            Velocity += new Vector2(0, gravity * (float)delta);
+            MoveAndSlide();
             if (IsOnFloor())
             {
                 GD.Print("yay");
-                EmitSignal(nameof(WeCollidedd));
+                EmitSignal(nameof(WeCollided));
             }
         }
 

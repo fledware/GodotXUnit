@@ -20,7 +20,7 @@ namespace GodotXUnitApi.Internal
     /// handed in with our own because it breaks compatibility with
     /// IDE runners.
     /// </summary>
-    public class GodotTestOutputHelper : TextWriter
+    public partial class GodotTestOutputHelper : TextWriter
     {
         private TestOutputHelper wrapping;
         private TextWriter oldOutput;

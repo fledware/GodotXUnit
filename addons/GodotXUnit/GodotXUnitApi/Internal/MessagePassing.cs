@@ -2,7 +2,7 @@ using Godot;
 
 namespace GodotXUnitApi.Internal
 {
-    public class MessageSender
+    public partial class MessageSender
     {
         public int idAt { get; private set; }
 
@@ -17,14 +17,14 @@ namespace GodotXUnitApi.Internal
         }
     }
 
-    public class MessageWatcher
+    public partial class MessageWatcher
     {
-        private Directory directory = new Directory();
-        
         public object Poll()
         {
-            directory.ChangeDir(WorkFiles.WorkDir).ThrowIfNotOk();
-            directory.ListDirBegin(true, true).ThrowIfNotOk();
+            var directory = DirAccess.Open(WorkFiles.WorkDir).ThrowIfNotOk();
+            directory.IncludeHidden = false;
+            directory.IncludeNavigational = false;
+            directory.ListDirBegin().ThrowIfNotOk();
             try
             {
                 while (true)

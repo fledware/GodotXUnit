@@ -36,13 +36,19 @@ namespace GodotXUnitApi
         public static SignalAwaiter OnPhysicsProcessAwaiter =>
             Instance.ToSignal(Instance, "OnPhysicsProcess");
 
-        public static SignalAwaiter OnIdleFrameAwaiter =>
-            Instance.ToSignal(Instance.GetTree(), "idle_frame");
+        public static SignalAwaiter OnProcessFrameAwaiter =>
+            Instance.ToSignal(Instance.GetTree(), SceneTree.SignalName.ProcessFrame);
 
         public static SceneTree Tree => Instance.GetTree();
 
-        public static Viewport Viewport => Instance.GetViewport();
-        
+        public static Vector2I ViewportSize => Instance.GetViewport() switch
+        {
+            Window window => window.ContentScaleSize,
+            SubViewport subViewport => subViewport.Size,
+            var vp => throw new Exception($"Unexpected viewport type {vp.GetType().Name}")
+        };
+
+
         public static Node CurrentScene => Instance.GetTree().CurrentScene;
 
         /// <summary>
@@ -67,7 +73,7 @@ namespace GodotXUnitApi
             for (int i = 0; i < count; i++)
                 await OnProcessAwaiter;
         }
-        
+
         /// <summary>
         /// helper to wrap a SignalAwaiter to return the first element from a signal
         /// result into the desired type.
@@ -75,11 +81,11 @@ namespace GodotXUnitApi
         /// <param name="awaiter">the target signal to wrap</param>
         /// <typeparam name="T">the type to cast to</typeparam>
         /// <returns>the task that awaits and casts when resolved</returns>
-        public static async Task<T> AwaitType<T>(this SignalAwaiter awaiter)
+        public static async Task<T> AwaitType<[MustBeVariant] T>(this SignalAwaiter awaiter)
         {
-            return (T) (await awaiter)[0];
+            return (await awaiter)[0].As<T>();
         }
-        
+
         /// <summary>
         /// creates a task for a godot signal with a timeout.
         /// </summary>
@@ -89,15 +95,15 @@ namespace GodotXUnitApi
         /// <param name="throwOnTimeout">makes this task throw an exception on timeout. otherwise, just resolves</param>
         /// <returns>the new task with the given timeout</returns>
         /// <exception cref="TimeoutException">only throws if throwOnTimeout is true</exception>
-        public static async Task<object[]> ToSignalWithTimeout(
-            this Godot.Object source,
+        public static async Task<Variant[]> ToSignalWithTimeout(
+            this GodotObject source,
             string signal,
             int timeoutMillis,
             bool throwOnTimeout = true)
         {
             return await source.ToSignal(source, signal).AwaitWithTimeout(timeoutMillis, throwOnTimeout);
         }
-        
+
         /// <summary>
         /// wraps the given SignalAwaiter in a task with a timeout.
         /// </summary>
@@ -106,14 +112,14 @@ namespace GodotXUnitApi
         /// <param name="throwOnTimeout">makes this task throw an exception on timeout. otherwise, just resolves</param>
         /// <returns>the new task with the given timeout</returns>
         /// <exception cref="TimeoutException">only throws if throwOnTimeout is true</exception>
-        public static Task<object[]> AwaitWithTimeout(
+        public static Task<Variant[]> AwaitWithTimeout(
             this SignalAwaiter awaiter,
             int timeoutMillis,
             bool throwOnTimeout = true)
         {
             return Task.Run(async () => await awaiter).AwaitWithTimeout(timeoutMillis, throwOnTimeout);
         }
-        
+
         /// <summary>
         /// wraps a task with a task that will resolve after the wrapped task
         /// or after the specified amount of time (either by exiting or by throwing
@@ -132,14 +138,15 @@ namespace GodotXUnitApi
             var task = Task.Run(async () => await wrapping);
             using var token = new CancellationTokenSource();
             var completedTask = await Task.WhenAny(task, Task.Delay(timeoutMillis, token.Token));
-            if (completedTask == task) {
+            if (completedTask == task)
+            {
                 token.Cancel();
                 await task;
             }
             if (throwOnTimeout)
                 throw new TimeoutException($"signal {wrapping} timed out after {timeoutMillis}ms.");
         }
-        
+
         /// <summary>
         /// wraps a task with a task that will resolve after the wrapped task
         /// or after the specified amount of time (either by exiting or by throwing
@@ -154,12 +161,13 @@ namespace GodotXUnitApi
         public static async Task<T> AwaitWithTimeout<T>(
             this Task<T> wrapping,
             int timeoutMillis,
-            bool throwOnTimeout = true) 
+            bool throwOnTimeout = true)
         {
             var task = Task.Run(async () => await wrapping);
             using var token = new CancellationTokenSource();
             var completedTask = await Task.WhenAny(task, Task.Delay(timeoutMillis, token.Token));
-            if (completedTask == task) {
+            if (completedTask == task)
+            {
                 token.Cancel();
                 return await task;
             }
@@ -181,7 +189,7 @@ namespace GodotXUnitApi
         {
             for (int i = 0; i < frames; i++)
             {
-                ((GodotXUnitRunnerBase) Instance).RequestDraw(drawer);
+                ((GodotXUnitRunnerBase)Instance).RequestDraw(drawer);
                 await Instance.ToSignal(Instance, "OnDrawRequestDone");
             }
         }

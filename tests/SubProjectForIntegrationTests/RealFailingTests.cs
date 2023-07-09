@@ -10,7 +10,7 @@ namespace SubProjectForIntegrationTests
     /// - we can build a CI example of running tests from a subproject
     /// - we can see an example of what happens when it fails
     /// </summary>
-    public class RealFailingTests
+    public partial class RealFailingTests
     {
         [GodotFact(Scene = "res://SomeSceneNotFound.tscn")]
         public void SceneUnableToBeFound()
