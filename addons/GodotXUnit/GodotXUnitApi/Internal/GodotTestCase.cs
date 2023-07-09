@@ -210,40 +210,38 @@ namespace GodotXUnitApi.Internal
         /// Runs the given function in Godot's main thread.
         /// </summary>
         /// <param name="fn"></param>
-        private void CallInGodotMain(Func<Task> fn)
+        private async Task CallInGodotMain(Func<Task> fn)
         {
             Exception caught = null;
-            var semaphore = new Godot.Semaphore();
-            // Create a callable and use CallDeferred to add it to Godot's
-            // execution queue, which will run the function in the main thread.
-            // Callables do not (as of Godot 4.1) accept Task functions.
-            // Wrapping it in an action makes it fire-and-forget, which is
-            // fine; we're using a semaphore to signal completion anyway.
-            Callable.From(new Action(async () =>
+            using (var semaphore = new SemaphoreSlim(1))
             {
-                try
+                // Create a callable and use CallDeferred to add it to Godot's
+                // execution queue, which will run the function in the main thread.
+                // Callables do not (as of Godot 4.1) accept Task functions.
+                // Wrapping it in an action makes it fire-and-forget, which is
+                // fine; we're using a semaphore to signal completion anyway.
+                Callable.From(new Action(async () =>
                 {
-                    await fn();
-                }
-                catch (AggregateException aggregate)
-                {
-                    caught = aggregate.InnerException;
-                }
-                catch (Exception e)
-                {
-                    caught = e;
-                }
-                finally
-                {
-                    semaphore.Post();
-                }
-            })).CallDeferred();
-            // Note: We're blocking the thread here. Is that a bad thing?
-            // It's probably a XUnit worker thread, so maybe its fine, but
-            // if any deadlocks are discovered we might want to spawn a new
-            // thread for this whole operation. It might be nicer if this whole
-            // method was async anyway.
-            semaphore.Wait();
+                    try
+                    {
+                        await fn();
+                    }
+                    catch (AggregateException aggregate)
+                    {
+                        caught = aggregate.InnerException;
+                    }
+                    catch (Exception e)
+                    {
+                        caught = e;
+                    }
+                    finally
+                    {
+                        semaphore.Release();
+                    }
+                })).CallDeferred();
+                // Note: A timeout is pertinent. Feature for the GodotFact attribute.
+                await semaphore.WaitAsync();
+            }
             if (caught is not null)
             {
                 throw caught;
@@ -255,7 +253,7 @@ namespace GodotXUnitApi.Internal
             var sceneCheck = attribute.GetNamedArgument<string>(nameof(GodotFactAttribute.Scene));
             try
             {
-                CallInGodotMain(async () =>
+                await CallInGodotMain(async () =>
                 {
                     if (!string.IsNullOrEmpty(sceneCheck))
                     {
@@ -294,7 +292,7 @@ namespace GodotXUnitApi.Internal
         protected override async Task<decimal> InvokeTestMethodAsync(object testClassInstance)
         {
             decimal result = default;
-            CallInGodotMain(async () =>
+            await CallInGodotMain(async () =>
             {
                 var sceneCheck = attribute.GetNamedArgument<GodotFactFrame>(nameof(GodotFactAttribute.Frame));
                 switch (sceneCheck)
@@ -319,7 +317,7 @@ namespace GodotXUnitApi.Internal
         protected override async Task AfterTestMethodInvokedAsync()
         {
             await base.AfterTestMethodInvokedAsync();
-            CallInGodotMain(async () =>
+            await CallInGodotMain(async () =>
             {
                 if (addingToTree != null)
                 {
