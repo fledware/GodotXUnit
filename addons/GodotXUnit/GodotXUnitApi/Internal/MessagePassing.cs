@@ -34,7 +34,7 @@ namespace GodotXUnitApi.Internal
                     if (directory.FileExists(next))
                     {
                         var result = WorkFiles.ReadFile(next);
-                        directory.Remove(next);
+                        directory.Remove(next).ThrowIfNotOk();
                         return result;
                     }
                 }

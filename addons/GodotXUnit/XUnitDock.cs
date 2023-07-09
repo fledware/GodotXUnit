@@ -181,8 +181,6 @@ namespace GodotXUnit
             for (int i = 0; i < projectList.Count; i++)
             {
                 var projectName = projectList[i];
-                if (i == 0)
-                    projectName = $"{projectName} (main)";
                 targetAssemblyOption.AddItem(projectName, i);
                 if (projectName.Equals(projectSelected))
                     projectSelectedIndex = i;
@@ -198,9 +196,6 @@ namespace GodotXUnit
             var projectId = targetAssemblyOption.GetItemId(index);
             switch (projectId)
             {
-                case 0:
-                    ProjectSettings.SetSetting(Consts.SETTING_TARGET_ASSEMBLY, "");
-                    break;
                 case 1000:
                     ProjectSettings.SetSetting(Consts.SETTING_TARGET_ASSEMBLY,
                                                Consts.SETTING_TARGET_ASSEMBLY_CUSTOM_FLAG);
@@ -393,7 +388,7 @@ namespace GodotXUnit
             foreach (var child in parent.GetChildren())
             {
                 var text = child.GetMeta("for");
-                if (text.Equals(name)) return child;
+                if (text.AsString().Equals(name)) return child;
             }
             var newClassItem = resultsTree.CreateItem(parent);
             newClassItem.SetMeta("for", name);
