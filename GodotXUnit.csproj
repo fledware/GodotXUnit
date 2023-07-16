@@ -1,4 +1,4 @@
-<Project Sdk="Godot.NET.Sdk/4.1.0-beta.2">
+<Project Sdk="Godot.NET.Sdk/4.1.0">
   <PropertyGroup>
     <ProjectGuid>{B6A000AB-04AE-4D1E-A0D5-93911E363F6D}</ProjectGuid>
     <OutputType>Library</OutputType>

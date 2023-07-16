@@ -22,7 +22,7 @@ namespace GodotXUnitApi.Internal
                 return null;
             }
             var targetProject = ProjectSettings.GetSetting(Consts.SETTING_TARGET_ASSEMBLY).ToString();
-            if (string.IsNullOrEmpty(targetProject) || targetProject.Equals(ProjectListing.GetDefaultProject()))
+            if (string.IsNullOrEmpty(targetProject))
             {
                 return null;
             }
@@ -45,6 +45,7 @@ namespace GodotXUnitApi.Internal
             var assemblyName = GetTargetAssemblyNameFromSettings();
             if (assemblyName is null)
             {
+                summary.AddDiagnostic("target assembly name is null");
                 return GetDefaultTargetAssemblyPath();
             }
             if (assemblyName.Equals(Consts.SETTING_TARGET_ASSEMBLY_CUSTOM_FLAG))
@@ -67,8 +68,9 @@ namespace GodotXUnitApi.Internal
             var projectList = ProjectListing.GetProjectInfo();
             if (!projectList.ContainsKey(assemblyName))
             {
-                GD.PrintErr(
-                    $"unable to find project {assemblyName}. expected values: {string.Join(", ", projectList.Keys)}");
+                var message = $"unable to find project {assemblyName}. expected values: {string.Join(", ", projectList.Keys)}";
+                GD.PrintErr(message);
+                summary.AddDiagnostic(message);
                 return GetDefaultTargetAssemblyPath();
             }
 
