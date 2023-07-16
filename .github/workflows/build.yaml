@@ -7,7 +7,11 @@ jobs:
   run-godot-xunit:
     runs-on: ubuntu-latest
     container:
-      image: barichello/godot-ci:mono-3.3.3
+      image: mcr.microsoft.com/dotnet/sdk:6.0
+#      image: barichello/godot-ci:mono-4.1
+    env:
+      GODOT_VERSION: Godot_v4.1-stable_mono_linux_x86_64
+      GODOT_EXEC: Godot_v4.1-stable_mono_linux.x86_64
     steps:
       # checkout the repo  
       - uses: actions/checkout@v2
@@ -17,14 +21,23 @@ jobs:
       # pull deps and build 
       # ======================================================
       # download the nuget dependencies
-      - run: nuget restore
+#      - run: nuget restore
+      - run: dotnet restore
       # copy the godot DLLs where they are expected
-      - run: |
-          mkdir -p .mono/assemblies/Debug
-          cp /usr/local/bin/GodotSharp/Api/Release/* .mono/assemblies/Debug
+#      - run: |
+#          mkdir -p .mono/assemblies/Debug
+#          cp /usr/local/bin/GodotSharp/Api/Release/* .mono/assemblies/Debug
       # build the solution
-      - run: msbuild
+      - run: dotnet msbuild
 
+
+      - run: |
+          apt-get update
+          apt-get install -y unzip
+          wget https://downloads.tuxfamily.org/godotengine/4.1/mono/${GODOT_VERSION}.zip
+          unzip ${GODOT_VERSION}.zip
+          mv ${GODOT_VERSION}/${GODOT_EXEC} /usr/local/bin/godot
+          mv ${GODOT_VERSION}/GodotSharp /usr/local/bin/GodotSharp
 
       # ======================================================
       # execute tests in root project 
@@ -48,7 +61,7 @@ jobs:
       # everything is configured, so execute the tests by just calling this scene
       - name: Execute Tests
         timeout-minutes: 1
-        run: godot res://addons/GodotXUnit/runner/GodotTestRunnerScene.tscn
+        run: godot --headless res://addons/GodotXUnit/runner/GodotTestRunnerScene.tscn
       - name: Show Test Results
         run: cat TestResults.json
 
@@ -73,16 +86,15 @@ jobs:
         run: |
           set -x
           set +e
-          godot res://addons/GodotXUnit/runner/GodotTestRunnerScene.tscn
+          godot --headless res://addons/GodotXUnit/runner/GodotTestRunnerScene.tscn
           failed_test_count=$?
           set -e
           test $failed_test_count = '1' 
       - name: Show Test Results
         run: cat TestResults.json
         
-        
-      - name: Show mono logs
-        if: always()
-        run: | 
-          ls -la /github/home/.local/share/godot/mono/mono_logs/*
-          cat /github/home/.local/share/godot/mono/mono_logs/*
+#      - name: Show mono logs
+#        if: always()
+#        run: | 
+#          ls -la /github/home/.local/share/godot/mono/mono_logs/*
+#          cat /github/home/.local/share/godot/mono/mono_logs/*
