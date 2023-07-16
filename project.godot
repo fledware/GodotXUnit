@@ -11,7 +11,7 @@ config_version=5
 [GodotXUnit]
 
 target_assembly_custom=""
-target_assembly=""
+target_assembly="SubProjectForIntegrationTests"
 results_summary="res://TestResults.json"
 
 [application]
