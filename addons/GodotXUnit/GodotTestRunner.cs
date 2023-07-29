@@ -1,9 +1,8 @@
 using GodotXUnitApi.Internal;
 
-namespace GodotXUnit
+namespace GodotXUnit;
+
+public partial class GodotTestRunner : GodotXUnitRunnerBase
 {
-    public partial class GodotTestRunner : GodotXUnitRunnerBase
-    {
-        
-    }
+    
 }

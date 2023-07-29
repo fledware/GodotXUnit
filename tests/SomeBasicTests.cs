@@ -1,13 +1,12 @@
 using Xunit;
 
-namespace GodotXUnitTest.Tests
+namespace GodotXUnitTest.Tests;
+
+public partial class SomeBasicTests
 {
-    public partial class SomeBasicTests
+    [Fact]
+    public void SanityCheckThatWeGotHere()
     {
-        [Fact]
-        public void SanityCheckThatWeGotHere()
-        {
-            Assert.True(true);
-        }
+        Assert.True(true);
     }
 }

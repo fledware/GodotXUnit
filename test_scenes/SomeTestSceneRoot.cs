@@ -1,9 +1,8 @@
 using Godot;
 
-namespace GodotXUnitTest
+namespace GodotXUnitTest;
+
+public partial class SomeTestSceneRoot : Node2D
 {
-    public partial class SomeTestSceneRoot : Node2D
-    {
-        
-    }
+    
 }
