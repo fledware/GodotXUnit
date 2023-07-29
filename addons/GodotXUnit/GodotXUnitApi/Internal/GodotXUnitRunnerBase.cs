@@ -84,7 +84,7 @@ public abstract partial class GodotXUnitRunnerBase : Node2D
             ? ProjectSettings.GetSetting(Consts.SETTING_TARGET_METHOD).AsString()
             : null;
 
-    private ConcurrentQueue<Action<Node2D>> drawRequests = new ConcurrentQueue<Action<Node2D>>();
+    private ConcurrentQueue<Action<Node2D>> drawRequests = new();
 
     [Signal]
     public delegate void OnProcessEventHandler();

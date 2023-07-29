@@ -9,10 +9,10 @@ public partial class GodotXUnitSummary
 {
     public int testsDiscovered;
     public int testsExpectedToRun;
-    public List<GodotXUnitTestResult> skipped = new List<GodotXUnitTestResult>();
-    public List<GodotXUnitTestResult> passed = new List<GodotXUnitTestResult>();
-    public List<GodotXUnitTestResult> failed = new List<GodotXUnitTestResult>();
-    public List<GodotXUnitOtherDiagnostic> diagnostics = new List<GodotXUnitOtherDiagnostic>();
+    public List<GodotXUnitTestResult> skipped = new();
+    public List<GodotXUnitTestResult> passed = new();
+    public List<GodotXUnitTestResult> failed = new();
+    public List<GodotXUnitOtherDiagnostic> diagnostics = new();
 
     public int completed => passed.Count + failed.Count;
 

@@ -25,7 +25,7 @@ public static class GDI
     /// gets a vector2 representing the pixel positions based on the screen percents. 
     /// </summary>
     public static Vector2 PositionByScreenPercent(float screenPercentX, float screenPercentY) => 
-        new Vector2(PositionXByScreenPercent(screenPercentX), PositionYByScreenPercent(screenPercentY));
+        new(PositionXByScreenPercent(screenPercentX), PositionYByScreenPercent(screenPercentY));
 
     /// <summary>
     /// gets a vector2 representing the pixel positions based on the world position handed in.
@@ -50,12 +50,14 @@ public static class GDI
     /// </summary>
     public static void InputMouseDown(Vector2 screenPosition, MouseButton index = MouseButton.Left)
     {
-        var inputEvent = new InputEventMouseButton();
-        inputEvent.GlobalPosition = screenPosition;
-        inputEvent.Position = screenPosition;
-        inputEvent.Pressed = true;
-        inputEvent.ButtonIndex = index;
-        inputEvent.ButtonMask = MouseButtonToMask(index);
+        var inputEvent = new InputEventMouseButton
+        {
+            GlobalPosition = screenPosition,
+            Position = screenPosition,
+            Pressed = true,
+            ButtonIndex = index,
+            ButtonMask = MouseButtonToMask(index)
+        };
         Input.ParseInputEvent(inputEvent);
     }
 
@@ -64,12 +66,14 @@ public static class GDI
     /// </summary>
     public static void InputMouseUp(Vector2 screenPosition, MouseButton index = MouseButton.Left)
     {
-        var inputEvent = new InputEventMouseButton();
-        inputEvent.GlobalPosition = screenPosition;
-        inputEvent.Position = screenPosition;
-        inputEvent.Pressed = false;
-        inputEvent.ButtonIndex = index;
-        inputEvent.ButtonMask = MouseButtonToMask(index);
+        var inputEvent = new InputEventMouseButton
+        {
+            GlobalPosition = screenPosition,
+            Position = screenPosition,
+            Pressed = false,
+            ButtonIndex = index,
+            ButtonMask = MouseButtonToMask(index)
+        };
         Input.ParseInputEvent(inputEvent);
     }
 
@@ -78,9 +82,11 @@ public static class GDI
     /// </summary>
     public static void InputMouseMove(Vector2 screenPosition)
     {
-        var inputEvent = new InputEventMouseMotion();
-        inputEvent.GlobalPosition = screenPosition;
-        inputEvent.Position = screenPosition;
+        var inputEvent = new InputEventMouseMotion
+        {
+            GlobalPosition = screenPosition,
+            Position = screenPosition
+        };
         Input.ParseInputEvent(inputEvent);
     }
 

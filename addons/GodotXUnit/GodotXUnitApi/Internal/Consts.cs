@@ -7,7 +7,7 @@ public static class Consts
 {
     public const string SETTING_RESULTS_SUMMARY = "GodotXUnit/results_summary";
     public static readonly string SETTING_RESULTS_SUMMARY_DEF = "res://TestSummary.json";
-    public static readonly Dictionary SETTING_RESULT_SUMMARY_PROP = new Dictionary
+    public static readonly Dictionary SETTING_RESULT_SUMMARY_PROP = new()
     {
         ["name"] = SETTING_RESULTS_SUMMARY,
         ["type"] = (long)Variant.Type.String,
@@ -17,7 +17,7 @@ public static class Consts
     };
 
     public static readonly string SETTING_TARGET_ASSEMBLY = "GodotXUnit/target_assembly";
-    public static readonly Dictionary SETTING_TARGET_ASSEMBLY_PROP = new Dictionary
+    public static readonly Dictionary SETTING_TARGET_ASSEMBLY_PROP = new()
     {
         ["name"] = SETTING_TARGET_ASSEMBLY,
         ["type"] = (long)Variant.Type.String,
@@ -28,7 +28,7 @@ public static class Consts
 
     public static readonly string SETTING_TARGET_ASSEMBLY_CUSTOM_FLAG = "__custom__";
     public static readonly string SETTING_TARGET_ASSEMBLY_CUSTOM = "GodotXUnit/target_assembly_custom";
-    public static readonly Dictionary SETTING_TARGET_ASSEMBLY_CUSTOM_PROP = new Dictionary
+    public static readonly Dictionary SETTING_TARGET_ASSEMBLY_CUSTOM_PROP = new()
     {
         ["name"] = SETTING_TARGET_ASSEMBLY_CUSTOM,
         ["type"] = (long)Variant.Type.String,
@@ -38,7 +38,7 @@ public static class Consts
     };
 
     public static readonly string SETTING_TARGET_CLASS = "GodotXUnit/target_class";
-    public static readonly Dictionary SETTING_TARGET_CLASS_PROP = new Dictionary
+    public static readonly Dictionary SETTING_TARGET_CLASS_PROP = new()
     {
         ["name"] = SETTING_TARGET_CLASS,
         ["type"] = (long)Variant.Type.String,
@@ -48,7 +48,7 @@ public static class Consts
     };
 
     public static readonly string SETTING_TARGET_METHOD = "GodotXUnit/target_method";
-    public static readonly Dictionary SETTING_TARGET_METHOD_PROP = new Dictionary
+    public static readonly Dictionary SETTING_TARGET_METHOD_PROP = new()
     {
         ["name"] = SETTING_TARGET_METHOD,
         ["type"] = (long)Variant.Type.String,

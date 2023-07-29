@@ -6,7 +6,7 @@ namespace GodotXUnitApi.Internal;
 
 public static class WorkFiles
 {
-    public static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
+    public static readonly JsonSerializerSettings jsonSettings = new()
     {
         TypeNameHandling = TypeNameHandling.All
     };

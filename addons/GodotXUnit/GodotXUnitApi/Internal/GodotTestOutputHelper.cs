@@ -24,7 +24,7 @@ public partial class GodotTestOutputHelper : TextWriter
 {
     private TestOutputHelper wrapping;
     private TextWriter oldOutput;
-    private StringBuilder builder = new StringBuilder();
+    private StringBuilder builder = new();
 
     public override Encoding Encoding { get; } = Console.OutputEncoding;
 

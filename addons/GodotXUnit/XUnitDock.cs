@@ -17,8 +17,8 @@ public partial class XUnitDock : MarginContainer
     private RichTextLabel resultDiagnostics;
     private Tree resultsTree;
     private MessageWatcher watcher;
-    private Dictionary<TreeItem, string> testDetails = new Dictionary<TreeItem, string>();
-    private Dictionary<TreeItem, Array<string>> testTargets = new Dictionary<TreeItem, Array<string>>();
+    private Dictionary<TreeItem, string> testDetails = new();
+    private Dictionary<TreeItem, Array<string>> testTargets = new();
     private Button stopButton;
     private Button runAllButton;
     private Button reRunButton;
@@ -143,8 +143,10 @@ public partial class XUnitDock : MarginContainer
         // see stale messages and potentially stop picking up new messages.
         WorkFiles.CleanWorkDir();
 
-        var runArgs = new StringList();
-        runArgs.Add(Consts.RUNNER_SCENE_PATH);
+        var runArgs = new StringList
+        {
+            Consts.RUNNER_SCENE_PATH
+        };
         if (verboseCheck.ButtonPressed)
             runArgs.Add("--verbose");
         runningPid = OS.Execute(OS.GetExecutablePath(), runArgs.ToArray(), null, false);
@@ -331,9 +333,11 @@ public partial class XUnitDock : MarginContainer
         testDetails[item] = details.ToString();
 
         // add the target so the run selected button can query what to run
-        var target = new Array<string>();
-        target.Add(testResult.testCaseClass);
-        target.Add(testResult.testCaseName);
+        var target = new Array<string>
+        {
+            testResult.testCaseClass,
+            testResult.testCaseName
+        };
         testTargets[item] = target;
     }
 
