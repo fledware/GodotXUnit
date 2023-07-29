@@ -97,10 +97,7 @@ public partial class XUnitDock : MarginContainer
         StartTests();
     }
 
-    public void ReRunTests()
-    {
-        StartTests();
-    }
+    public void ReRunTests() => StartTests();
 
     public void RunSelected()
     {

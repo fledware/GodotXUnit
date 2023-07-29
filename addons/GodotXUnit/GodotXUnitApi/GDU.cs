@@ -55,13 +55,11 @@ public static class GDU
     /// this can be used within tests instead of grabbing ITestOutputHelper
     /// </summary>
     /// <param name="message"></param>
-    public static void Print(string message)
-    {
+    public static void Print(string message) =>
         // when [GodotFact] is used, the console output stream is
         // automatically overridden for each test. but this will
         // avoid the annoying warnings.
         Console.WriteLine(message);
-    }
 
     /// <summary>
     /// creates a task the awaits for the given amount of _Process frames to happen
@@ -81,10 +79,7 @@ public static class GDU
     /// <param name="awaiter">the target signal to wrap</param>
     /// <typeparam name="T">the type to cast to</typeparam>
     /// <returns>the task that awaits and casts when resolved</returns>
-    public static async Task<T> AwaitType<[MustBeVariant] T>(this SignalAwaiter awaiter)
-    {
-        return (await awaiter)[0].As<T>();
-    }
+    public static async Task<T> AwaitType<[MustBeVariant] T>(this SignalAwaiter awaiter) => (await awaiter)[0].As<T>();
 
     /// <summary>
     /// creates a task for a godot signal with a timeout.
@@ -99,10 +94,7 @@ public static class GDU
         this GodotObject source,
         string signal,
         int timeoutMillis,
-        bool throwOnTimeout = true)
-    {
-        return await source.ToSignal(source, signal).AwaitWithTimeout(timeoutMillis, throwOnTimeout);
-    }
+        bool throwOnTimeout = true) => await source.ToSignal(source, signal).AwaitWithTimeout(timeoutMillis, throwOnTimeout);
 
     /// <summary>
     /// wraps the given SignalAwaiter in a task with a timeout.
@@ -115,10 +107,7 @@ public static class GDU
     public static Task<Variant[]> AwaitWithTimeout(
         this SignalAwaiter awaiter,
         int timeoutMillis,
-        bool throwOnTimeout = true)
-    {
-        return Task.Run(async () => await awaiter).AwaitWithTimeout(timeoutMillis, throwOnTimeout);
-    }
+        bool throwOnTimeout = true) => Task.Run(async () => await awaiter).AwaitWithTimeout(timeoutMillis, throwOnTimeout);
 
     /// <summary>
     /// wraps a task with a task that will resolve after the wrapped task

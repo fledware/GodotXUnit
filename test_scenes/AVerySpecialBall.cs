@@ -10,10 +10,7 @@ public partial class AVerySpecialBall : CharacterBody2D
     // this ball doesnt really like to go anywhere
     public float gravity = 10f;
 
-    public override void _Process(double delta)
-    {
-        QueueRedraw();
-    }
+    public override void _Process(double delta) => QueueRedraw();
 
     public override void _PhysicsProcess(double delta)
     {
@@ -26,8 +23,5 @@ public partial class AVerySpecialBall : CharacterBody2D
         }
     }
 
-    public override void _Draw()
-    {
-        DrawCircle(new Vector2(), 10f, Colors.Aqua);
-    }
+    public override void _Draw() => DrawCircle(new Vector2(), 10f, Colors.Aqua);
 }

@@ -6,15 +6,9 @@ public partial class MessageSender
 {
     public int idAt { get; private set; }
 
-    public int NextId()
-    {
-        return ++idAt;
-    }
+    public int NextId() => ++idAt;
 
-    public void SendMessage(object message, string type)
-    {
-        WorkFiles.WriteFile($"{NextId().ToString()}-{type}", message);
-    }
+    public void SendMessage(object message, string type) => WorkFiles.WriteFile($"{NextId().ToString()}-{type}", message);
 }
 
 public partial class MessageWatcher

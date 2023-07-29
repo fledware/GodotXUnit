@@ -14,8 +14,5 @@ public partial class SomeClassTest
     }
 
     [Fact]
-    public void SomeOtherCoolTest()
-    {
-        Assert.False(false);
-    }
+    public void SomeOtherCoolTest() => Assert.False(false);
 }

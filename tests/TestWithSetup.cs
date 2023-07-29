@@ -13,14 +13,8 @@ public partial class TestWithSetup
     }
 
     [GodotFact]
-    public void TestSayWhat()
-    {
-        Assert.Equal(234, sayWhat);
-    }
+    public void TestSayWhat() => Assert.Equal(234, sayWhat);
 
     [GodotFact(Skip = "we need to skip i guess")]
-    public void SkipOrSomething()
-    {
-        Assert.False(true);
-    }
+    public void SkipOrSomething() => Assert.False(true);
 }

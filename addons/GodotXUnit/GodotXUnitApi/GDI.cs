@@ -12,26 +12,20 @@ public static class GDI
     /// <summary>
     /// gets the x pixel position based on the percent of the screen
     /// </summary>
-    public static float PositionXByScreenPercent(float percent)
-    {
-        return GDU.ViewportSize.X * percent;
-    }
+    public static float PositionXByScreenPercent(float percent) => 
+        GDU.ViewportSize.X * percent;
 
     /// <summary>
     /// gets the y pixel position based on the percent of the screen
     /// </summary>
-    public static float PositionYByScreenPercent(float percent)
-    {
-        return GDU.ViewportSize.Y * percent;
-    }
+    public static float PositionYByScreenPercent(float percent) => 
+        GDU.ViewportSize.Y * percent;
 
     /// <summary>
     /// gets a vector2 representing the pixel positions based on the screen percents. 
     /// </summary>
-    public static Vector2 PositionByScreenPercent(float screenPercentX, float screenPercentY)
-    {
-        return new Vector2(PositionXByScreenPercent(screenPercentX), PositionYByScreenPercent(screenPercentY));
-    }
+    public static Vector2 PositionByScreenPercent(float screenPercentX, float screenPercentY) => 
+        new Vector2(PositionXByScreenPercent(screenPercentX), PositionYByScreenPercent(screenPercentY));
 
     /// <summary>
     /// gets a vector2 representing the pixel positions based on the world position handed in.
@@ -121,12 +115,11 @@ public static class GDI
     /// <param name="screenPercentX">same as PositionByScreenPercent</param>
     /// <param name="screenPercentY">same as PositionByScreenPercent</param>
     /// <param name="index">the button index</param>
-    public static void SimulateMouseClickNoWait(float screenPercentX, float screenPercentY, MouseButton index = MouseButton.Left)
-    {
+    public static void SimulateMouseClickNoWait(float screenPercentX, float screenPercentY, MouseButton index = MouseButton.Left) =>
 #pragma warning disable 4014
         SimulateMouseClick(screenPercentX, screenPercentY, index);
 #pragma warning restore 4014
-    }
+
 
     /// <summary>
     /// simulates a click with these steps:
@@ -166,12 +159,11 @@ public static class GDI
     /// </summary>
     /// <param name="position">the position of where to click</param>
     /// <param name="index">the button index</param>
-    public static void SimulateMouseClickNoWait(Vector2 position, MouseButton index = MouseButton.Left)
-    {
+    public static void SimulateMouseClickNoWait(Vector2 position, MouseButton index = MouseButton.Left) =>
 #pragma warning disable 4014
         SimulateMouseClick(position, index);
 #pragma warning restore 4014
-    }
+
 
     /// <summary>
     /// simulates a mouse drag with these steps:
@@ -215,12 +207,11 @@ public static class GDI
     /// <param name="index">the button index</param>
     public static void SimulateMouseDragNoWait(float startScreenPercentX, float startScreenPercentY,
                                                float endScreenPercentX, float endScreenPercentY,
-                                               MouseButton index = MouseButton.Left)
-    {
+                                               MouseButton index = MouseButton.Left) =>
 #pragma warning disable 4014
         SimulateMouseDrag(startScreenPercentX, startScreenPercentY, endScreenPercentX, endScreenPercentY, index);
 #pragma warning restore 4014
-    }
+
 
     /// <summary>
     /// simulates a mouse drag with these steps:
@@ -264,10 +255,9 @@ public static class GDI
     /// <param name="start">the position of where the drag starts</param>
     /// <param name="end">the position of where the drag ends</param>
     /// <param name="index">the button index</param>
-    public static void SimulateMouseDragNoWait(Vector2 start, Vector2 end, MouseButton index = MouseButton.Left)
-    {
+    public static void SimulateMouseDragNoWait(Vector2 start, Vector2 end, MouseButton index = MouseButton.Left) =>
 #pragma warning disable 4014
         SimulateMouseDrag(start, end, index);
 #pragma warning restore 4014
-    }
+
 }

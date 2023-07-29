@@ -14,10 +14,7 @@ public partial class Plugin : EditorPlugin
 
     private XUnitDock dock;
 
-    public override string _GetPluginName()
-    {
-        return nameof(GodotXUnit);
-    }
+    public override string _GetPluginName() => nameof(GodotXUnit);
 
     public override void _EnterTree()
     {

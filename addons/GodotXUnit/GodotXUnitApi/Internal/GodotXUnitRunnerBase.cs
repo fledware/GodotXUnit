@@ -35,10 +35,7 @@ public abstract partial class GodotXUnitRunnerBase : Node2D
         return Path.Combine(currentDir, $".mono/build/bin/Debug/{assemblyName}.dll");
     }
 
-    private String GetDefaultTargetAssemblyPath()
-    {
-        return GetAssemblyPath(Assembly.GetExecutingAssembly().GetName().Name);
-    }
+    private String GetDefaultTargetAssemblyPath() => GetAssemblyPath(Assembly.GetExecutingAssembly().GetName().Name);
 
     private String GetTargetAssemblyPath(GodotXUnitSummary summary)
     {
@@ -79,19 +76,13 @@ public abstract partial class GodotXUnitRunnerBase : Node2D
         return targetAssembly;
     }
 
-    protected virtual string GetTargetClass(GodotXUnitSummary summary)
-    {
-        return ProjectSettings.HasSetting(Consts.SETTING_TARGET_CLASS)
+    protected virtual string GetTargetClass(GodotXUnitSummary summary) => ProjectSettings.HasSetting(Consts.SETTING_TARGET_CLASS)
             ? ProjectSettings.GetSetting(Consts.SETTING_TARGET_CLASS).AsString()
             : null;
-    }
 
-    protected virtual string GetTargetMethod(GodotXUnitSummary summary)
-    {
-        return ProjectSettings.HasSetting(Consts.SETTING_TARGET_METHOD)
+    protected virtual string GetTargetMethod(GodotXUnitSummary summary) => ProjectSettings.HasSetting(Consts.SETTING_TARGET_METHOD)
             ? ProjectSettings.GetSetting(Consts.SETTING_TARGET_METHOD).AsString()
             : null;
-    }
 
     private ConcurrentQueue<Action<Node2D>> drawRequests = new ConcurrentQueue<Action<Node2D>>();
 
@@ -104,10 +95,7 @@ public abstract partial class GodotXUnitRunnerBase : Node2D
     [Signal]
     public delegate void OnDrawRequestDoneEventHandler();
 
-    public void RequestDraw(Action<Node2D> request)
-    {
-        drawRequests.Enqueue(request);
-    }
+    public void RequestDraw(Action<Node2D> request) => drawRequests.Enqueue(request);
 
     private AssemblyRunner runner;
 
@@ -280,10 +268,7 @@ public abstract partial class GodotXUnitRunnerBase : Node2D
         QueueRedraw();
     }
 
-    public override void _PhysicsProcess(double delta)
-    {
-        EmitSignal(nameof(OnPhysicsProcess));
-    }
+    public override void _PhysicsProcess(double delta) => EmitSignal(nameof(OnPhysicsProcess));
 
     public override void _Draw()
     {

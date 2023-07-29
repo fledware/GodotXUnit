@@ -49,17 +49,11 @@ public partial class GodotTestOutputHelper : TextWriter
             WriteLine();
         return wrapping.Output;
     }
-    
-    public override void Write(char value)
-    {
-        builder.Append(value);
-    }
-        
-    public override void Write(String value)
-    {
-        builder.Append(value);
-    }
-    
+
+    public override void Write(char value) => builder.Append(value);
+
+    public override void Write(String value) => builder.Append(value);
+
     public override void WriteLine()
     {
         wrapping.WriteLine(builder.ToString());

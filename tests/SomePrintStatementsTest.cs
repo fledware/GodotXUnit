@@ -15,10 +15,7 @@ public partial class SomePrintStatementsTest
     }
 
     [GodotFact]
-    public void SomeStuffPrinted()
-    {
-        output.WriteLine("hello hello helllloooooo!!!");
-    }
+    public void SomeStuffPrinted() => output.WriteLine("hello hello helllloooooo!!!");
 
     [GodotFact]
     public async void SomeReallyLongTest()

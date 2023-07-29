@@ -36,9 +36,7 @@ public partial class GodotTestCase : XunitTestCase
                                                     IMessageBus messageBus,
                                                     object[] constructorArguments,
                                                     ExceptionAggregator aggregator,
-                                                    CancellationTokenSource cancellationTokenSource)
-    {
-        return await new GodotTestCaseRunner(attribute,
+                                                    CancellationTokenSource cancellationTokenSource) => await new GodotTestCaseRunner(attribute,
                                              this,
                                              DisplayName,
                                              SkipReason,
@@ -48,7 +46,6 @@ public partial class GodotTestCase : XunitTestCase
                                              aggregator,
                                              cancellationTokenSource)
             .RunAsync();
-    }
 }
 
 public partial class GodotTestCaseRunner : XunitTestCaseRunner
@@ -86,9 +83,7 @@ public partial class GodotTestCaseRunner : XunitTestCaseRunner
         string skipReason,
         IReadOnlyList<BeforeAfterTestAttribute> beforeAfterAttributes,
         ExceptionAggregator aggregator,
-        CancellationTokenSource cancellationTokenSource)
-    {
-        return new GodotTestRunner(attribute,
+        CancellationTokenSource cancellationTokenSource) => new GodotTestRunner(attribute,
                                    test,
                                    messageBus,
                                    testClass,
@@ -99,7 +94,6 @@ public partial class GodotTestCaseRunner : XunitTestCaseRunner
                                    beforeAfterAttributes,
                                    new ExceptionAggregator(aggregator),
                                    cancellationTokenSource);
-    }
 }
 
 public partial class GodotTestRunner : XunitTestRunner
@@ -150,9 +144,7 @@ public partial class GodotTestRunner : XunitTestRunner
         return Tuple.Create(runTime, output.UnInitAndGetOutput());
     }
 
-    protected override Task<Decimal> InvokeTestMethodAsync(ExceptionAggregator aggregator)
-    {
-        return new GodotTestInvoker(attribute,
+    protected override Task<Decimal> InvokeTestMethodAsync(ExceptionAggregator aggregator) => new GodotTestInvoker(attribute,
                                     this.Test,
                                     this.MessageBus,
                                     this.TestClass,
@@ -163,7 +155,6 @@ public partial class GodotTestRunner : XunitTestRunner
                                     aggregator,
                                     this.CancellationTokenSource)
             .RunAsync();
-    }
 }
 
 public partial class GodotTestInvoker : XunitTestInvoker
