@@ -8,6 +8,7 @@
 data_*/
 packages
 GodotXUnit.csproj.old
+.vs/
 
 TestSummary.json
 TestResults.json
