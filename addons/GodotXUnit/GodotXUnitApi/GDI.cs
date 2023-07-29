@@ -35,9 +35,9 @@ public static class GDI
     /// </summary>
     public static Vector2 PositionBy2DWorldPos(Vector2 worldPos)
     {
-        var scene = GDU.CurrentScene as Node2D;
-        if (scene == null)
+        if (GDU.CurrentScene is not Node2D scene)
             throw new Exception("scene root must be a Node2D to use this method");
+
         return (scene.GetViewportTransform() * scene.GetGlobalTransform()) * worldPos;
     }
 
