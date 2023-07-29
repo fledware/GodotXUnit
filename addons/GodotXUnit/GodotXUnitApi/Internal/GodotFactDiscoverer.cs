@@ -2,22 +2,21 @@ using System.Collections.Generic;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
-namespace GodotXUnitApi.Internal
+namespace GodotXUnitApi.Internal;
+
+public partial class GodotFactDiscoverer : IXunitTestCaseDiscoverer
 {
-    public partial class GodotFactDiscoverer : IXunitTestCaseDiscoverer
+    private readonly IMessageSink diagnosticMessageSink;
+
+    public GodotFactDiscoverer(IMessageSink diagnosticMessageSink)
     {
-        private readonly IMessageSink diagnosticMessageSink;
+        this.diagnosticMessageSink = diagnosticMessageSink;
+    }
 
-        public GodotFactDiscoverer(IMessageSink diagnosticMessageSink)
-        {
-            this.diagnosticMessageSink = diagnosticMessageSink;
-        }
-
-        public IEnumerable<IXunitTestCase> Discover(ITestFrameworkDiscoveryOptions options,
-                                                    ITestMethod method,
-                                                    IAttributeInfo attribute)
-        {
-            yield return new GodotTestCase(attribute, diagnosticMessageSink, options, method);
-        }
+    public IEnumerable<IXunitTestCase> Discover(ITestFrameworkDiscoveryOptions options,
+                                                ITestMethod method,
+                                                IAttributeInfo attribute)
+    {
+        yield return new GodotTestCase(attribute, diagnosticMessageSink, options, method);
     }
 }

@@ -3,55 +3,51 @@ using Godot;
 using Godot.Collections;
 using GodotXUnitApi.Internal;
 
-namespace GodotXUnit
+namespace GodotXUnit;
+
+[Tool]
+public partial class Plugin : EditorPlugin
 {
-    [Tool]
-    public partial class Plugin : EditorPlugin
+    private static Plugin _instance;
+
+    public static Plugin Instance => _instance ?? throw new Exception("Plugin not set");
+
+    private XUnitDock dock;
+
+    public override string _GetPluginName() => nameof(GodotXUnit);
+
+    public override void _EnterTree()
     {
-        private static Plugin _instance;
+        _instance = this;
+        EnsureProjectSetting(Consts.SETTING_RESULT_SUMMARY_PROP);
+        EnsureProjectSetting(Consts.SETTING_TARGET_ASSEMBLY_PROP);
+        EnsureProjectSetting(Consts.SETTING_TARGET_ASSEMBLY_CUSTOM_PROP);
+        EnsureProjectSetting(Consts.SETTING_TARGET_CLASS_PROP);
+        EnsureProjectSetting(Consts.SETTING_TARGET_METHOD_PROP);
+        dock = GD.Load<PackedScene>(Consts.DOCK_SCENE_PATH).Instantiate<XUnitDock>();
+        AddControlToBottomPanel(dock, _GetPluginName());
+    }
 
-        public static Plugin Instance => _instance ?? throw new Exception("Plugin not set");
-
-        private XUnitDock dock;
-
-        public override string _GetPluginName()
+    public override void _ExitTree()
+    {
+        _instance = null;
+        if (dock != null)
         {
-            return nameof(GodotXUnit);
+            RemoveControlFromBottomPanel(dock);
+            dock.Free();
+            dock = null;
         }
+    }
 
-        public override void _EnterTree()
+    private void EnsureProjectSetting(Dictionary prop)
+    {
+        var name = prop["name"].AsString() ?? throw new Exception("no name in prop");
+        if (!ProjectSettings.HasSetting(name))
         {
-            _instance = this;
-            EnsureProjectSetting(Consts.SETTING_RESULT_SUMMARY_PROP);
-            EnsureProjectSetting(Consts.SETTING_TARGET_ASSEMBLY_PROP);
-            EnsureProjectSetting(Consts.SETTING_TARGET_ASSEMBLY_CUSTOM_PROP);
-            EnsureProjectSetting(Consts.SETTING_TARGET_CLASS_PROP);
-            EnsureProjectSetting(Consts.SETTING_TARGET_METHOD_PROP);
-            dock = GD.Load<PackedScene>(Consts.DOCK_SCENE_PATH).Instantiate<XUnitDock>();
-            AddControlToBottomPanel(dock, _GetPluginName());
-        }
-
-        public override void _ExitTree()
-        {
-            _instance = null;
-            if (dock != null)
-            {
-                RemoveControlFromBottomPanel(dock);
-                dock.Free();
-                dock = null;
-            }
-        }
-
-        private void EnsureProjectSetting(Dictionary prop)
-        {
-            var name = prop["name"].AsString() ?? throw new Exception("no name in prop");
-            if (!ProjectSettings.HasSetting(name))
-            {
-                ProjectSettings.SetSetting(name, prop["default"]);
-                ProjectSettings.SetInitialValue(name, prop["default"]);
-                ProjectSettings.AddPropertyInfo(prop);
-                ProjectSettings.Save();
-            }
+            ProjectSettings.SetSetting(name, prop["default"]);
+            ProjectSettings.SetInitialValue(name, prop["default"]);
+            ProjectSettings.AddPropertyInfo(prop);
+            ProjectSettings.Save();
         }
     }
 }

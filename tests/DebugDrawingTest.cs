@@ -2,20 +2,19 @@ using Godot;
 using GodotXUnitApi;
 using Xunit;
 
-namespace GodotXUnitTest.Tests
+namespace GodotXUnitTest.Tests;
+
+public partial class DebugDrawingTest
 {
-    public partial class DebugDrawingTest
+    [Fact]
+    public async void TestDrawingStuffs()
     {
-        [Fact]
-        public async void TestDrawingStuffs()
+        int frame = 0;
+        await GDU.RequestDrawing(60, drawer =>
         {
-            int frame = 0;
-            await GDU.RequestDrawing(60, drawer =>
-            {
-                frame++;
-                drawer.DrawCircle(new Vector2(frame * 5, frame * 5), 30f, Colors.Azure);
-            });
-            Assert.Equal(60, frame);
-        }
+            frame++;
+            drawer.DrawCircle(new Vector2(frame * 5, frame * 5), 30f, Colors.Azure);
+        });
+        Assert.Equal(60, frame);
     }
 }
